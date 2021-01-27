@@ -1,3 +1,7 @@
+
+# the main module 
+
+
 import re
 import application
 import pafy
@@ -18,17 +22,21 @@ from media_player.media_gui import MediaGui
 from media_player.player import Player
 from youtube_browser.browser import YoutubeBrowser
 
-settings_handler.config_initialization()
+settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
+
 
 try:
 	init_translation("accessible_youtube_downloader")
 except:
 	_ = lambda msg: msg
+# translating activation
 
 class CustomLabel(wx.StaticText):
+	# a customed focussable wx.StaticText 
 	def __init__(self, parent, id, label, name=""):
 		wx.StaticText.__init__(self, parent, id, label, name=name)
 	def AcceptsFocusFromKeyboard(self):
+		# overwriting the AcceptsFocusFromKeyboard to return True
 		return True
 
 class HomeScreen(wx.Frame):

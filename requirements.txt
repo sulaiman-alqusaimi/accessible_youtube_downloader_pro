@@ -1,0 +1,7 @@
+bs4
+requests
+pafy
+pyperclip
+python-vlc
+youtube-search-python
+youtube-dl

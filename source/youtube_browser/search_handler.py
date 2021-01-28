@@ -26,10 +26,10 @@ class Search:
 	def parse_results(self):
 		results = self.videos.result()["result"]
 		for result in results:
-			self.results[self.count] = {"title": result["title"], "url": f"https://www.youtube.com/watch?v={result['id']}", "views": self.parse_views(result["viewCount"]["text"]), "channel": {"name": result["channel"]["name"], "url": f"https://www.youtube.com/channel/{result['channel']['id']}"}}
+			self.results[self.count] = {"title": result["title"], "url": f"https://www.youtube.com/watch?v={result['id']}", "views": self.parse_views(result["viewCount"]["text"]), "channel": {"name": result["channel"]["name"], "url": f"https://www.youtube.com/channel/{result['channel']['id']}"}, "duration": result["duration"]}
 			self.count += 1
 	def get_titles(self):
-		return [f"{self.results[result]['title']}, {_('بواسطة')} {self.results[result]['channel']['name']}, {self.views_part(self.results[result]['views'])}" for result in self.results]
+		return [f"{self.results[result]['title']}, {_('بواسطة')} {self.results[result]['channel']['name']},{self.get_duration(self.results[result]['duration'])} {self.views_part(self.results[result]['views'])}" for result in self.results]
 	def get_last_titles(self):
 		titles = self.get_titles()
 		return titles[len(titles)-self.new_videos:len(titles)]
@@ -60,3 +60,8 @@ class Search:
 			return _("عدد المشاهدات {}").format(data)
 		else:
 			return _("بث مباشر")
+	def get_duration(self, data): # get the duration of the video
+		if data is not None:
+			return _(" المدة: {},").format(data)
+		else:
+			return ""

@@ -40,38 +40,40 @@ class CustomLabel(wx.StaticText):
 		return True
 
 class HomeScreen(wx.Frame):
+	# the main class
 	def __init__(self):
 		wx.Frame.__init__(self, parent=None, title=application.name)
 		self.Centre()
 		self.Maximize(True)
 		panel = wx.Panel(self)
-		self.instruction = CustomLabel(panel, -1, _("اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب للوصول سريعًا إلى أهم الخيارات المتاحة."))
+		self.instruction = CustomLabel(panel, -1, _("اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب للوصول سريعًا إلى أهم الخيارات المتاحة.")) # a breafe instruction message witch is shown by the custome StaticText to automaticly be focused when launching the app
 		youtubeBrowseButton = wx.Button(panel, -1, _("البحث في youtube\tctrl+f"), name="tab")
 		downloadFromLinkButton = wx.Button(panel, -1, _("التنزيل من خلال رابط\tctrl+d"), name="tab")
 		playYoutubeLinkButton = wx.Button(panel, -1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y"), name="tab")
-		sizer = wx.BoxSizer(wx.VERTICAL)
-		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
+		# quick access buttons
+		sizer = wx.BoxSizer(wx.VERTICAL) # the main sizer
+		sizer1 = wx.BoxSizer(wx.HORIZONTAL) # quick access buttons sizer
 		for control in panel.GetChildren():
 			if control.Name == "tab":
-				sizer1.Add(control, 1)
+				sizer1.Add(control, 1) # adding quick access buttons using for loop sins that eatch button named by the "tab" word
 		sizer.Add(self.instruction, 1)
 		sizer.AddStretchSpacer()
 		sizer.Add(sizer1, 1, wx.EXPAND)
-		panel.SetSizer(sizer)
-		menuBar = wx.MenuBar()
+		panel.SetSizer(sizer) # adding the sizer to the main panel
+		menuBar = wx.MenuBar() # seting up the menu bar
 		mainMenu = wx.Menu()
-		searchItem = mainMenu.Append(-1, _("البحث في youtube\tctrl+f"))
-		downloadItem = mainMenu.Append(-1, _("التنزيل من خلال رابط\tctrl+d"))
-		playItem = mainMenu.Append(-1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y"))
-		openDownloadingPathItem = mainMenu.Append(-1, _("فتح مجلد التنزيل\tctrl+p"))
-		settingsItem = mainMenu.Append(-1, _("الإعدادات...\tctrl+alt+s"))
-		exitItem = mainMenu.Append(-1, _("خروج\tctrl+w"))
-		menuBar.Append(mainMenu, _("القائمة الرئيسية"))
+		searchItem = mainMenu.Append(-1, _("البحث في youtube\tctrl+f")) # search in youtube item
+		downloadItem = mainMenu.Append(-1, _("التنزيل من خلال رابط\tctrl+d"))# download link item
+		playItem = mainMenu.Append(-1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y")) # play youtube link item
+		openDownloadingPathItem = mainMenu.Append(-1, _("فتح مجلد التنزيل\tctrl+p")) # open downloading folder item
+		settingsItem = mainMenu.Append(-1, _("الإعدادات...\tctrl+alt+s")) # settings item
+		exitItem = mainMenu.Append(-1, _("خروج\tctrl+w")) # quit item
+		menuBar.Append(mainMenu, _("القائمة الرئيسية")) # append the main menu to the menu bar
 		aboutMenu = wx.Menu()
-		userGuideItem = aboutMenu.Append(-1, _("دليل المستخدم...\tf1"))
-		aboutItem = aboutMenu.Append(-1, _("عن البرنامج..."))
-		menuBar.Append(aboutMenu, _("حول"))
-		self.SetMenuBar(menuBar)
+		userGuideItem = aboutMenu.Append(-1, _("دليل المستخدم...\tf1")) # userguide
+		aboutItem = aboutMenu.Append(-1, _("عن البرنامج...")) # about item
+		menuBar.Append(aboutMenu, _("حول")) # append the about menu to the menu bar
+		self.SetMenuBar(menuBar) # add the menu bar to the window
 		# event bindings
 		self.Bind(wx.EVT_MENU, self.onSearch, searchItem)
 		youtubeBrowseButton.Bind(wx.EVT_BUTTON, self.onSearch)
@@ -87,19 +89,19 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Show()
 		self.detectFromClipboard(settings_handler.config_get("autodetect"))
-	def onPlay(self, event):
+	def onPlay(self, event): # the event function called when the play youtube link is clicked
 		linkDlg = LinkDlg(self)
-		data = linkDlg.data
-		media = pafy.new(data["link"])
-		gui = MediaGui(self, media.title, data["link"])
-		stream = media.getbest() if not data["audio"] else media.getbestaudio()
+		data = linkDlg.data # get the link and playing format from the dialog
+		media = pafy.new(data["link"]) # creating a media object from the pafy module using the givven link
+		gui = MediaGui(self, media.title, data["link"]) # initiating the media gui
+		stream = media.getbest() if not data["audio"] else media.getbestaudio() # get the user requested playing stream, either audio or video
 		self.Hide()
 		gui.Show()
-		gui.player = Player(stream.url, gui.GetHandle())
-	def onDownload(self, event):
+		gui.player = Player(stream.url, gui.GetHandle()) # adding the custom vlc media player object to the media gui
+	def onDownload(self, event): # the event function for the link downloading item to show the appropriate dialog
 		dlg = DownloadDialog(self)
 		dlg.Show()
-	def onSearch(self, event):
+	def onSearch(self, event): # showing the youtube browser window event function
 		browser = YoutubeBrowser(self)
 	def detectFromClipboard(self, config):
 		if not config:

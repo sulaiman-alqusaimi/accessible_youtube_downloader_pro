@@ -6,16 +6,10 @@ import pyperclip
 import wx
 from dialogs.download_progress import DownloadProgress
 from download_handler.downloader import downloadAction
-from language_handler import init_translation
 from nvda_client.client import speak
 from settings_handler import config_get, config_set
 from vlc import State
 import application
-
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
 
 
 

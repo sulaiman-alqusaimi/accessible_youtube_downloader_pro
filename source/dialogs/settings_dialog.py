@@ -2,13 +2,9 @@ import os
 import sys
 
 import wx
-from language_handler import init_translation
 from settings_handler import config_get, config_set
 
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
+
 
 languages = {"ar": 0, "en": 1}
 

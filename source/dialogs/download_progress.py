@@ -1,11 +1,4 @@
 import wx
-from language_handler import init_translation
-
-
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
 
 
 class DownloadProgress(wx.Frame):

@@ -1,13 +1,11 @@
 
 import youtube_dl
 import wx
-from language_handler import init_translation
 import re
 
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
+
+
+
 class Downloader:
 	def __init__(self, url, path, downloading_format, monitor, monitor1, convert=False, folder=False):
 		# initializing class properties

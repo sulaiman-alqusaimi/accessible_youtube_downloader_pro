@@ -25,11 +25,11 @@ from youtube_browser.browser import YoutubeBrowser
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
 
 
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
-# translating activation
+
+init_translation("accessible_youtube_downloader") # program localization
+
+
+
 
 class CustomLabel(wx.StaticText):
 	# a customed focussable wx.StaticText 

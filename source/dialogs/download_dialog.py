@@ -2,16 +2,12 @@ import wx
 import re
 import pyperclip
 import os
-from language_handler import init_translation
 from download_handler.downloader import Downloader
 from settings_handler import config_get, config_set
 from .download_progress import DownloadProgress
 from threading import Thread
 
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
+
 
 class DownloadDialog(wx.Frame):
 	def __init__(self, parent, default_url=""):

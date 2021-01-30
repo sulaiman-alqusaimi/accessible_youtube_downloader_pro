@@ -1,14 +1,9 @@
 import wx
-from language_handler import init_translation
 from .download_dialog import DownloadDialog
 from media_player.media_gui import MediaGui
 import pafy
 from media_player.player import Player
 
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
 
 
 def link_type(url):

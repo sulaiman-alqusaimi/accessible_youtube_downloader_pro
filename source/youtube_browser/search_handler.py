@@ -1,11 +1,8 @@
 from youtubesearchpython import VideosSearch, CustomSearch
 from dialogs.search_dialog import SearchDialog
-from language_handler import init_translation
 
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
+
+
 
 class Search:
 	def __init__(self, query, filter=0):

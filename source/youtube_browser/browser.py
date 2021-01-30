@@ -8,18 +8,11 @@ from dialogs.download_progress import DownloadProgress
 from dialogs.search_dialog import SearchDialog
 from dialogs.settings_dialog import SettingsDialog
 from download_handler.downloader import downloadAction
-from language_handler import init_translation
 from media_player.media_gui import MediaGui
 from media_player.player import Player
 from nvda_client.client import speak
 from settings_handler import config_get
-
 from youtube_browser.search_handler import Search
-
-try:
-	init_translation("accessible_youtube_downloader")
-except:
-	_ = lambda msg: msg
 
 
 

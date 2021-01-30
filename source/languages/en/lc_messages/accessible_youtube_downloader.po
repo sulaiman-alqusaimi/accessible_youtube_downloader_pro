@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.0\n"
-"POT-Creation-Date: 2021-01-30 07:53+0400\n"
-"PO-Revision-Date: 2021-01-30 08:15+0400\n"
+"POT-Creation-Date: 2021-01-30 11:15+0400\n"
+"PO-Revision-Date: 2021-01-30 11:19+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: en\n"
@@ -15,12 +15,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 "X-Generator: Poedit 2.4.2\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:49
-msgid "اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب للوصول سريعًا إلى أهم الخيارات المتاحة."
-msgstr "press the alt key to go through the available options, or use the tab key for quick access."
+msgid ""
+"اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب "
+"للوصول سريعًا إلى أهم الخيارات المتاحة."
+msgstr ""
+"press the alt key to go through the available options, or use the tab key "
+"for quick access."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:50
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:65
@@ -90,8 +95,11 @@ msgid "فيديو"
 msgstr "Video"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:29
-msgid "لقد تم الكشف عن وجود رابط ل{} يوتيوب في الحافظة. يرجى اختيار الإجراء المطلوب"
-msgstr "their is a link for YouTube {} detected in the clipboard. What would you like to do now?"
+msgid ""
+"لقد تم الكشف عن وجود رابط ل{} يوتيوب في الحافظة. يرجى اختيار الإجراء المطلوب"
+msgstr ""
+"their is a link for YouTube {} detected in the clipboard. What would you "
+"like to do now?"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:30
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:18
@@ -142,13 +150,18 @@ msgstr "please input a valid YouTube url."
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:88
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:111
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:101
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:85
 msgid "خطأ"
 msgstr "error"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:111
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:101
-msgid "لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال بالشبكة."
-msgstr "either an internet connection accured or you have enterd an envalid YouTube url. please check that out and try again."
+msgid ""
+"لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال "
+"بالشبكة."
+msgstr ""
+"either an internet connection accured or you have enterd an envalid YouTube "
+"url. please check that out and try again."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:117
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:104
@@ -278,8 +291,10 @@ msgid "اكتشاف الروابط تلقائيًا عند فتح البرنام
 msgstr "automaticly detect YouTube links when launching the program"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:34
-msgid "تحميل المزيد من نتائج البحث عند الوصول إلى نهاية قائمة الفيديوهات المعروضة"
-msgstr "automaticly load more results when reatching the end of the videos list"
+msgid ""
+"تحميل المزيد من نتائج البحث عند الوصول إلى نهاية قائمة الفيديوهات المعروضة"
+msgstr ""
+"automaticly load more results when reatching the end of the videos list"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:37
 msgid "مواف&ق"
@@ -294,8 +309,12 @@ msgid "تنبيه"
 msgstr "alert"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:92
-msgid "لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل البرنامج لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"
-msgstr "you have changed program language to {}, which requires to restart the program to apply changes. would you like to do that now?"
+msgid ""
+"لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل "
+"البرنامج لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"
+msgstr ""
+"you have changed program language to {}, which requires to restart the "
+"program to apply changes. would you like to do that now?"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:26
 msgid "بايت"
@@ -394,6 +413,10 @@ msgstr "return to the main window"
 msgid "خيارات"
 msgstr "options"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:85
+msgid "تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."
+msgstr "unabled to get search results due to a network connection."
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:107
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:118
 msgid "جاري التشغيل"
@@ -491,8 +514,15 @@ msgstr "{}, {} and {}"
 msgid " المدة: {},"
 msgstr "duration: {},"
 
-#~ msgid "يهدف هذا البرنامج إلى تقديم أيسر السبل أمام المستخدم الكفيف للتصفح والتنزيل من خدمة استضافة الفيديوهات youtube"
-#~ msgstr "This application aims to provide accessible solutions for blind users to download and browse YouTube content"
+#~ msgid "بواسطة"
+#~ msgstr "from"
+
+#~ msgid ""
+#~ "يهدف هذا البرنامج إلى تقديم أيسر السبل أمام المستخدم الكفيف للتصفح "
+#~ "والتنزيل من خدمة استضافة الفيديوهات youtube"
+#~ msgstr ""
+#~ "This application aims to provide accessible solutions for blind users to "
+#~ "download and browse YouTube content"
 
 #~ msgid "اسم البرنامج"
 #~ msgstr "app name"
@@ -508,9 +538,6 @@ msgstr "duration: {},"
 
 #~ msgid "سليمان القسيمي"
 #~ msgstr "sulaiman al qusaimi"
-
-#~ msgid "بواسطة"
-#~ msgstr "from"
 
 #~ msgid "بالمائة"
 #~ msgstr "percent"

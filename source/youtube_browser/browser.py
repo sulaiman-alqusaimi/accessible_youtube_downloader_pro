@@ -65,7 +65,7 @@ class YoutubeBrowser(wx.Frame):
 		self.downloadButton.Bind(wx.EVT_BUTTON, self.onDownload)
 		searchButton.Bind(wx.EVT_BUTTON, self.onSearch)
 		backButton.Bind(wx.EVT_BUTTON, lambda event: self.backAction())
-		self.searchResults.Bind(wx.EVT_CHAR_HOOK, self.onResultsClick)
+		self.searchResults.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_LISTBOX_DCLICK, lambda event: self.playVideo(), self.searchResults)
 		self.searchResults.Bind(wx.EVT_LISTBOX, self.onListBox)
 		self.Bind(wx.EVT_CLOSE, lambda event: wx.Exit())
@@ -82,7 +82,7 @@ class YoutubeBrowser(wx.Frame):
 		try:
 			self.search = Search(query, filter)
 		except:
-			wx.MessageBox("تعذر إجراء عملية البحث بسبب خطأ غير معروف. تأكد من وجود اتصال جيد بالشبكة ثم عاود المحاولة. إذا استمرت المشكلة, قم بإعادة تشغيل البرنامج.", "خطأ", style=wx.ICON_ERROR)
+			wx.MessageBox(_("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR)
 			self.togleControls()
 			return
 		titles = self.search.get_titles()
@@ -123,9 +123,9 @@ class YoutubeBrowser(wx.Frame):
 		gui.Show()
 		gui.player = Player(stream.url, gui.GetHandle())
 
-	def onResultsClick(self, event):
-		if event.GetKeyCode() == wx.WXK_RETURN:
-			self.playVideo()
+	def onHook(self, event):
+		if event.GetKeyCode() == wx.WXK_RETURN: # if the enter key was pressed
+			self.playVideo() # play the video stream
 		event.Skip()
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()

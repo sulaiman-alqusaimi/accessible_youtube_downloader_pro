@@ -29,7 +29,7 @@ class Search:
 			self.results[self.count] = {"title": result["title"], "url": f"https://www.youtube.com/watch?v={result['id']}", "views": self.parse_views(result["viewCount"]["text"]), "channel": {"name": result["channel"]["name"], "url": f"https://www.youtube.com/channel/{result['channel']['id']}"}, "duration": result["duration"]}
 			self.count += 1
 	def get_titles(self):
-		return [f"{self.results[result]['title']}, {_('بواسطة')} {self.results[result]['channel']['name']},{self.get_duration(self.results[result]['duration'])} {self.views_part(self.results[result]['views'])}" for result in self.results]
+		return [f"{self.results[result]['title']},{self.get_duration(self.results[result]['duration'])} {_('بواسطة')} {self.results[result]['channel']['name']}, {self.views_part(self.results[result]['views'])}" for result in self.results]
 	def get_last_titles(self):
 		titles = self.get_titles()
 		return titles[len(titles)-self.new_videos:len(titles)]

@@ -125,6 +125,13 @@ class MediaGui(wx.Frame):
 			speak(f"{self.player.media.audio_get_volume()} {_('بالمائة')}")
 		elif event.GetKeyCode() == wx.WXK_HOME:
 			self.beginingAction()
+		elif event.controlDown and event.shiftDown and event.KeyCode == ord("D"):
+			if self.player is not None:
+				speak(_("المدة: {}").format(self.player.get_duration()))
+		elif event.controlDown and event.shiftDown and event.KeyCode == ord("T"):
+			if self.player is not None:
+				speak(_("الوقت المنقضي: {}").format(self.player.get_elapsed()))
+
 		elif event.GetKeyCode() == ord("-"):
 			self.seek -= 1
 			if self.seek < 1:

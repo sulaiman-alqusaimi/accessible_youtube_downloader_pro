@@ -118,7 +118,7 @@ class YoutubeBrowser(wx.Frame):
 		gui.player = Player(stream.url, gui.GetHandle())
 
 	def onHook(self, event):
-		if event.GetKeyCode() == wx.WXK_RETURN: # if the enter key was pressed
+		if event.GetKeyCode() in (wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER): # if the enter key was pressed
 			self.playVideo() # play the video stream
 		event.Skip()
 	def contextSetup(self):

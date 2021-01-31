@@ -1,12 +1,11 @@
 import wx
-import re
 import pyperclip
 import os
 from download_handler.downloader import Downloader
 from settings_handler import config_get, config_set
 from .download_progress import DownloadProgress
 from threading import Thread
-
+from utiles import youtube_regexp
 
 
 class DownloadDialog(wx.Frame):
@@ -73,14 +72,13 @@ class DownloadDialog(wx.Frame):
 	# detect youtube links from the clipboard function
 	def detectFromClipboard(self):
 		clip_content = pyperclip.paste() # get the clipboard content
-		pattern = re.compile("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$") # youtube links regular expression pattern
-		match = pattern.search(clip_content) # search in the clipboard content to the specified pattern
-		if match is not None and pattern.search(self.videoLink.Value) is None:
+		match = youtube_regexp(clip_content)
+		if match is not None and youtube_regexp(self.videoLink.Value) is None:
 			self.videoLink.SetValue(match.group()) # set the url box content to the detected youtube link if the box was not impty
 
 	def downloadingAction(self):
 		url = self.videoLink.GetValue()
-		if url == "" or re.match("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$", url) is None:
+		if url == "" or youtube_regexp(url) is None:
 			wx.MessageBox(_("يرجى إدخال رابطًا صحيحًا."), _("خطأ"), style=wx.ICON_ERROR, parent=self)
 			wx.CallAfter(self.videoLink.SetFocus)
 			return

@@ -1,8 +1,10 @@
+import re
 
 
 def time_formatting( t):
 	t = t.split(":")
 	t = [int(i) for i in t]
+	t.pop(0) if t[0] == 0 else None
 	def minute(m):
 		if m == 1:
 			return _("دقيقة واحدة")
@@ -37,4 +39,6 @@ def time_formatting( t):
 	elif len(t) == 3:
 		return _("{} و{} و{}").format(hour(t[0]), minute(t[1]), second(t[2]))
 
-	
+def youtube_regexp(string):
+	pattern = re.compile("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$") # youtube links regular expression pattern
+	return pattern.search(string)

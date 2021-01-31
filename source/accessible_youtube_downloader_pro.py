@@ -2,14 +2,13 @@
 # the main module 
 
 
-import re
 import application
 import pafy
 import pyperclip
 import wx
 import os
 import subprocess
-
+from utiles import youtube_regexp
 import settings_handler
 from dialogs.auto_detect_dialog import AutoDetectDialog
 from dialogs.download_dialog import DownloadDialog
@@ -23,11 +22,7 @@ from media_player.player import Player
 from youtube_browser.browser import YoutubeBrowser
 
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
-
-
-
 init_translation("accessible_youtube_downloader") # program localization
-
 
 
 
@@ -107,8 +102,7 @@ class HomeScreen(wx.Frame):
 		if not config:
 			return
 		clip_content = pyperclip.paste() # get the clipboard content
-		pattern = re.compile("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$") # youtube links regular expression pattern
-		match = pattern.search(clip_content) # search in the clipboard content to the specified pattern
+		match = youtube_regexp(clip_content)
 		if match is not None:
 			AutoDetectDialog(self, clip_content)
 	def onOpen(self, event):

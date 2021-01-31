@@ -4,3 +4,4 @@ pafy
 pyperclip
 python-vlc
 youtube-dl
+wxpython

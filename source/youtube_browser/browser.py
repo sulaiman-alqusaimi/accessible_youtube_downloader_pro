@@ -89,10 +89,11 @@ class YoutubeBrowser(wx.Frame):
 		self.togleDownload()
 
 	def onSearch(self, event):
-		try:
+		if hasattr(self, "search"):
 			self.searchAction(self.search.query)
-		except AttributeError:
-			self.searchAction("")
+		else:
+			self.searchAction()
+
 	def playVideo(self):
 		number = self.searchResults.Selection
 		title = self.search.get_title(number)

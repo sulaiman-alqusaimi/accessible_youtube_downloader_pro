@@ -2,7 +2,7 @@
 import youtube_dl
 import wx
 import re
-
+from settings_handler import config_get
 
 
 
@@ -30,7 +30,13 @@ class Downloader:
 			return (round(number/1024**3, 2), _("جيجا بايت"))
 		elif length >= 13:
 			return (round(number/1024**4, 2), _("تيرا بايت"))
-
+	def get_quality(self):
+		qualities = {
+			0: '96',
+			1: '128',
+			2: '192'
+		}
+		return qualities[int(config_get("conversion"))]
 	def my_hook(self, data):
 		if data['status'] == 'finished':
 			return
@@ -79,7 +85,7 @@ class Downloader:
 			download_options['postprocessors'] = [{
 				"key": "FFmpegExtractAudio",
 				'preferredcodec': 'mp3',
-				'preferredquality': '192',
+				'preferredquality': self.get_quality(),
 			}]
 		title = self.titleCreate(self.folder)
 		print(title)

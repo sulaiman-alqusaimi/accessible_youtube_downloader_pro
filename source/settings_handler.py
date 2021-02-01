@@ -11,7 +11,9 @@ defaults = {
 	"lang": "ar",
 	"autodetect": True,
 	"autoload": True,
-	"seek": 5}
+	"seek": 5,
+	"conversion": 1
+}
 
 def config_initialization():
 	try:

@@ -30,6 +30,10 @@ class SettingsDialog(wx.Dialog):
 		self.autoLoadItem = wx.CheckBox(preferencesBox, -1, _("تحميل المزيد من نتائج البحث عند الوصول إلى نهاية قائمة الفيديوهات المعروضة"), name="autoload")
 		self.autoDetectItem.SetValue(config_get("autodetect"))
 		self.autoLoadItem.SetValue(config_get("autoload"))
+		downloadPreferencesBox = wx.StaticBox(panel, -1, _("إعدادات التنزيل"))
+		lbl2 = wx.StaticText(downloadPreferencesBox, -1, _("جودة تحويل ملفات mp3: "))
+		self.mp3Quality = wx.Choice(downloadPreferencesBox, -1, choices=["96 kbps", "128 kbps", "192 kbps"], name="conversion")
+		self.mp3Quality.Selection = int(config_get("conversion"))
 		okButton = wx.Button(panel, wx.ID_OK, _("مواف&ق"), name="ok_cancel")
 		okButton.SetDefault()
 		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("إل&غاء"), name="ok_cancel")
@@ -37,6 +41,7 @@ class SettingsDialog(wx.Dialog):
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer2 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer3 = wx.BoxSizer(wx.HORIZONTAL)
+		sizer4 = wx.BoxSizer(wx.HORIZONTAL)
 		okCancelSizer = wx.BoxSizer(wx.HORIZONTAL)
 		sizer1.Add(lbl, 1)
 		sizer1.Add(self.languageBox, 1, wx.EXPAND)
@@ -48,9 +53,13 @@ class SettingsDialog(wx.Dialog):
 		for item in preferencesBox.GetChildren():
 			sizer3.Add(item, 1)
 		preferencesBox.SetSizer(sizer3)
+		sizer4.Add(lbl2, 1)
+		sizer4.Add(self.mp3Quality, 1)
+		downloadPreferencesBox.SetSizer(sizer4)
 		sizer.Add(sizer1, 1, wx.EXPAND)
 		sizer.Add(sizer2, 1, wx.EXPAND)
 		sizer.Add(preferencesBox, 1, wx.EXPAND)
+		sizer.Add(downloadPreferencesBox, 1, wx.EXPAND)
 		sizer.Add(okCancelSizer, 1, wx.EXPAND)
 		panel.SetSizer(sizer)
 		changeButton.Bind(wx.EVT_BUTTON, self.onChange)
@@ -81,7 +90,8 @@ class SettingsDialog(wx.Dialog):
 			pass
 		for key, item in self.preferences.items():
 			config_set(key, item)
-
+		if not self.mp3Quality.Selection == int(config_get("conversion")):
+			config_set("conversion", self.mp3Quality.Selection)
 		lang = {value:key for key, value in languages.items()}
 		if not lang[self.languageBox.Selection] == config_get("lang"):
 			config_set("lang", lang[self.languageBox.Selection])

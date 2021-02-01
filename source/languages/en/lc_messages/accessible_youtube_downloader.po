@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.0\n"
-"POT-Creation-Date: 2021-01-31 14:53+0400\n"
-"PO-Revision-Date: 2021-01-31 14:54+0400\n"
+"POT-Creation-Date: 2021-02-01 13:08+0400\n"
+"PO-Revision-Date: 2021-02-01 13:09+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: en\n"
@@ -139,7 +139,7 @@ msgid "صيغة المقطع"
 msgstr "file format: "
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:67
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:71
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:80
 msgid "اختر مجلد التنزيل"
 msgstr "choose download folder"
 
@@ -149,13 +149,13 @@ msgstr "please input a valid YouTube url."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:82
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:105
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:99
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:105
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:78
 msgid "خطأ"
 msgstr "error"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:105
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:99
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:105
 msgid ""
 "لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال "
 "بالشبكة."
@@ -164,12 +164,12 @@ msgstr ""
 "url. please check that out and try again."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:111
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:102
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:108
 msgid "اكتمل التنزيل بنجاح"
 msgstr "download has been completed successfully."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:111
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:102
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:108
 msgid "نجاح"
 msgstr "success"
 
@@ -178,27 +178,27 @@ msgid "جاري التنزيل - {}"
 msgstr "downloading"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_progress.py:10
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:46
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:52
 msgid "المقدار المتبقي: {} {}"
 msgstr "remaining file size: {} {}"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_progress.py:10
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:46
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:52
 msgid "حجم الملف الإجمالي: {} {}"
 msgstr "total file size: {} {}"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_progress.py:10
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:46
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:52
 msgid "سرعة التنزيل: {} {}"
 msgstr "downloading speed: {} {}"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_progress.py:10
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:46
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:52
 msgid "مقدار الحجم الذي تم تنزيله: {} {}"
 msgstr "downloaded size: {} {}"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_progress.py:10
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:46
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:52
 msgid "نسبة التنزيل: {}%"
 msgstr "download percentage: {}%"
 
@@ -297,18 +297,26 @@ msgstr ""
 "automaticly load more results when reatching the end of the videos list"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:33
+msgid "إعدادات التنزيل"
+msgstr "download settings"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:34
+msgid "جودة تحويل ملفات mp3: "
+msgstr "mp3 conversion quality: "
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:37
 msgid "مواف&ق"
 msgstr "&ok"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:35
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:39
 msgid "إل&غاء"
 msgstr "&cancel"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:88
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:98
 msgid "تنبيه"
 msgstr "alert"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:88
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:98
 msgid ""
 "لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل "
 "البرنامج لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"

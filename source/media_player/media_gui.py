@@ -131,6 +131,19 @@ class MediaGui(wx.Frame):
 		elif event.controlDown and event.shiftDown and event.KeyCode == ord("T"):
 			if self.player is not None:
 				speak(_("الوقت المنقضي: {}").format(self.player.get_elapsed()))
+		elif event.KeyCode == ord("S"):
+
+			if self.player is not None:
+				self.player.media.set_rate(1.4)
+				speak(_("سريع"))
+		elif event.KeyCode == ord("D"):
+			if self.player is not None:
+				self.player.media.set_rate(1.0)
+				speak(_("معتدل"))
+		elif event.KeyCode == ord("F"):
+			if self.player is not None:
+				self.player.media.set_rate(0.6)
+				speak(_("بطيء"))
 
 		elif event.GetKeyCode() == ord("-"):
 			self.seek -= 1

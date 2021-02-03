@@ -34,6 +34,9 @@ class SettingsDialog(wx.Dialog):
 		lbl2 = wx.StaticText(downloadPreferencesBox, -1, _("جودة تحويل ملفات mp3: "))
 		self.mp3Quality = wx.Choice(downloadPreferencesBox, -1, choices=["96 kbps", "128 kbps", "192 kbps"], name="conversion")
 		self.mp3Quality.Selection = int(config_get("conversion"))
+		playerOptions = wx.StaticBox(panel, -1, _("إعدادات المشغل"))
+		self.repeateTracks = wx.CheckBox(playerOptions, -1, _("إعادة تشغيل المقطع تلقائيًا عند انتهائه"), name="repeatetracks")
+		self.repeateTracks.Value = config_get("repeatetracks")
 		okButton = wx.Button(panel, wx.ID_OK, _("مواف&ق"), name="ok_cancel")
 		okButton.SetDefault()
 		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("إل&غاء"), name="ok_cancel")
@@ -42,6 +45,7 @@ class SettingsDialog(wx.Dialog):
 		sizer2 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer3 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer4 = wx.BoxSizer(wx.HORIZONTAL)
+		sizer5 = wx.BoxSizer(wx.HORIZONTAL)
 		okCancelSizer = wx.BoxSizer(wx.HORIZONTAL)
 		sizer1.Add(lbl, 1)
 		sizer1.Add(self.languageBox, 1, wx.EXPAND)
@@ -56,15 +60,20 @@ class SettingsDialog(wx.Dialog):
 		sizer4.Add(lbl2, 1)
 		sizer4.Add(self.mp3Quality, 1)
 		downloadPreferencesBox.SetSizer(sizer4)
+		for ctrl in playerOptions.GetChildren():
+			sizer5.Add(ctrl, 1)
+		playerOptions.SetSizer(sizer5)
 		sizer.Add(sizer1, 1, wx.EXPAND)
 		sizer.Add(sizer2, 1, wx.EXPAND)
 		sizer.Add(preferencesBox, 1, wx.EXPAND)
 		sizer.Add(downloadPreferencesBox, 1, wx.EXPAND)
+		sizer.Add(playerOptions, 1, wx.EXPAND)
 		sizer.Add(okCancelSizer, 1, wx.EXPAND)
 		panel.SetSizer(sizer)
 		changeButton.Bind(wx.EVT_BUTTON, self.onChange)
 		self.autoDetectItem.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		self.autoLoadItem.Bind(wx.EVT_CHECKBOX, self.onCheck)
+		self.repeateTracks.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		okButton.Bind(wx.EVT_BUTTON, self.onOk)
 		self.ShowModal()
 	def onCheck(self, event):
@@ -78,18 +87,16 @@ class SettingsDialog(wx.Dialog):
 			del self.preferences
 	def onChange(self, event):
 		new = wx.DirSelector(_("اختر مجلد التنزيل"), os.path.join(os.getenv("userprofile"), "downloads"), parent=self)
-		if not new == "" and not new == config_get("path"):
-			self.path = new
-			self.pathField.Value = self.path
+		if not new == "":
+			self.preferences['path'] = new
+			self.pathField.Value = new
+			self.pathField.SetFocus()
 	def onOk(self, event):
 		try:
 			for key, item in self.preferences.items():
 				config_set(key, item)
-			config_set("path", self.path)
 		except AttributeError:
 			pass
-		for key, item in self.preferences.items():
-			config_set(key, item)
 		if not self.mp3Quality.Selection == int(config_get("conversion")):
 			config_set("conversion", self.mp3Quality.Selection)
 		lang = {value:key for key, value in languages.items()}

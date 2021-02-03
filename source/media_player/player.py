@@ -3,6 +3,8 @@ os.add_dll_directory(os.getcwd())
 import vlc
 from datetime import timedelta
 from utiles import time_formatting
+from threading import Thread
+from settings_handler import config_get
 
 class Player:
 	def __init__(self,filename, hwnd):
@@ -17,6 +19,7 @@ class Player:
 	def onEnd(self,event):
 		if event.type == vlc.EventType.MediaPlayerEndReached:
 			self.do_reset = True
+			Thread(target=self.reset).start()
 	def seek(self, seconds):
 		length = self.media.get_length()
 		if length == -1:
@@ -37,6 +40,8 @@ class Player:
 		return time_formatting(str(timedelta(seconds=elapsed//1000)))
 
 	def reset(self):
-		self.media.set_media(self.media.get_media())
-		self.media.play()
 		self.do_reset = False
+		self.media.set_media(self.media.get_media())
+		if config_get("repeatetracks"):
+			self.media.play()
+

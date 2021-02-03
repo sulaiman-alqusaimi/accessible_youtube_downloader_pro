@@ -12,7 +12,8 @@ defaults = {
 	"autodetect": True,
 	"autoload": True,
 	"seek": 5,
-	"conversion": 1
+	"conversion": 1,
+	"repeatetracks":False
 }
 
 def config_initialization():

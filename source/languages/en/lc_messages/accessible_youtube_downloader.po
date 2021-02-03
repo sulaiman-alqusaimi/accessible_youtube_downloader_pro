@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.0\n"
-"POT-Creation-Date: 2021-02-02 20:01+0400\n"
-"PO-Revision-Date: 2021-02-02 20:03+0400\n"
+"POT-Creation-Date: 2021-02-03 09:43+0400\n"
+"PO-Revision-Date: 2021-02-03 09:45+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: en\n"
@@ -139,7 +139,7 @@ msgid "صيغة المقطع"
 msgstr "file format: "
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:67
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:80
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:89
 msgid "اختر مجلد التنزيل"
 msgstr "choose download folder"
 
@@ -305,18 +305,26 @@ msgid "جودة تحويل ملفات mp3: "
 msgstr "mp3 conversion quality: "
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:37
+msgid "إعدادات المشغل"
+msgstr "player options"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:38
+msgid "إعادة تشغيل المقطع تلقائيًا عند انتهائه"
+msgstr "automaticly replay tracks while its end is reatched"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:40
 msgid "مواف&ق"
 msgstr "&ok"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:39
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:42
 msgid "إل&غاء"
 msgstr "&cancel"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:98
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:105
 msgid "تنبيه"
 msgstr "alert"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:98
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:105
 msgid ""
 "لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل "
 "البرنامج لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"
@@ -345,7 +353,7 @@ msgid "تيرا بايت"
 msgstr "tera bytes"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:32
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:98
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:95
 msgid "بداية المقطع"
 msgstr "restart from beginning"
 
@@ -373,47 +381,47 @@ msgstr "open in browser\tctrl+b"
 msgid "خيارات المقطع"
 msgstr "video options"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:130
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:127
 msgid "المدة: {}"
 msgstr "duration: {}"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:133
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:130
 msgid "الوقت المنقضي: {}"
 msgstr "elapsed time: {}"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:138
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:135
 msgid "سريع"
 msgstr "fast"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:142
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:139
 msgid "معتدل"
 msgstr "normal"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:146
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:143
 msgid "بطيء"
 msgstr "slow"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:152
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:158
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:149
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:155
 msgid "تحريك المقطع"
 msgstr "track moving accuracy: "
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:152
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:158
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:149
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:155
 msgid "ثانية/ثواني"
 msgstr "second/s"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:165
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:162
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:184
 msgid "اكتمال"
 msgstr "done"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:165
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:162
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:184
 msgid "تم نسخ رابط المقطع بنجاح"
 msgstr "video URL has been copyed successfully."
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:167
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:164
 msgid "جاري الفتح"
 msgstr "opening"
 
@@ -538,6 +546,9 @@ msgstr "{} views"
 msgid " المدة: {},"
 msgstr " duration: {},"
 
+msgid "بالمائة"
+msgstr "percent"
+
 #~ msgid "بواسطة"
 #~ msgstr "from"
 
@@ -562,6 +573,3 @@ msgstr " duration: {},"
 
 #~ msgid "سليمان القسيمي"
 #~ msgstr "sulaiman al qusaimi"
-
-#~ msgid "بالمائة"
-#~ msgstr "percent"

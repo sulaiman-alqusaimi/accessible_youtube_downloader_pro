@@ -70,9 +70,6 @@ class MediaGui(wx.Frame):
 		forwardButton.Bind(wx.EVT_BUTTON, lambda event: self.forwardAction())
 		self.Bind(wx.EVT_CLOSE, lambda event: self.closeAction())
 	def playAction(self):
-		if self.player.do_reset:
-			self.player.reset()
-			return
 		state = self.player.media.get_state()
 		if state in (State.NothingSpecial, State.Stopped):
 			self.player.media.play()

@@ -160,19 +160,19 @@ class YoutubeBrowser(wx.Frame):
 	def onM4aDownload(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
-		dlg = DownloadProgress(self, title)
+		dlg = DownloadProgress(self.Parent, title)
 		direct_download(1, url, dlg)
 
 	def onMp3Download(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
-		dlg = DownloadProgress(self, title)
+		dlg = DownloadProgress(self.Parent, title)
 		direct_download(2, url, dlg)
 
 	def onVideoDownload(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
-		dlg = DownloadProgress(self, title)
+		dlg = DownloadProgress(self.Parent, title)
 		direct_download(0, url, dlg)
 
 
@@ -232,7 +232,7 @@ class YoutubeBrowser(wx.Frame):
 			return
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
-		dlg = DownloadProgress(self, title)
+		dlg = DownloadProgress(self.Parent, title)
 		direct_download(int(config_get('defaultformat')), url, dlg)
 
 	def onKeyDown(self, event):

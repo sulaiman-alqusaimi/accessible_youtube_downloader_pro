@@ -168,18 +168,18 @@ class MediaGui(wx.Frame):
 		webbrowser.open(self.url)
 
 	def onM4aDownload(self, event):
-		dlg = DownloadProgress(self.Parent)
+		dlg = DownloadProgress(self.Parent.Parent)
 		direct_download(1, self.url, dlg)
 
 	def onMp3Download(self, event):
-		dlg = DownloadProgress(self.Parent)
+		dlg = DownloadProgress(self.Parent.Parent)
 		direct_download(2, self.url, dlg)
 
 	def onVideoDownload(self, event):
-		dlg = DownloadProgress(self.Parent)
+		dlg = DownloadProgress(self.Parent.Parent)
 		direct_download(0, self.url, dlg)
 
 
 	def onDirect(self, event):
-		dlg = DownloadProgress(self.Parent)
+		dlg = DownloadProgress(self.Parent.Parent)
 		direct_download(int(config_get('defaultformat')), self.url, dlg)

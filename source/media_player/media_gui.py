@@ -1,5 +1,4 @@
 import webbrowser
-from threading import Thread
 import os
 os.add_dll_directory(os.getcwd())
 import pyperclip
@@ -8,9 +7,9 @@ from dialogs.download_progress import DownloadProgress
 from download_handler.downloader import downloadAction
 from nvda_client.client import speak
 from settings_handler import config_get, config_set
-from vlc import State
 import application
-
+from utiles import direct_download
+from vlc import State
 
 
 class CustomeButton(wx.Button):
@@ -52,6 +51,8 @@ class MediaGui(wx.Frame):
 		downloadMenu.Append(-1, _("صوت"), audioMenu)
 		trackOptions.Append(downloadId, _("تنزيل"), downloadMenu)
 		trackOptions.Enable(downloadId, can_download)
+		directDownloadItem = trackOptions.Append(-1, _("التنزيل المباشر...\tctrl+d"))
+		directDownloadItem.Enable(can_download)
 		copyItem = trackOptions.Append(-1, _("نسخ رابط المقطع\tctrl+l"))
 		browserItem = trackOptions.Append(-1, _("الفتح من خلال متصفح الإنترنت\tctrl+b"))
 		menuBar.Append(trackOptions, _("خيارات المقطع"))
@@ -59,6 +60,7 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
+		self.Bind(wx.EVT_MENU, self.onDirect, directDownloadItem)
 		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onBrowser, browserItem)
 		self.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
@@ -165,19 +167,18 @@ class MediaGui(wx.Frame):
 		webbrowser.open(self.url)
 
 	def onM4aDownload(self, event):
-		dlg = DownloadProgress(self)
-		path = config_get("path")
-		t = Thread(target=downloadAction, args=[self.url, path, dlg, "bestaudio[ext=m4a]", dlg.gaugeProgress, dlg.textProgress])
-		t.start()
+		dlg = DownloadProgress(self.Parent)
+		direct_download(1, self.url, dlg)
 
 	def onMp3Download(self, event):
-		dlg = DownloadProgress(self)
-		path = config_get("path")
-		t = Thread(target=downloadAction, args=[self.url, path, dlg, "bestaudio[ext=m4a]", dlg.gaugeProgress, dlg.textProgress, True])
-		t.start()
+		dlg = DownloadProgress(self.Parent)
+		direct_download(2, self.url, dlg)
 
 	def onVideoDownload(self, event):
-		dlg = DownloadProgress(self)
-		path = config_get("path")
-		t = Thread(target=downloadAction, args=[self.url, path, dlg, "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4", dlg.gaugeProgress, dlg.textProgress])
-		t.start()
+		dlg = DownloadProgress(self.Parent)
+		direct_download(0, self.url, dlg)
+
+
+	def onDirect(self, event):
+		dlg = DownloadProgress(self.Parent)
+		direct_download(config_get('defaultformat'), self.url, dlg)

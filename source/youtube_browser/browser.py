@@ -13,7 +13,7 @@ from media_player.player import Player
 from nvda_client.client import speak
 from settings_handler import config_get
 from youtube_browser.search_handler import Search
-
+from utiles import direct_download
 
 
 class YoutubeBrowser(wx.Frame):
@@ -133,6 +133,8 @@ class YoutubeBrowser(wx.Frame):
 		self.downloadMenu.Append(-1, _("صوت"), audioMenu)
 		self.downloadId = wx.NewId()
 		self.contextMenu.Append(self.downloadId, _("تنزيل"), self.downloadMenu)
+		directDownloadItem = self.contextMenu.Append(-1, _("التنزيل المباشر...\tctrl+d"))
+		self.directDownloadId = directDownloadItem.GetId()
 		copyItem = self.contextMenu.Append(-1, _("نسخ رابط المقطع"))
 		webbrowserItem = self.contextMenu.Append(-1, _("الفتح من خلال متصفح الإنترنت"))
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playVideo(), videoPlayItem)
@@ -142,7 +144,7 @@ class YoutubeBrowser(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
-
+		self.Bind(wx.EVT_MENU, lambda event: self.directDownload(), directDownloadItem)
 	def onDownload(self, event):
 		downloadMenu = wx.Menu()
 		videoItem = downloadMenu.Append(-1, _("فيديو"))
@@ -159,25 +161,21 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		dlg = DownloadProgress(self, title)
-		path = config_get("path")
-		t = Thread(target=downloadAction, args=[url, path, dlg, "bestaudio[ext=m4a]", dlg.gaugeProgress, dlg.textProgress])
-		t.start()
+		direct_download(1, url, dlg)
 
 	def onMp3Download(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		dlg = DownloadProgress(self, title)
-		path = config_get("path")
-		t = Thread(target=downloadAction, args=[url, path, dlg, "bestaudio[ext=m4a]", dlg.gaugeProgress, dlg.textProgress, True])
-		t.start()
+		direct_download(2, url, dlg)
 
 	def onVideoDownload(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		dlg = DownloadProgress(self, title)
-		path = config_get("path")
-		t = Thread(target=downloadAction, args=[url, path, dlg, "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4", dlg.gaugeProgress, dlg.textProgress])
-		t.start()
+		direct_download(0, url, dlg)
+
+
 
 	def onCopy(self, event):
 		pyperclip.copy(self.search.get_url(self.searchResults.Selection))
@@ -222,12 +220,24 @@ class YoutubeBrowser(wx.Frame):
 		n = self.searchResults.Selection
 		if self.search.get_views(n) is None:
 			self.contextMenu.Enable(self.downloadId, False)
+			self.contextMenu.Enable(self.directDownloadId, False)
 			self.downloadButton.Enabled = False
 		else:
 			self.contextMenu.Enable(self.downloadId, True)
+			self.contextMenu.Enable(self.directDownloadId, True)
 			self.downloadButton.Enabled = True
+	def directDownload(self):
+		n = self.searchResults.Selection
+		if self.search.get_views(n) is None:
+			return
+		url = self.search.get_url(self.searchResults.Selection)
+		title = self.search.get_title(self.searchResults.Selection)
+		dlg = DownloadProgress(self, title)
+		direct_download(config_get('defaultformat'), url, dlg)
 
 	def onKeyDown(self, event):
 		if event.controlDown and event.KeyCode == ord("F"):
 			self.onSearch(None)
+		elif event.controlDown and event.KeyCode == ord("D"):
+			self.directDownload()
 		event.Skip()

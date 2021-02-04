@@ -1,5 +1,7 @@
 import re
-
+from threading import Thread
+from settings_handler import config_get
+from download_handler.downloader import downloadAction
 
 def time_formatting( t):
 	t = t.split(":")
@@ -42,3 +44,13 @@ def time_formatting( t):
 def youtube_regexp(string):
 	pattern = re.compile("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$") # youtube links regular expression pattern
 	return pattern.search(string)
+
+def direct_download(option, url, dlg):
+	path = config_get("path")
+	if option == 0:
+		format = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"
+	else:
+		format = "bestaudio[ext=m4a]"
+	convert = True if option == 2 else False
+	trd = Thread(target=downloadAction, args=[url, path, dlg, format, dlg.gaugeProgress, dlg.textProgress, convert])
+	trd.start()

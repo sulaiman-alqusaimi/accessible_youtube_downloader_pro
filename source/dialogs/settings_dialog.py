@@ -31,7 +31,10 @@ class SettingsDialog(wx.Dialog):
 		self.autoDetectItem.SetValue(config_get("autodetect"))
 		self.autoLoadItem.SetValue(config_get("autoload"))
 		downloadPreferencesBox = wx.StaticBox(panel, -1, _("إعدادات التنزيل"))
-		lbl2 = wx.StaticText(downloadPreferencesBox, -1, _("جودة تحويل ملفات mp3: "))
+		lbl2 = wx.StaticText(downloadPreferencesBox, -1, _("صيغة التحميل المباشر: "))
+		self.formats = wx.Choice(downloadPreferencesBox, -1, choices=[_("فيديو (mp4)"), _("صوت (m4a)"), _("صوت (mp3)")])
+		self.formats.Selection = int(config_get('defaultformat'))
+		lbl3 = wx.StaticText(downloadPreferencesBox, -1, _("جودة تحويل ملفات mp3: "))
 		self.mp3Quality = wx.Choice(downloadPreferencesBox, -1, choices=["96 kbps", "128 kbps", "192 kbps"], name="conversion")
 		self.mp3Quality.Selection = int(config_get("conversion"))
 		playerOptions = wx.StaticBox(panel, -1, _("إعدادات المشغل"))
@@ -44,8 +47,10 @@ class SettingsDialog(wx.Dialog):
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer2 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer3 = wx.BoxSizer(wx.HORIZONTAL)
-		sizer4 = wx.BoxSizer(wx.HORIZONTAL)
+		sizer4 = wx.BoxSizer(wx.VERTICAL)
 		sizer5 = wx.BoxSizer(wx.HORIZONTAL)
+		sizer6 = wx.BoxSizer(wx.HORIZONTAL)
+		sizer7 = wx.BoxSizer(wx.HORIZONTAL)
 		okCancelSizer = wx.BoxSizer(wx.HORIZONTAL)
 		sizer1.Add(lbl, 1)
 		sizer1.Add(self.languageBox, 1, wx.EXPAND)
@@ -57,12 +62,16 @@ class SettingsDialog(wx.Dialog):
 		for item in preferencesBox.GetChildren():
 			sizer3.Add(item, 1)
 		preferencesBox.SetSizer(sizer3)
-		sizer4.Add(lbl2, 1)
-		sizer4.Add(self.mp3Quality, 1)
+		sizer5.Add(lbl3, 1)
+		sizer5.Add(self.mp3Quality, 1)
+		sizer6.Add(lbl2, 1)
+		sizer6.Add(self.formats, 1)
+		sizer4.Add(sizer5)
+		sizer4.Add(sizer6)
 		downloadPreferencesBox.SetSizer(sizer4)
 		for ctrl in playerOptions.GetChildren():
-			sizer5.Add(ctrl, 1)
-		playerOptions.SetSizer(sizer5)
+			sizer7.Add(ctrl, 1)
+		playerOptions.SetSizer(sizer7)
 		sizer.Add(sizer1, 1, wx.EXPAND)
 		sizer.Add(sizer2, 1, wx.EXPAND)
 		sizer.Add(preferencesBox, 1, wx.EXPAND)
@@ -99,6 +108,7 @@ class SettingsDialog(wx.Dialog):
 			pass
 		if not self.mp3Quality.Selection == int(config_get("conversion")):
 			config_set("conversion", self.mp3Quality.Selection)
+		config_set("defaultformat", self.formats.Selection) if not self.formats.Selection == int(config_get('defaultformat')) else None
 		lang = {value:key for key, value in languages.items()}
 		if not lang[self.languageBox.Selection] == config_get("lang"):
 			config_set("lang", lang[self.languageBox.Selection])

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.0\n"
-"POT-Creation-Date: 2021-02-03 09:43+0400\n"
-"PO-Revision-Date: 2021-02-03 09:45+0400\n"
+"POT-Creation-Date: 2021-02-04 06:45+0400\n"
+"PO-Revision-Date: 2021-02-04 06:54+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: en\n"
@@ -88,9 +88,9 @@ msgstr "channel"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:16
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:27
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:23
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:48
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:49
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:129
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:148
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:150
 msgid "فيديو"
 msgstr "Video"
 
@@ -104,7 +104,7 @@ msgstr ""
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:25
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:13
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:27
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:53
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:54
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:31
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:135
 msgid "تنزيل"
@@ -128,9 +128,9 @@ msgid "نوع المقطع"
 msgstr "file type: "
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:23
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:52
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:53
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:133
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:152
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:154
 msgid "صوت"
 msgstr "audio"
 
@@ -139,7 +139,8 @@ msgid "صيغة المقطع"
 msgstr "file format: "
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:67
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:89
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:98
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:98
 msgid "اختر مجلد التنزيل"
 msgstr "choose download folder"
 
@@ -267,64 +268,99 @@ msgid "إغلاق"
 msgstr "close"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:13
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:13
 msgid "الإعدادات"
 msgstr "settings"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:18
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:18
 msgid "لغة البرنامج: "
 msgstr "program's display language: "
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:25
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:25
 msgid "مسار مجلد التنزيل: "
 msgstr "download folder path: "
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:27
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:27
 msgid "&تغيير المسار"
 msgstr "change path"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:28
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:28
 msgid "التفضيلات العامة"
 msgstr "general preferences"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:29
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:29
 msgid "اكتشاف الروابط تلقائيًا عند فتح البرنامج"
 msgstr "automaticly detect YouTube links when launching the program"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:30
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:30
 msgid ""
 "تحميل المزيد من نتائج البحث عند الوصول إلى نهاية قائمة الفيديوهات المعروضة"
 msgstr ""
 "automaticly load more results when reatching the end of the videos list"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:33
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:33
 msgid "إعدادات التنزيل"
 msgstr "download settings"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:34
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:34
+msgid "صيغة التحميل المباشر: "
+msgstr "direct downloading format: "
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:35
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:35
+msgid "صوت (m4a)"
+msgstr "m4a audio"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:35
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:35
+msgid "صوت (mp3)"
+msgstr "mp3 audio"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:35
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:35
+msgid "فيديو (mp4)"
+msgstr "mp4 video"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:37
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:37
 msgid "جودة تحويل ملفات mp3: "
 msgstr "mp3 conversion quality: "
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:37
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:40
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:40
 msgid "إعدادات المشغل"
 msgstr "player options"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:38
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:41
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:41
 msgid "إعادة تشغيل المقطع تلقائيًا عند انتهائه"
 msgstr "automaticly replay tracks while its end is reatched"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:40
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:43
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:43
 msgid "مواف&ق"
 msgstr "&ok"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:42
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:45
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:45
 msgid "إل&غاء"
 msgstr "&cancel"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:105
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:115
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:116
 msgid "تنبيه"
 msgstr "alert"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:105
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:115
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\settings_dialog.py:116
 msgid ""
 "لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل "
 "البرنامج لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"
@@ -352,132 +388,136 @@ msgstr "gega bytes"
 msgid "تيرا بايت"
 msgstr "tera bytes"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:32
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:95
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:33
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:99
 msgid "بداية المقطع"
 msgstr "restart from beginning"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:33
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:34
 msgid "إرجاع المقطع <"
 msgstr "rewind<"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:34
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:35
 msgid "تشغيل\\إيقاف"
 msgstr "play/pause"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:35
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:36
 msgid "تقديم المقطع >"
 msgstr "forward>"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:55
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:56
+msgid "التنزيل المباشر...\tctrl+d"
+msgstr "direct download...\tctrl+d"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:58
 msgid "نسخ رابط المقطع\tctrl+l"
 msgstr "copy video link\tctrl+l"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:56
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:59
 msgid "الفتح من خلال متصفح الإنترنت\tctrl+b"
 msgstr "open in browser\tctrl+b"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:57
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:60
 msgid "خيارات المقطع"
 msgstr "video options"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:127
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:131
 msgid "المدة: {}"
 msgstr "duration: {}"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:130
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:134
 msgid "الوقت المنقضي: {}"
 msgstr "elapsed time: {}"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:135
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:139
 msgid "سريع"
 msgstr "fast"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:139
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:143
 msgid "معتدل"
 msgstr "normal"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:143
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:147
 msgid "بطيء"
 msgstr "slow"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:149
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:155
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:153
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:159
 msgid "تحريك المقطع"
 msgstr "track moving accuracy: "
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:149
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:155
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:153
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:159
 msgid "ثانية/ثواني"
 msgstr "second/s"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:162
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:184
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:166
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:186
 msgid "اكتمال"
 msgstr "done"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:162
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:184
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:166
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:186
 msgid "تم نسخ رابط المقطع بنجاح"
 msgstr "video URL has been copyed successfully."
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:164
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:168
 msgid "جاري الفتح"
 msgstr "opening"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:10
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:12
 msgid "دقيقة واحدة"
 msgstr "1 minute"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:12
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:14
 msgid "دقيقتان"
 msgstr "2 minutes"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:14
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:16
 msgid "{} دقائق"
 msgstr "{} minutes"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:16
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:18
 msgid "{} دقيقة"
 msgstr "{} minutes"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:19
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:21
 msgid "ثانية"
 msgstr "1 second"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:21
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:23
 msgid "ثانيتين"
 msgstr "2 seconds"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:23
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:25
 msgid "{} ثواني"
 msgstr "{} seconds"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:25
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:27
 msgid "{} ثانية"
 msgstr "{} seconds"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:28
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:30
 msgid "ساعة"
 msgstr "1 hour"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:30
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:32
 msgid "ساعتان"
 msgstr "2 hours"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:32
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:34
 msgid "{} ساعات"
 msgstr "{} hours"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:34
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:36
 msgid "{} ساعة"
 msgstr "{} hours"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:38
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:40
 msgid "{} و{}"
 msgstr "{} and {}"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:40
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:42
 msgid "{} و{} و{}"
 msgstr "{}, {} and {}"
 
@@ -518,23 +558,23 @@ msgstr "playing"
 msgid "التشغيل كمقطع صوتي"
 msgstr "play as audio track"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:136
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:138
 msgid "نسخ رابط المقطع"
 msgstr "copy video link"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:137
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:139
 msgid "الفتح من خلال متصفح الإنترنت"
 msgstr "open in browser"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:188
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:190
 msgid "جاري تحميل المزيد من النتائج"
 msgstr "loading more results..."
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:190
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:192
 msgid "لم يتمكن البرنامج من تحميل المزيد من النتائج"
 msgstr "unabled to load more results"
 
-#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:194
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:196
 msgid "تم تحميل المزيد من نتائج البحث"
 msgstr "more results loaded successfully"
 
@@ -546,8 +586,8 @@ msgstr "{} views"
 msgid " المدة: {},"
 msgstr " duration: {},"
 
-msgid "بالمائة"
-msgstr "percent"
+#~ msgid "بالمائة"
+#~ msgstr "percent"
 
 #~ msgid "بواسطة"
 #~ msgstr "from"

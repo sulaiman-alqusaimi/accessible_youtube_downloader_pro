@@ -10,7 +10,7 @@ from settings_handler import config_get, config_set
 import application
 from utiles import direct_download
 from vlc import State
-
+from dialogs.settings_dialog import SettingsDialog
 
 class CustomeButton(wx.Button):
 	def __init__(self, parent, id, label, name=""):
@@ -55,6 +55,7 @@ class MediaGui(wx.Frame):
 		directDownloadItem.Enable(can_download)
 		copyItem = trackOptions.Append(-1, _("نسخ رابط المقطع\tctrl+l"))
 		browserItem = trackOptions.Append(-1, _("الفتح من خلال متصفح الإنترنت\tctrl+b"))
+		settingsItem = trackOptions.Append(-1, _("الإعدادات.\talt+s"))
 		menuBar.Append(trackOptions, _("خيارات المقطع"))
 		self.SetMenuBar(menuBar)
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
@@ -63,6 +64,7 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onDirect, directDownloadItem)
 		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onBrowser, browserItem)
+		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 		for control in self.GetChildren():
 			control.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)

@@ -49,7 +49,7 @@ class YoutubeBrowser(wx.Frame):
 		self.contextSetup()
 		menuBar = wx.MenuBar()
 		optionsMenu = wx.Menu()
-		settingsItem = optionsMenu.Append(-1, _("الإعدادات...\tctrl+alt+s"))
+		settingsItem = optionsMenu.Append(-1, _("الإعدادات...\talt+s"))
 		menuBar.Append(optionsMenu, _("خيارات"))
 		self.SetMenuBar(menuBar)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)

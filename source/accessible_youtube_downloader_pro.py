@@ -61,7 +61,7 @@ class HomeScreen(wx.Frame):
 		downloadItem = mainMenu.Append(-1, _("التنزيل من خلال رابط\tctrl+d"))# download link item
 		playItem = mainMenu.Append(-1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y")) # play youtube link item
 		openDownloadingPathItem = mainMenu.Append(-1, _("فتح مجلد التنزيل\tctrl+p")) # open downloading folder item
-		settingsItem = mainMenu.Append(-1, _("الإعدادات...\tctrl+alt+s")) # settings item
+		settingsItem = mainMenu.Append(-1, _("الإعدادات...\talt+s")) # settings item
 		exitItem = mainMenu.Append(-1, _("خروج\tctrl+w")) # quit item
 		menuBar.Append(mainMenu, _("القائمة الرئيسية")) # append the main menu to the menu bar
 		aboutMenu = wx.Menu()

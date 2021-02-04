@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.0\n"
 "POT-Creation-Date: 2021-02-04 06:45+0400\n"
-"PO-Revision-Date: 2021-02-04 06:54+0400\n"
+"PO-Revision-Date: 2021-02-04 20:33+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: en\n"
@@ -48,8 +48,8 @@ msgstr "open downloading folder\tctrl+p"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:64
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:52
-msgid "الإعدادات...\tctrl+alt+s"
-msgstr "settings...\tctrl+alt+s"
+msgid "الإعدادات...\talt+s"
+msgstr "settings...\talt+s"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:65
 msgid "خروج\tctrl+w"

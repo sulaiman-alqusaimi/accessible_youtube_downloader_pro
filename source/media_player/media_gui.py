@@ -180,4 +180,4 @@ class MediaGui(wx.Frame):
 
 	def onDirect(self, event):
 		dlg = DownloadProgress(self.Parent)
-		direct_download(config_get('defaultformat'), self.url, dlg)
+		direct_download(int(config_get('defaultformat')), self.url, dlg)

@@ -233,7 +233,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		dlg = DownloadProgress(self, title)
-		direct_download(config_get('defaultformat'), url, dlg)
+		direct_download(int(config_get('defaultformat')), url, dlg)
 
 	def onKeyDown(self, event):
 		if event.controlDown and event.KeyCode == ord("F"):

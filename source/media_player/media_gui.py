@@ -143,14 +143,13 @@ class MediaGui(wx.Frame):
 			if self.player is not None:
 				self.player.media.set_rate(0.6)
 				speak(_("بطيء"))
-
-		elif event.GetKeyCode() == ord("-"):
+		elif event.GetKeyCode() in (ord("-"), wx.WXK_NUMPAD_SUBTRACT):
 			self.seek -= 1
 			if self.seek < 1:
 				self.seek = 1
 			speak("{} {} {}".format(_("تحريك المقطع"), self.seek, _("ثانية/ثواني")))
 			config_set("seek", self.seek)
-		elif event.GetKeyCode() == ord("="):
+		elif event.GetKeyCode() in (ord("="), wx.WXK_NUMPAD_ADD):
 			self.seek += 1
 			if self.seek > 10:
 				self.seek = 10

@@ -128,7 +128,7 @@ class HomeScreen(wx.Frame):
 		about = f"""{_('اسم البرنامج')}: {application.name}.
 {_('الإصدار')}: {application.version}.
 {_('طُوِر بواسطة')}: {_(application.author)}.
-{_('الوصف')}: {_(application.describtion)}."""
+{_('الوصف: ')}{_(application.describtion)}."""
 		wx.MessageBox(about, _("حول"), parent=self)
 
 app = wx.App()

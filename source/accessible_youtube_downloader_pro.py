@@ -123,7 +123,7 @@ class HomeScreen(wx.Frame):
 		content = documentation_get()
 		if content is None:
 			return
-		Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content)
+		Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content).ShowModal()
 	def onAbout(self, event):
 		about = f"""{_('اسم البرنامج')}: {application.name}.
 {_('الإصدار')}: {application.version}.

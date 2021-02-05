@@ -86,14 +86,11 @@ class SettingsDialog(wx.Dialog):
 		okButton.Bind(wx.EVT_BUTTON, self.onOk)
 		self.ShowModal()
 	def onCheck(self, event):
-		self.preferences = {}
 		obj = event.EventObject
 		if obj.Name in self.preferences and config_get(obj.Name) == obj.Value:
 			del self.preferences[obj.Name]
 		elif not obj.Value == config_get(obj.Name):
 			self.preferences[obj.Name] = obj.Value
-		if self.preferences == {}:
-			del self.preferences
 	def onChange(self, event):
 		new = wx.DirSelector(_("اختر مجلد التنزيل"), os.path.join(os.getenv("userprofile"), "downloads"), parent=self)
 		if not new == "":
@@ -101,11 +98,8 @@ class SettingsDialog(wx.Dialog):
 			self.pathField.Value = new
 			self.pathField.SetFocus()
 	def onOk(self, event):
-		try:
-			for key, item in self.preferences.items():
-				config_set(key, item)
-		except AttributeError:
-			pass
+		for key, item in self.preferences.items():
+			config_set(key, item)
 		if not self.mp3Quality.Selection == int(config_get("conversion")):
 			config_set("conversion", self.mp3Quality.Selection)
 		config_set("defaultformat", self.formats.Selection) if not self.formats.Selection == int(config_get('defaultformat')) else None

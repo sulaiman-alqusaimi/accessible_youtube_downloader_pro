@@ -11,6 +11,9 @@ import application
 from utiles import direct_download
 from vlc import State
 from dialogs.settings_dialog import SettingsDialog
+from dialogs.description import DescriptionDialog
+from threading import Thread
+from youtube_dl import YoutubeDL
 
 class CustomeButton(wx.Button):
 	def __init__(self, parent, id, label, name=""):
@@ -21,6 +24,7 @@ class CustomeButton(wx.Button):
 class MediaGui(wx.Frame):
 	def __init__(self, parent, title, url, can_download=True):
 		wx.Frame.__init__(self, parent, title=f'{title} - {application.name}')
+		self.title = title
 		self.stream = not can_download
 		self.seek = int(config_get("seek"))
 		self.Centre()
@@ -53,6 +57,7 @@ class MediaGui(wx.Frame):
 		trackOptions.Enable(downloadId, can_download)
 		directDownloadItem = trackOptions.Append(-1, _("التنزيل المباشر...\tctrl+d"))
 		directDownloadItem.Enable(can_download)
+		descriptionItem = trackOptions.Append(-1, _("وصف الفيديو\tctrl+shift+d"))
 		copyItem = trackOptions.Append(-1, _("نسخ رابط المقطع\tctrl+l"))
 		browserItem = trackOptions.Append(-1, _("الفتح من خلال متصفح الإنترنت\tctrl+b"))
 		settingsItem = trackOptions.Append(-1, _("الإعدادات.\talt+s"))
@@ -62,6 +67,7 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
 		self.Bind(wx.EVT_MENU, self.onDirect, directDownloadItem)
+		self.Bind(wx.EVT_MENU, self.onDescription, descriptionItem)
 		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onBrowser, browserItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
@@ -73,6 +79,7 @@ class MediaGui(wx.Frame):
 		playButton.Bind(wx.EVT_BUTTON, lambda event: self.playAction())
 		forwardButton.Bind(wx.EVT_BUTTON, lambda event: self.forwardAction())
 		self.Bind(wx.EVT_CLOSE, lambda event: self.closeAction())
+		Thread(target=self.extract_description).start()
 	def playAction(self):
 		state = self.player.media.get_state()
 		if state in (State.NothingSpecial, State.Stopped):
@@ -183,3 +190,25 @@ class MediaGui(wx.Frame):
 	def onDirect(self, event):
 		dlg = DownloadProgress(self.Parent.Parent)
 		direct_download(int(config_get('defaultformat')), self.url, dlg)
+	def onDescription(self, event):
+		if hasattr(self, "description"):
+			DescriptionDialog(self, self.description)
+			return
+		def extract_description():
+			with YoutubeDL({"quiet": True}) as extractor:
+				try:
+					speak(_("يتم الآن جلب وصف الفيديو"))
+					info = extractor.extract_info(self.url, download=False)
+				except:
+					speak(_("هناك خطأ ما أدى إلى منع جلب وصف الفيديو"))
+					return
+				self.description = info['description']
+			wx.CallAfter(DescriptionDialog, self, self.description)
+		Thread(target=extract_description).start()
+	def extract_description(self):
+		with YoutubeDL({"quiet": True}) as extractor:
+			try:
+				info = extractor.extract_info(self.url, download=False)
+			except:
+				return
+			self.description = info['description']

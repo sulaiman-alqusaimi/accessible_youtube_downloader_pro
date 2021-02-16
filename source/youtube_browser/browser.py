@@ -140,11 +140,16 @@ class YoutubeBrowser(wx.Frame):
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playVideo(), videoPlayItem)
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playAudio(), audioPlayItem)
 		self.searchResults.Bind(wx.EVT_MENU, self.onCopy, copyItem)
+		self.Bind(wx.EVT_MENU, self.onOpenInBrowser, webbrowserItem)
 		self.searchResults.Bind(wx.EVT_CONTEXT_MENU, lambda event: self.searchResults.PopupMenu(self.contextMenu))
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
 		self.Bind(wx.EVT_MENU, lambda event: self.directDownload(), directDownloadItem)
+	def onOpenInBrowser(self, event):
+		number = self.searchResults.Selection
+		url = self.search.get_url(number)
+		webbrowser.open(url)
 	def onDownload(self, event):
 		downloadMenu = wx.Menu()
 		videoItem = downloadMenu.Append(-1, _("فيديو"))

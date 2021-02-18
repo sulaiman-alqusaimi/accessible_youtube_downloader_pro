@@ -38,4 +38,5 @@ class SearchDialog(wx.Dialog):
 		self.Destroy()
 	def onClose(self, event):
 		self.query = None
+		self.filter = None
 		self.Destroy()

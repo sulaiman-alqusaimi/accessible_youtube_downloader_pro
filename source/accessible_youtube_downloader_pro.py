@@ -63,6 +63,16 @@ class HomeScreen(wx.Frame):
 		openDownloadingPathItem = mainMenu.Append(-1, _("فتح مجلد التنزيل\tctrl+p")) # open downloading folder item
 		settingsItem = mainMenu.Append(-1, _("الإعدادات...\talt+s")) # settings item
 		exitItem = mainMenu.Append(-1, _("خروج\tctrl+w")) # quit item
+		hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_CTRL, ord("F"), searchItem.GetId()),
+			(wx.ACCEL_CTRL, ord("D"), downloadItem.GetId()),
+			(wx.ACCEL_CTRL, ord("Y"), playItem.GetId()),
+			(wx.ACCEL_CTRL, ord("P"), openDownloadingPathItem.GetId()),
+			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
+			(wx.ACCEL_CTRL, ord("W"), exitItem.GetId())
+		])
+		# the accelerator table asociated with the menu items
+		self.SetAcceleratorTable(hotKeys) # adding the accelerator table to the frame
 		menuBar.Append(mainMenu, _("القائمة الرئيسية")) # append the main menu to the menu bar
 		aboutMenu = wx.Menu()
 		userGuideItem = aboutMenu.Append(-1, _("دليل المستخدم...\tf1")) # userguide

@@ -50,6 +50,11 @@ class YoutubeBrowser(wx.Frame):
 		menuBar = wx.MenuBar()
 		optionsMenu = wx.Menu()
 		settingsItem = optionsMenu.Append(-1, _("الإعدادات...\talt+s"))
+		hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId())
+		])
+		# hotkey table
+		self.SetAcceleratorTable(hotKeys)
 		menuBar.Append(optionsMenu, _("خيارات"))
 		self.SetMenuBar(menuBar)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)

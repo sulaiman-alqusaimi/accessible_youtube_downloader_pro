@@ -61,6 +61,14 @@ class MediaGui(wx.Frame):
 		copyItem = trackOptions.Append(-1, _("نسخ رابط المقطع\tctrl+l"))
 		browserItem = trackOptions.Append(-1, _("الفتح من خلال متصفح الإنترنت\tctrl+b"))
 		settingsItem = trackOptions.Append(-1, _("الإعدادات.\talt+s"))
+		hotKeys = wx.AcceleratorTable([
+			(wx.ACCEL_CTRL, ord("D"), directDownloadItem.GetId()),
+			(wx.ACCEL_CTRL|wx.ACCEL_SHIFT, ord("D"), descriptionItem.GetId()),
+			(wx.ACCEL_CTRL, ord("L"), copyItem.GetId()),
+			(wx.ACCEL_CTRL, ord("B"), browserItem.GetId()),
+			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId())
+])
+		self.SetAcceleratorTable(hotKeys)
 		menuBar.Append(trackOptions, _("خيارات المقطع"))
 		self.SetMenuBar(menuBar)
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)

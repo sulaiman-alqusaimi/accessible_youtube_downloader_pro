@@ -39,7 +39,6 @@ class YoutubeBrowser(wx.Frame):
 		for control in self.panel.GetChildren():
 			if control.Name == "controls":
 				sizer2.Add(control, 1)
-			control.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 		sizer.Add(sizer1, 1, wx.EXPAND)
 		sizer.Add(lbl, 1, wx.ALL)
 		sizer.Add(self.searchResults, 1, wx.EXPAND)
@@ -51,7 +50,9 @@ class YoutubeBrowser(wx.Frame):
 		optionsMenu = wx.Menu()
 		settingsItem = optionsMenu.Append(-1, _("الإعدادات...\talt+s"))
 		hotKeys = wx.AcceleratorTable([
-			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId())
+			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
+			(wx.ACCEL_CTRL, ord("F"), searchButton.GetId()),
+			(wx.ACCEL_CTRL, ord("D"), self.directDownloadId)
 		])
 		# hotkey table
 		self.SetAcceleratorTable(hotKeys)
@@ -244,10 +245,3 @@ class YoutubeBrowser(wx.Frame):
 		title = self.search.get_title(self.searchResults.Selection)
 		dlg = DownloadProgress(self.Parent, title)
 		direct_download(int(config_get('defaultformat')), url, dlg)
-
-	def onKeyDown(self, event):
-		if event.controlDown and event.KeyCode == ord("F"):
-			self.onSearch(None)
-		elif event.controlDown and event.KeyCode == ord("D"):
-			self.directDownload()
-		event.Skip()

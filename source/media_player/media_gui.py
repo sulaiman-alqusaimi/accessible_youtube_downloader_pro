@@ -119,7 +119,7 @@ class MediaGui(wx.Frame):
 		self.Destroy()
 
 	def onKeyDown(self, event):
-		if event.GetKeyCode() in (wx.WXK_SPACE, wx.WXK_PAUSE):
+		if event.GetKeyCode() in (wx.WXK_SPACE, wx.WXK_PAUSE, 430):
 			self.playAction()
 		elif event.GetKeyCode() == wx.WXK_RIGHT:
 			self.forwardAction()

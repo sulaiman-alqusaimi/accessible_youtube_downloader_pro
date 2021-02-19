@@ -28,6 +28,7 @@ class YoutubeBrowser(wx.Frame):
 		self.loadMoreButton.Enabled = False
 		self.loadMoreButton.Show(not config_get("autoload"))
 		playButton = wx.Button(self.panel, -1, _("تشغيل (enter)"), name="controls")
+		playButton.SetDefault()
 		self.downloadButton = wx.Button(self.panel, -1, _("تنزيل"), name="controls")
 		searchButton = wx.Button(self.panel, -1, _("بحث... (ctrl+f)"))
 		backButton = wx.Button(self.panel, -1, _("العودة إلى النافذة الرئيسية"))
@@ -52,7 +53,7 @@ class YoutubeBrowser(wx.Frame):
 		hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL, ord("F"), searchButton.GetId()),
-			(wx.ACCEL_CTRL, ord("D"), self.directDownloadId)
+			(wx.ACCEL_CTRL, ord("D"), self.directDownloadId),
 		])
 		# hotkey table
 		self.SetAcceleratorTable(hotKeys)
@@ -64,7 +65,7 @@ class YoutubeBrowser(wx.Frame):
 		self.downloadButton.Bind(wx.EVT_BUTTON, self.onDownload)
 		searchButton.Bind(wx.EVT_BUTTON, self.onSearch)
 		backButton.Bind(wx.EVT_BUTTON, lambda event: self.backAction())
-		self.searchResults.Bind(wx.EVT_CHAR_HOOK, self.onHook)
+		#self.searchResults.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_LISTBOX_DCLICK, lambda event: self.playVideo(), self.searchResults)
 		self.searchResults.Bind(wx.EVT_LISTBOX, self.onListBox)
 		self.Bind(wx.EVT_CLOSE, lambda event: wx.Exit())
@@ -143,11 +144,14 @@ class YoutubeBrowser(wx.Frame):
 		self.directDownloadId = directDownloadItem.GetId()
 		copyItem = self.contextMenu.Append(-1, _("نسخ رابط المقطع"))
 		webbrowserItem = self.contextMenu.Append(-1, _("الفتح من خلال متصفح الإنترنت"))
+		def popup():
+			if self.searchResults.Strings != []:
+				self.searchResults.PopupMenu(self.contextMenu)
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playVideo(), videoPlayItem)
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playAudio(), audioPlayItem)
 		self.searchResults.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onOpenInBrowser, webbrowserItem)
-		self.searchResults.Bind(wx.EVT_CONTEXT_MENU, lambda event: self.searchResults.PopupMenu(self.contextMenu))
+		self.searchResults.Bind(wx.EVT_CONTEXT_MENU, lambda event: popup())
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)

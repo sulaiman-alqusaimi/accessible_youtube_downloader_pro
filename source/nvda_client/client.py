@@ -1,8 +1,11 @@
 import ctypes
+import platform
 
-dll = ".\\nvdaControllerClient32.dll"
+arch = platform.architecture()[0]
+dll = f".\\nvdaControllerClient{'32' if arch == '32bit' else '64'}.dll"
+nvda = ctypes.windll.LoadLibrary(dll)
+
 def speak(msg):
-	nvda = ctypes.windll.LoadLibrary(dll)
 	running = nvda.nvdaController_testIfRunning()
 	if running != 1:
 		nvda.nvdaController_speakText(msg)

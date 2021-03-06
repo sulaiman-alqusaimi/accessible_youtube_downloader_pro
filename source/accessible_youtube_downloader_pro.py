@@ -7,6 +7,7 @@ import pafy
 import pyperclip
 import wx
 import os
+os.add_dll_directory(os.getcwd())
 import subprocess
 from utiles import youtube_regexp
 import settings_handler

@@ -1,6 +1,4 @@
 import webbrowser
-import os
-os.add_dll_directory(os.getcwd())
 import pyperclip
 import wx
 from dialogs.download_progress import DownloadProgress

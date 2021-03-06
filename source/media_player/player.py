@@ -1,5 +1,4 @@
-import os
-os.add_dll_directory(os.getcwd())
+
 import vlc
 from datetime import timedelta
 from utiles import time_formatting

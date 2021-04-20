@@ -87,8 +87,6 @@ class YoutubeBrowser(wx.Frame):
 		except:
 			wx.MessageBox(_("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR)
 			self.searchAction(query)
-			#self.togleControls()
-			#return
 		titles = self.search.get_titles()
 		self.searchResults.Set(titles)
 		self.togleControls()

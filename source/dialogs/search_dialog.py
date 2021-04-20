@@ -15,6 +15,7 @@ class SearchDialog(wx.Dialog):
 		self.filterBox.Selection = 0
 		searchButton = wx.Button(panel, wx.ID_OK, _("ابحث"))
 		searchButton.SetDefault()
+		searchButton.Enabled = False if value == "" else True
 		closeButton = wx.Button(panel, wx.ID_CANCEL, _("إغلاق"))
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer1.Add(lbl, 1)
@@ -29,6 +30,7 @@ class SearchDialog(wx.Dialog):
 		sizer.Add(sizer2, 1, wx.EXPAND)
 		sizer.Add(sizer3, 1, wx.EXPAND)
 		panel.SetSizer(sizer)
+		self.searchField.Bind(wx.EVT_TEXT, lambda event: searchButton.Disable() if self.searchField.Value == "" else searchButton.Enable())
 		searchButton.Bind(wx.EVT_BUTTON, self.onSearch)
 		closeButton.Bind(wx.EVT_BUTTON, self.onClose)
 		self.ShowModal()

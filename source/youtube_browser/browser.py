@@ -69,9 +69,12 @@ class YoutubeBrowser(wx.Frame):
 		self.Bind(wx.EVT_LISTBOX_DCLICK, lambda event: self.playVideo(), self.searchResults)
 		self.searchResults.Bind(wx.EVT_LISTBOX, self.onListBox)
 		self.Bind(wx.EVT_CLOSE, lambda event: wx.Exit())
-		self.Show()
-		self.Parent.Hide()
-		self.searchAction()
+		if self.searchAction():
+			self.Show()
+			self.Parent.Hide()
+		else:
+			self.Destroy()
+
 	def searchAction(self, value=""):
 		dialog = SearchDialog(self, value=value)
 		query = dialog.query
@@ -83,8 +86,9 @@ class YoutubeBrowser(wx.Frame):
 			self.search = Search(query, filter)
 		except:
 			wx.MessageBox(_("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR)
-			self.togleControls()
-			return
+			self.searchAction(query)
+			#self.togleControls()
+			#return
 		titles = self.search.get_titles()
 		self.searchResults.Set(titles)
 		self.togleControls()
@@ -94,6 +98,7 @@ class YoutubeBrowser(wx.Frame):
 			pass
 		self.searchResults.SetFocus()
 		self.togleDownload()
+		return True
 
 	def onSearch(self, event):
 		if hasattr(self, "search"):

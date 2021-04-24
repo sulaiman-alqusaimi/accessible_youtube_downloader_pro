@@ -16,8 +16,8 @@ import pafy
 
 
 class CustomeButton(wx.Button):
-	def __init__(self, parent, id, label, name=""):
-		wx.Button.__init__(self, parent, id, label, name=name)
+	def __init__(self, *args, **kwargs):
+		wx.Button.__init__(self, *args, **kwargs)
 	def AcceptsFocusFromKeyboard(self):
 		return False
 
@@ -34,10 +34,14 @@ class MediaGui(wx.Frame):
 		self.SetBackgroundColour(wx.BLACK)
 		self.player = None
 		self.url = url
-		beginingButton = CustomeButton(self, -1, _("بداية المقطع"), "controls")
-		rewindButton = CustomeButton(self, -1, _("إرجاع المقطع <"), "controls")
-		playButton = CustomeButton(self, -1, _("تشغيل\إيقاف"), "controls")
-		forwardButton = CustomeButton(self, -1, _("تقديم المقطع >"), "controls")
+		previousButton = CustomeButton(self, -1, _("المقطع السابق"), name="controls")
+		previousButton.Show() if self.results is not None else previousButton.Hide()
+		beginingButton = CustomeButton(self, -1, _("بداية المقطع"), name="controls")
+		rewindButton = CustomeButton(self, -1, _("إرجاع المقطع <"), name="controls")
+		playButton = CustomeButton(self, -1, _("تشغيل\إيقاف"), name="controls")
+		forwardButton = CustomeButton(self, -1, _("تقديم المقطع >"), name="controls")
+		nextButton = CustomeButton(self, -1, _("المقطع التالي"), name="controls")
+		nextButton.Show() if self.results is not None else nextButton.Hide()
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		for control in self.GetChildren():
@@ -84,10 +88,12 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 		for control in self.GetChildren():
 			control.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
+		previousButton.Bind(wx.EVT_BUTTON, lambda event: self.previous())
 		beginingButton.Bind(wx.EVT_BUTTON, lambda event: self.beginingAction())
 		rewindButton.Bind(wx.EVT_BUTTON, lambda event: self.rewindAction())
 		playButton.Bind(wx.EVT_BUTTON, lambda event: self.playAction())
 		forwardButton.Bind(wx.EVT_BUTTON, lambda event: self.forwardAction())
+		nextButton.Bind(wx.EVT_BUTTON, lambda event: self.next())
 		self.Bind(wx.EVT_CLOSE, lambda event: self.closeAction())
 		Thread(target=self.extract_description).start()
 	def playAction(self):
@@ -229,20 +235,20 @@ class MediaGui(wx.Frame):
 		webbrowser.open(self.url)
 
 	def onM4aDownload(self, event):
-		dlg = DownloadProgress(self.Parent.Parent)
+		dlg = DownloadProgress(self.Parent.Parent, self.title)
 		direct_download(1, self.url, dlg)
 
 	def onMp3Download(self, event):
-		dlg = DownloadProgress(self.Parent.Parent)
+		dlg = DownloadProgress(self.Parent.Parent, self.title)
 		direct_download(2, self.url, dlg)
 
 	def onVideoDownload(self, event):
-		dlg = DownloadProgress(self.Parent.Parent)
+		dlg = DownloadProgress(self.Parent.Parent, self.title)
 		direct_download(0, self.url, dlg)
 
 
 	def onDirect(self, event):
-		dlg = DownloadProgress(self.Parent.Parent)
+		dlg = DownloadProgress(self.Parent.Parent, self.title)
 		direct_download(int(config_get('defaultformat')), self.url, dlg)
 	def onDescription(self, event):
 		if hasattr(self, "description"):

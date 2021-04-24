@@ -7,11 +7,13 @@ from nvda_client.client import speak
 from settings_handler import config_get, config_set
 import application
 from utiles import direct_download
-from vlc import State
+from vlc import State, Media
 from dialogs.settings_dialog import SettingsDialog
 from dialogs.description import DescriptionDialog
 from threading import Thread
 from youtube_dl import YoutubeDL
+import pafy
+
 
 class CustomeButton(wx.Button):
 	def __init__(self, parent, id, label, name=""):
@@ -20,11 +22,13 @@ class CustomeButton(wx.Button):
 		return False
 
 class MediaGui(wx.Frame):
-	def __init__(self, parent, title, url, can_download=True):
+	def __init__(self, parent, title, url, can_download=True, results=None, audio_mode=False):
 		wx.Frame.__init__(self, parent, title=f'{title} - {application.name}')
 		self.title = title
 		self.stream = not can_download
 		self.seek = int(config_get("seek"))
+		self.results = results
+		self.audio_mode = audio_mode
 		self.Centre()
 		self.Maximize(True)
 		self.SetBackgroundColour(wx.BLACK)
@@ -119,10 +123,14 @@ class MediaGui(wx.Frame):
 	def onKeyDown(self, event):
 		if event.GetKeyCode() in (wx.WXK_SPACE, wx.WXK_PAUSE, 430):
 			self.playAction()
-		elif event.GetKeyCode() == wx.WXK_RIGHT:
+		elif event.GetKeyCode() == wx.WXK_RIGHT and not event.HasAnyModifiers():
 			self.forwardAction()
-		elif event.GetKeyCode() == wx.WXK_LEFT:
+		elif event.GetKeyCode() == wx.WXK_LEFT and not event.HasAnyModifiers():
 			self.rewindAction()
+		elif event.controlDown and event.KeyCode == wx.WXK_RIGHT:
+			self.next()
+		elif event.controlDown and event.KeyCode == wx.WXK_LEFT:
+			self.previous()
 		elif event.GetKeyCode() == wx.WXK_UP:
 			if self.player is None:
 				event.Skip()
@@ -173,6 +181,46 @@ class MediaGui(wx.Frame):
 		elif event.GetKeyCode() == wx.WXK_ESCAPE:
 			self.closeAction()
 		event.Skip()
+
+	def changeTrack(self, index):
+		url = self.results.get_url(index)
+		title = self.results.get_title(index)
+		self.player.media.stop()
+		if hasattr(self, "description"):
+			del self.description 
+		try:
+			media = pafy.new(url)
+			stream = media.getbest() if not self.audio_mode else media.getbestaudio()
+		except:
+			return
+		m = Media(stream.url)
+		self.player.media.set_media(m)
+		self.url = url
+		self.title = title
+		wx.CallAfter(self.SetTitle, f"{title} - {application.name}")
+		self.player.media.play()
+		Thread(target=self.extract_description).start()
+
+	def next(self):
+		if self.results is None:
+			return
+		self.Parent.searchResults.Selection += 1
+		index = self.Parent.searchResults.Selection
+		self.changeTrack(index)
+		if index >= self.results.count-2:
+			def load_more():
+				if self.results.load_more():
+					wx.CallAfter(self.Parent.searchResults.Append, self.results.get_last_titles())
+			Thread(target=load_more).start()
+
+	def previous(self):
+		if self.results is None:
+			return
+		if not self.Parent.searchResults.Selection == 0:
+			self.Parent.searchResults.Selection -= 1
+			index = self.Parent.searchResults.Selection
+			self.changeTrack(index)
+
 	def onCopy(self, event):
 		pyperclip.copy(self.url)
 		wx.MessageBox(_("تم نسخ رابط المقطع بنجاح"), _("اكتمال"), parent=self)
@@ -211,6 +259,7 @@ class MediaGui(wx.Frame):
 				self.description = info['description']
 			wx.CallAfter(DescriptionDialog, self, self.description)
 		Thread(target=extract_description).start()
+
 	def extract_description(self):
 		with YoutubeDL({"quiet": True}) as extractor:
 			try:

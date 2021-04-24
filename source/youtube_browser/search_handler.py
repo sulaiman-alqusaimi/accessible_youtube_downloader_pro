@@ -1,4 +1,4 @@
-from youtubesearchpython import VideosSearch, CustomSearch
+from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch
 from dialogs.search_dialog import SearchDialog
 from utiles import time_formatting
 
@@ -13,7 +13,8 @@ class Search:
 		filters = {
 			1: "EgJAAQ",
 			2: "CAISAhAB",
-			3: "CAMSAhAB"}
+			3: "CAMSAhAB"
+		}
 		if self.filter == 0:
 			self.videos = VideosSearch(self.query)
 		else:

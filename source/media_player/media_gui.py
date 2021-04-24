@@ -184,6 +184,13 @@ class MediaGui(wx.Frame):
 				self.seek = 10
 			speak("{} {} {}".format(_("تحريك المقطع"), self.seek, _("ثانية/ثواني")))
 			config_set("seek", self.seek)
+		elif event.KeyCode == ord("R"):
+			if config_get("repeatetracks"):
+				config_set("repeatetracks", False)
+				speak(_("التكرار متوقف"))
+			else:
+				config_set("repeatetracks", True)
+				speak(_("التكرار مفعل"))
 		elif event.GetKeyCode() == wx.WXK_ESCAPE:
 			self.closeAction()
 		event.Skip()

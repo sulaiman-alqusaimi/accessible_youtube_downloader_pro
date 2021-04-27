@@ -45,7 +45,6 @@ class DescriptionDialog(wx.Dialog):
 		content = self.content
 		if url.search(self.content) is not None:
 			content = url.sub(r"\n\1", content)
-		#content = content.split("\n")
 		content = re.sub("\n{2,}", "\n", content)
 		return content
 

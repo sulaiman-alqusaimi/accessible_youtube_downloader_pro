@@ -4,18 +4,16 @@ import webbrowser
 import pyperclip
 
 
+url = re.compile(r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))")
+
 class DescriptionDialog(wx.Dialog):
 	def __init__(self, parent, content):
-		wx.Dialog.__init__(self, parent, title=_("وصف الفيديو"))
+		wx.Dialog.__init__(self, parent, title=_("وصف الفيديو"), size=(500, 500))
 		self.Centre()
 		self.content = content
 		panel = wx.Panel(self)
 		lbl = wx.StaticText(panel, -1, _("الوصف: "))
-		self.contentBox = wx.ComboBox(panel, -1, choices=self.process(), style=wx.TE_PROCESS_ENTER)
-		try:
-			self.contentBox.Selection = 0
-		except:
-			pass
+		self.contentBox = wx.TextCtrl(panel, -1, value=self.process(), style=wx.TE_PROCESS_ENTER|wx.TE_READONLY|wx.TE_MULTILINE|wx.HSCROLL)
 		copyButton = wx.Button(panel, -1, _("نسخ"), name="export")
 		txtExport = wx.Button(panel, -1, _("التصدير إلى مستند نصي (txt)..."), name="export")
 		htmlExport = wx.Button(panel, -1, _("التصدير إلى صفحة ويب (html)..."), name="export")
@@ -43,20 +41,21 @@ class DescriptionDialog(wx.Dialog):
 		self.ShowModal()
 	def process(self):
 		if self.content == "":
-			return self.content.split()
-		url = re.compile(r"((?:\w+://|www\.)[^ ,.?!#%=+][^ ][^ \r]*)")
+			return self.content
 		content = self.content
 		if url.search(self.content) is not None:
 			content = url.sub(r"\n\1", content)
-		content = content.split("\n")
-		content = [line for line in content if not line == ""]
+		#content = content.split("\n")
+		content = re.sub("\n{2,}", "\n", content)
 		return content
+
 	def onOpen(self, event):
-		url = re.compile(r"((?:\w+://|www\.)[^ ,.?!#%=+][^ ][^ \r]*)")
-		selection = self.contentBox.GetStringSelection()
-		match = url.search(selection)
+		position = self.contentBox.PositionToXY(self.contentBox.GetInsertionPoint())
+		line = self.contentBox.GetLineText(position[-1])
+		match = url.search(line)
 		if match is not None:
 			webbrowser.open(match.group())
+
 	def onTxt(self, event):
 		path = wx.SaveFileSelector("", ".txt", self.Parent.title, parent=self)
 		if not path == "":
@@ -72,8 +71,7 @@ class DescriptionDialog(wx.Dialog):
 </head>
 <body>
 """
-		description = self.contentBox.Strings
-		url = re.compile(r"((?:\w+://|www\.)[^ ,.?!#%=+][^ ][^ \r]*)")
+		description = self.contentBox.Value.split("\n")
 		for line in range(len(description)):
 			match = url.search(description[line])
 			if match is not None:

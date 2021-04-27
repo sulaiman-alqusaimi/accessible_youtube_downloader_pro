@@ -1,3 +1,4 @@
+
 import webbrowser
 from threading import Thread
 
@@ -23,12 +24,12 @@ class YoutubeBrowser(wx.Frame):
 		self.Maximize(True)
 		self.panel = wx.Panel(self)
 		lbl = wx.StaticText(self.panel, -1, _("نتائج البحث: "))
-		self.searchResults = wx.ListBox(self.panel, -1, choices=[])
+		self.searchResults = wx.ListBox(self.panel, -1)
 		self.loadMoreButton = wx.Button(self.panel, -1, _("تحميل المزيد من النتائج"))
 		self.loadMoreButton.Enabled = False
 		self.loadMoreButton.Show(not config_get("autoload"))
 		playButton = wx.Button(self.panel, -1, _("تشغيل (enter)"), name="controls")
-		playButton.SetDefault()
+		#playButton.SetDefault()
 		self.downloadButton = wx.Button(self.panel, -1, _("تنزيل"), name="controls")
 		searchButton = wx.Button(self.panel, -1, _("بحث... (ctrl+f)"))
 		backButton = wx.Button(self.panel, -1, _("العودة إلى النافذة الرئيسية"))
@@ -65,7 +66,8 @@ class YoutubeBrowser(wx.Frame):
 		self.downloadButton.Bind(wx.EVT_BUTTON, self.onDownload)
 		searchButton.Bind(wx.EVT_BUTTON, self.onSearch)
 		backButton.Bind(wx.EVT_BUTTON, lambda event: self.backAction())
-		#self.searchResults.Bind(wx.EVT_CHAR_HOOK, self.onHook)
+		self.searchResults.Bind(wx.EVT_CHAR_HOOK, self.onHook)
+		self.searchResults.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 		self.Bind(wx.EVT_LISTBOX_DCLICK, lambda event: self.playVideo(), self.searchResults)
 		self.searchResults.Bind(wx.EVT_LISTBOX, self.onListBox)
 		self.Bind(wx.EVT_CLOSE, lambda event: wx.Exit())
@@ -130,6 +132,10 @@ class YoutubeBrowser(wx.Frame):
 	def onHook(self, event):
 		if event.GetKeyCode() in (wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER): # if the enter key was pressed
 			self.playVideo() # play the video stream
+		event.Skip()
+	def onKeyDown(self, event):
+		if event.controlDown and event.KeyCode == wx.WXK_SPACE:
+			self.playAudio()
 		event.Skip()
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()

@@ -2,7 +2,13 @@
 import gettext
 import ctypes
 import locale
+from collections import OrderedDict
 
+supported_languages = OrderedDict({
+	"العربية": "ar",
+	"English": "en", 
+	"français": "fr"
+})
 
 languages = ["ar", "en", "fr"]
 
@@ -11,7 +17,7 @@ def get_default_language():
 	lang_id = windll.GetUserDefaultUILanguage()
 	try:
 		language = locale.windows_locale[lang_id].split("_")[0]
-		if not language in languages:
+		if not language in supported_languages.values():
 			language = "en"
 	except:
 		language = "en"

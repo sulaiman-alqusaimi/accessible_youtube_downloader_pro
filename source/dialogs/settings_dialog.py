@@ -3,10 +3,10 @@ import sys
 
 import wx
 from settings_handler import config_get, config_set
+from language_handler import supported_languages
 
 
-
-languages = {"ar": 0, "en": 1, "fr": 2}
+languages = {index:language for language, index in enumerate(supported_languages.values())}
 
 class SettingsDialog(wx.Dialog):
 	def __init__(self, parent):
@@ -17,7 +17,7 @@ class SettingsDialog(wx.Dialog):
 		panel = wx.Panel(self)
 		lbl = wx.StaticText(panel, -1, _("لغة البرنامج: "), name="language")
 		self.languageBox = wx.Choice(panel, -1, name="language")
-		self.languageBox.Set(("العربية", "English", "français"))
+		self.languageBox.Set(list(supported_languages.keys()))
 		try:
 			self.languageBox.Selection = languages[config_get("lang")]
 		except KeyError:

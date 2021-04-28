@@ -70,6 +70,7 @@ class YoutubeBrowser(wx.Frame):
 		self.searchResults.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 		self.Bind(wx.EVT_LISTBOX_DCLICK, lambda event: self.playVideo(), self.searchResults)
 		self.searchResults.Bind(wx.EVT_LISTBOX, self.onListBox)
+		self.Bind(wx.EVT_SHOW, self.onShow)
 		self.Bind(wx.EVT_CLOSE, lambda event: wx.Exit())
 		if self.searchAction():
 			self.Show()
@@ -114,9 +115,10 @@ class YoutubeBrowser(wx.Frame):
 		media = pafy.new(url)
 		gui = MediaGui(self, title, url, True if self.search.get_views(number) is not None else False, results=self.search)
 		stream = media.getbest()
-		self.Hide()
 		gui.Show()
+		self.Hide()
 		gui.player = Player(stream.url, gui.GetHandle())
+
 	def playAudio(self):
 		number = self.searchResults.Selection
 		title = self.search.get_title(number)
@@ -125,14 +127,15 @@ class YoutubeBrowser(wx.Frame):
 		media = pafy.new(url)
 		gui = MediaGui(self, title, url, results=self.search, audio_mode=True)
 		stream = media.getbestaudio()
-		self.Hide()
 		gui.Show()
+		self.Hide()
 		gui.player = Player(stream.url, gui.GetHandle())
 
 	def onHook(self, event):
 		if event.GetKeyCode() in (wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER): # if the enter key was pressed
 			self.playVideo() # play the video stream
 		event.Skip()
+
 	def onKeyDown(self, event):
 		if event.controlDown and event.KeyCode == wx.WXK_SPACE:
 			self.playAudio()
@@ -258,3 +261,5 @@ class YoutubeBrowser(wx.Frame):
 		title = self.search.get_title(self.searchResults.Selection)
 		dlg = DownloadProgress(self.Parent, title)
 		direct_download(int(config_get('defaultformat')), url, dlg)
+	def onShow(self, event):
+		self.searchResults.SetFocus()

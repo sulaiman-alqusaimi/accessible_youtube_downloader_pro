@@ -93,6 +93,7 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onGuide, userGuideItem)
 		self.Bind(wx.EVT_MENU, self.onAbout, aboutItem)
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
+		self.Bind(wx.EVT_SHOW, self.onShow)
 		self.Show()
 		self.detectFromClipboard(settings_handler.config_get("autodetect"))
 	def onPlay(self, event): # the event function called when the play youtube link is clicked
@@ -130,6 +131,8 @@ class HomeScreen(wx.Frame):
 				return
 			Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content)
 		event.Skip()
+	def onShow(self, event):
+		self.instruction.SetFocus()
 	def onGuide(self, event):
 		content = documentation_get()
 		if content is None:

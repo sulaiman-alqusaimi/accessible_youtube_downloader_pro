@@ -74,7 +74,8 @@ def check_for_updates():
 			return
 		info = r.json()
 		if application.version != info["version"]:
-			wx.MessageBox(_("هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"), _("تحديث جديد"), parent=wx.GetApp().GetTopWindow())
+			wx.MessageBox(_("هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"), _("تحديث جديد"), parent=wx.GetApp().GetTopWindow(), style=wx.YES_NO)
+			return
 		wx.MessageBox(_("أنت تعمل الآن على آخر تحديث متوفر من التطبيق"), _("لا يوجد تحديث"), parent=wx.GetApp().GetTopWindow())
 	except requests.ConnectionError:
 		wx.MessageBox(

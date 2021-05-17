@@ -7,6 +7,7 @@ import pafy
 import pyperclip
 import wx
 import os
+os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import subprocess
 from utiles import youtube_regexp, check_for_updates
@@ -92,7 +93,7 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_MENU, lambda event: wx.Exit(), exitItem)
 		self.Bind(wx.EVT_MENU, self.onGuide, userGuideItem)
-		self.Bind(wx.EVT_MENU, lambda e: check_for_updates())
+		self.Bind(wx.EVT_MENU, lambda e: check_for_updates(), checkForUpdatesItem)
 		self.Bind(wx.EVT_MENU, self.onAbout, aboutItem)
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_SHOW, self.onShow)

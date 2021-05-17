@@ -2,6 +2,12 @@ import re
 from threading import Thread
 from settings_handler import config_get
 from download_handler.downloader import downloadAction
+import json
+import requests
+import wx
+import application
+
+
 
 def time_formatting( t):
 	t = t.split(":")
@@ -54,3 +60,25 @@ def direct_download(option, url, dlg):
 	convert = True if option == 2 else False
 	trd = Thread(target=downloadAction, args=[url, path, dlg, format, dlg.gaugeProgress, dlg.textProgress, convert])
 	trd.start()
+
+def check_for_updates():
+	url = "https://raw.githubusercontent.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/master/update_info.json"
+	try:
+		r = requests.get(url)
+		if r.status_code != 200:
+			wx.MessageBox(
+				_("حدث خطأ ما أثناء الاتصال بخدمة العثور على التحديثات. تأكد من وجود اتصال مستقر بالإنترنت ثم عاود المحاولة"), 
+				_("خطأ"), 
+				parent=wx.GetApp().GetTopWindow(), style=wx.ICON_ERROR
+			)
+			return
+		info = r.json()
+		if application.version != info["version"]:
+			wx.MessageBox(_("هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"), _("تحديث جديد"), parent=wx.GetApp().GetTopWindow())
+		wx.MessageBox(_("أنت تعمل الآن على آخر تحديث متوفر من التطبيق"), _("لا يوجد تحديث"), parent=wx.GetApp().GetTopWindow())
+	except requests.ConnectionError:
+		wx.MessageBox(
+			_("حدث خطأ ما أثناء الاتصال بخدمة العثور على التحديثات. تأكد من وجود اتصال مستقر بالإنترنت ثم عاود المحاولة"), 
+			_("خطأ"), 
+			parent=wx.GetApp().GetTopWindow(), style=wx.ICON_ERROR
+		)

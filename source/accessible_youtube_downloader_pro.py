@@ -9,7 +9,7 @@ import wx
 import os
 os.add_dll_directory(os.getcwd())
 import subprocess
-from utiles import youtube_regexp
+from utiles import youtube_regexp, check_for_updates
 import settings_handler
 from dialogs.auto_detect_dialog import AutoDetectDialog
 from dialogs.download_dialog import DownloadDialog
@@ -77,6 +77,7 @@ class HomeScreen(wx.Frame):
 		menuBar.Append(mainMenu, _("القائمة الرئيسية")) # append the main menu to the menu bar
 		aboutMenu = wx.Menu()
 		userGuideItem = aboutMenu.Append(-1, _("دليل المستخدم...\tf1")) # userguide
+		checkForUpdatesItem = aboutMenu.Append(-1, _("البحث عن التحديثات"))
 		aboutItem = aboutMenu.Append(-1, _("عن البرنامج...")) # about item
 		menuBar.Append(aboutMenu, _("حول")) # append the about menu to the menu bar
 		self.SetMenuBar(menuBar) # add the menu bar to the window
@@ -91,6 +92,7 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_MENU, lambda event: wx.Exit(), exitItem)
 		self.Bind(wx.EVT_MENU, self.onGuide, userGuideItem)
+		self.Bind(wx.EVT_MENU, lambda e: check_for_updates())
 		self.Bind(wx.EVT_MENU, self.onAbout, aboutItem)
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_SHOW, self.onShow)

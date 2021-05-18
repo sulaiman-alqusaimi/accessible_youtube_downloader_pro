@@ -56,8 +56,8 @@ class DescriptionDialog(wx.Dialog):
 			webbrowser.open(match.group())
 
 	def onTxt(self, event):
-		path = wx.SaveFileSelector("", ".txt", self.Parent.title, parent=self)
-		if not path == "":
+		path = wx.SaveFileSelector("", ".txt", parent=self)
+		if not path:
 			with open(path, "w", encoding="utf-8") as file:
 				file.write(self.content)
 		self.contentBox.SetFocus()
@@ -80,8 +80,8 @@ class DescriptionDialog(wx.Dialog):
 <p>{description}</p>
 </body>
 </html>"""
-		path = wx.SaveFileSelector("", ".html", self.Parent.title, parent=self)
-		if not path == "":
+		path = wx.SaveFileSelector(" ", ".html", parent=self)
+		if path:
 			with open(path, "w", encoding="utf-8") as file:
 				file.write(content)
 		self.contentBox.SetFocus()

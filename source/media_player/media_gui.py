@@ -30,6 +30,7 @@ class MediaGui(wx.Frame):
 		self.results = results
 		self.audio_mode = audio_mode
 		self.Centre()
+		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
 		self.SetBackgroundColour(wx.BLACK)
 		self.player = None

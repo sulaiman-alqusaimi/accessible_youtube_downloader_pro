@@ -11,6 +11,7 @@ os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import subprocess
 from utiles import youtube_regexp, check_for_updates
+from nvda_client.client import speak
 import settings_handler
 from dialogs.auto_detect_dialog import AutoDetectDialog
 from dialogs.download_dialog import DownloadDialog
@@ -30,8 +31,8 @@ init_translation("accessible_youtube_downloader") # program localization
 
 class CustomLabel(wx.StaticText):
 	# a customed focussable wx.StaticText 
-	def __init__(self, parent, id, label, name=""):
-		wx.StaticText.__init__(self, parent, id, label, name=name)
+	def __init__(self, *args, **kwargs):
+		wx.StaticText.__init__(self, *args, **kwargs)
 	def AcceptsFocusFromKeyboard(self):
 		# overwriting the AcceptsFocusFromKeyboard to return True
 		return True
@@ -41,6 +42,7 @@ class HomeScreen(wx.Frame):
 	def __init__(self):
 		wx.Frame.__init__(self, parent=None, title=application.name)
 		self.Centre()
+		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
 		panel = wx.Panel(self)
 		self.instruction = CustomLabel(panel, -1, _("اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب للوصول سريعًا إلى أهم الخيارات المتاحة.")) # a breafe instruction message witch is shown by the custome StaticText to automaticly be focused when launching the app
@@ -93,7 +95,7 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_MENU, lambda event: wx.Exit(), exitItem)
 		self.Bind(wx.EVT_MENU, self.onGuide, userGuideItem)
-		self.Bind(wx.EVT_MENU, lambda e: check_for_updates(), checkForUpdatesItem)
+		self.Bind(wx.EVT_MENU, self.onCheckForUpdates, checkForUpdatesItem)
 		self.Bind(wx.EVT_MENU, self.onAbout, aboutItem)
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_SHOW, self.onShow)
@@ -141,6 +143,10 @@ class HomeScreen(wx.Frame):
 		if content is None:
 			return
 		Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content).ShowModal()
+	def onCheckForUpdates(self, event):
+		speak(_("جاري البحث عن التحديثات. يرجى الانتظار"))
+		check_for_updates()
+
 	def onAbout(self, event):
 		about = f"""{_('اسم البرنامج')}: {application.name}.
 {_('الإصدار')}: {application.version}.

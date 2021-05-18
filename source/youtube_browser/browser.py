@@ -21,6 +21,7 @@ class YoutubeBrowser(wx.Frame):
 	def __init__(self, parent):
 		wx.Frame.__init__(self, parent=parent, title=parent.Title)
 		self.Centre()
+		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
 		self.panel = wx.Panel(self)
 		lbl = wx.StaticText(self.panel, -1, _("نتائج البحث: "))

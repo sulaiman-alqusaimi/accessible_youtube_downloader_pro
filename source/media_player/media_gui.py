@@ -128,6 +128,7 @@ class MediaGui(wx.Frame):
 		self.Destroy()
 
 	def onKeyDown(self, event):
+		event.Skip()
 		if event.GetKeyCode() in (wx.WXK_SPACE, wx.WXK_PAUSE, 430):
 			self.playAction()
 		elif event.GetKeyCode() == wx.WXK_RIGHT and not event.HasAnyModifiers():
@@ -140,14 +141,12 @@ class MediaGui(wx.Frame):
 			self.previous()
 		elif event.GetKeyCode() == wx.WXK_UP:
 			if self.player is None:
-				event.Skip()
 				return
 			volume = self.player.media.audio_get_volume()
 			self.player.media.audio_set_volume(volume+5)
 			speak(f"{self.player.media.audio_get_volume()} {_('بالمائة')}")
 		elif event.GetKeyCode() == wx.WXK_DOWN:
 			if self.player is None:
-				event.Skip()
 				return
 			volume = self.player.media.audio_get_volume()
 			self.player.media.audio_set_volume(volume-5)
@@ -192,9 +191,17 @@ class MediaGui(wx.Frame):
 			else:
 				config_set("repeatetracks", True)
 				speak(_("التكرار مفعل"))
+		elif event.KeyCode == wx.WXK_RETURN:
+			self.togleFullScreen()
 		elif event.GetKeyCode() == wx.WXK_ESCAPE:
 			self.closeAction()
-		event.Skip()
+
+	def togleFullScreen(self):
+		self.ShowFullScreen(not self.IsFullScreen())
+		if self.IsFullScreen():
+			speak(_("وضع ملء الشاشة مفعل"))
+		else:
+			speak(_("وضع ملء الشاشة متوقف"))
 
 	def changeTrack(self, index):
 		url = self.results.get_url(index)

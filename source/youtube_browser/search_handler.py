@@ -64,8 +64,11 @@ class Search:
 		return self.results[number+1]["title"]
 	def get_url(self, number):
 		return self.results[number+1]["url"]
-	def get_type(self, index):
-		return self.results[index+1]["type"]
+	def get_type(self, number):
+		return self.results[number+1]["type"]
+	def get_channel(self, number):
+		return self.results[number+1]["channel"]
+
 	def load_more(self):
 		try:
 			self.search.next()

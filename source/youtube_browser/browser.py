@@ -161,6 +161,8 @@ class YoutubeBrowser(wx.Frame):
 		self.contextMenu.Append(self.downloadId, _("تنزيل"), self.downloadMenu)
 		directDownloadItem = self.contextMenu.Append(-1, _("التنزيل المباشر...\tctrl+d"))
 		self.directDownloadId = directDownloadItem.GetId()
+		openChannelItem = self.contextMenu.Append(-1, _("الانتقال إلى القناة"))
+		downloadChannelItem = self.contextMenu.Append(-1, _("تنزيل القناة"))
 		copyItem = self.contextMenu.Append(-1, _("نسخ رابط المقطع"))
 		webbrowserItem = self.contextMenu.Append(-1, _("الفتح من خلال متصفح الإنترنت"))
 		def popup():
@@ -168,6 +170,8 @@ class YoutubeBrowser(wx.Frame):
 				self.searchResults.PopupMenu(self.contextMenu)
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playVideo(), videoPlayItem)
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playAudio(), audioPlayItem)
+		self.searchResults.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelItem)
+		self.searchResults.Bind(wx.EVT_MENU, self.onDownloadChannel, downloadChannelItem)
 		self.searchResults.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onOpenInBrowser, webbrowserItem)
 		self.searchResults.Bind(wx.EVT_CONTEXT_MENU, lambda event: popup())
@@ -175,6 +179,18 @@ class YoutubeBrowser(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
 		self.Bind(wx.EVT_MENU, lambda event: self.directDownload(), directDownloadItem)
+	def onOpenChannel(self, event):
+		n = self.searchResults.Selection
+		webbrowser.open(self.search.get_channel(n)["url"])
+	def onDownloadChannel(self, event):
+		n = self.searchResults.Selection
+		channel = self.search.get_channel(n)
+		title = channel["name"]
+		url = channel["url"]
+		download_type = "channel"
+		dlg = DownloadProgress(self.Parent, title)
+		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
+
 	def onOpenInBrowser(self, event):
 		number = self.searchResults.Selection
 		url = self.search.get_url(number)

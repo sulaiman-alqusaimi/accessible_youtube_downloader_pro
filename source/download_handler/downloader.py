@@ -88,7 +88,6 @@ class Downloader:
 				'preferredquality': self.get_quality(),
 			}]
 		title = self.titleCreate(self.folder)
-		print(title)
 		if title is not None:
 			download_options['outtmpl'] = "{}\\{}\\%(title)s.%(ext)s".format(self.path, title)
 			download_options["continuedl"] = True

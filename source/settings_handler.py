@@ -1,9 +1,9 @@
 import configparser
 import os
 from language_handler import get_default_language
+from paths import settings_path
 
-
-settings_path = os.path.join(os.getenv("appdata"), "accessible youtube downloader pro")
+# settings_path = os.path.join(os.getenv("appdata"), "accessible youtube downloader pro")
 
 defaults = {
 	"path": f"{os.getenv('USERPROFILE')}\\downloads\\accessible youtube downloader",

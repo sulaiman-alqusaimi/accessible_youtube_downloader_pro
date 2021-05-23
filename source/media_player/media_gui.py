@@ -193,6 +193,9 @@ class MediaGui(wx.Frame):
 				speak(_("التكرار مفعل"))
 		elif event.KeyCode == wx.WXK_RETURN:
 			self.togleFullScreen()
+		elif event.KeyCode == wx.WXK_ALT:
+			if self.IsFullScreen():
+				self.ShowFullScreen(False)
 		elif event.GetKeyCode() == wx.WXK_ESCAPE:
 			self.closeAction()
 

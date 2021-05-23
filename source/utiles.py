@@ -51,14 +51,15 @@ def youtube_regexp(string):
 	pattern = re.compile("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$") # youtube links regular expression pattern
 	return pattern.search(string)
 
-def direct_download(option, url, dlg):
+def direct_download(option, url, dlg, download_type="video"):
 	path = config_get("path")
 	if option == 0:
 		format = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"
 	else:
 		format = "bestaudio[ext=m4a]"
 	convert = True if option == 2 else False
-	trd = Thread(target=downloadAction, args=[url, path, dlg, format, dlg.gaugeProgress, dlg.textProgress, convert])
+	folder = False if download_type == "video" else True
+	trd = Thread(target=downloadAction, args=[url, path, dlg, format, dlg.gaugeProgress, dlg.textProgress, convert, folder])
 	trd.start()
 
 def check_for_updates():
@@ -74,7 +75,11 @@ def check_for_updates():
 			return
 		info = r.json()
 		if application.version != info["version"]:
-			wx.MessageBox(_("هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"), _("تحديث جديد"), parent=wx.GetApp().GetTopWindow(), style=wx.YES_NO)
+			message = wx.MessageBox(_("هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"), _("تحديث جديد"), parent=wx.GetApp().GetTopWindow(), style=wx.YES_NO)
+			url = info["url"]
+			if message == wx.YES:
+				from dialogs.update_dialog import UpdateDialog
+				UpdateDialog(wx.GetApp().GetTopWindow(), url)
 			return
 		wx.MessageBox(_("أنت تعمل الآن على آخر تحديث متوفر من التطبيق"), _("لا يوجد تحديث"), parent=wx.GetApp().GetTopWindow())
 	except requests.ConnectionError:

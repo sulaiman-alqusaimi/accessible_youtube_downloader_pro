@@ -1,4 +1,4 @@
-from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch
+from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch, PlaylistsSearch
 from dialogs.search_dialog import SearchDialog
 from utiles import time_formatting
 
@@ -13,21 +13,50 @@ class Search:
 		filters = {
 			1: "EgJAAQ",
 			2: "CAISAhAB",
-			3: "CAMSAhAB"
+			3: "CAMSAhAB", 
+			4: "EgIQA"
 		}
 		if self.filter == 0:
-			self.videos = VideosSearch(self.query)
+			self.search = VideosSearch(self.query)
+		elif self.filter == 4:
+				self.search = PlaylistsSearch(self.query)
 		else:
-			self.videos = CustomSearch(self.query, filters[self.filter])
+			self.search = CustomSearch(self.query, filters[self.filter])
 		self.parse_results()
 
 	def parse_results(self):
-		results = self.videos.result()["result"]
+		results = self.search.result()["result"]
 		for result in results:
-			self.results[self.count] = {"title": result["title"], "url": f"https://www.youtube.com/watch?v={result['id']}", "views": self.parse_views(result["viewCount"]["text"]), "channel": {"name": result["channel"]["name"], "url": f"https://www.youtube.com/channel/{result['channel']['id']}"}, "duration": result["duration"]}
+			self.results[self.count] = {
+				"type": result["type"],
+				"title": result["title"],
+				"url": result["link"], 
+				"duration": result.get("duration"),
+				"elements": result.get("videoCount"),
+				"channel": {
+					"name": result["channel"]["name"], 
+					"url": f"https://www.youtube.com/channel/{result['channel']['id']}"}
+			}
+			if result["type"] == "video":
+				self.results[self.count]["views"] = self.parse_views(result["viewCount"]["text"])
+			else:
+				self.results[self.count]["views"] = None
 			self.count += 1
 	def get_titles(self):
-		return [f"{self.results[result]['title']},{self.get_duration(self.results[result]['duration'])} {_('بواسطة')} {self.results[result]['channel']['name']}, {self.views_part(self.results[result]['views'])}" for result in self.results]
+		titles = []
+		for result, data  in self.results.items():
+			title = [data['title']]
+			if data["type"] == "video":
+				title += [self.get_duration(data['duration']),
+					f"{_('بواسطة')} {data['channel']['name']}",
+					self.views_part(data['views'])]
+			elif data["type"] == "playlist":
+				title += [_("قائمة تشغيل"),
+			f"{_('بواسطة')} {data['channel']['name']}", 
+					_("تحتوي على {} من الفيديوهات").format(data["elements"])]
+			titles.append(", ".join([element for element in title if element != ""]))
+		return titles
+
 	def get_last_titles(self):
 		titles = self.get_titles()
 		return titles[len(titles)-self.new_videos:len(titles)]
@@ -35,9 +64,11 @@ class Search:
 		return self.results[number+1]["title"]
 	def get_url(self, number):
 		return self.results[number+1]["url"]
+	def get_type(self, index):
+		return self.results[index+1]["type"]
 	def load_more(self):
 		try:
-			self.videos.next()
+			self.search.next()
 		except:
 			return
 		current = self.count
@@ -61,6 +92,6 @@ class Search:
 
 	def get_duration(self, data): # get the duration of the video
 		if data is not None:
-			return _(" المدة: {},").format(time_formatting(data))
+			return _("المدة: {}").format(time_formatting(data))
 		else:
 			return ""

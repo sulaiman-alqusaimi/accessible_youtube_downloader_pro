@@ -29,8 +29,7 @@ class YoutubeBrowser(wx.Frame):
 		self.loadMoreButton = wx.Button(self.panel, -1, _("تحميل المزيد من النتائج"))
 		self.loadMoreButton.Enabled = False
 		self.loadMoreButton.Show(not config_get("autoload"))
-		playButton = wx.Button(self.panel, -1, _("تشغيل (enter)"), name="controls")
-		#playButton.SetDefault()
+		self.playButton = wx.Button(self.panel, -1, _("تشغيل (enter)"), name="controls")
 		self.downloadButton = wx.Button(self.panel, -1, _("تنزيل"), name="controls")
 		searchButton = wx.Button(self.panel, -1, _("بحث... (ctrl+f)"))
 		backButton = wx.Button(self.panel, -1, _("العودة إلى النافذة الرئيسية"))
@@ -63,7 +62,7 @@ class YoutubeBrowser(wx.Frame):
 		self.SetMenuBar(menuBar)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.loadMoreButton.Bind(wx.EVT_BUTTON, self.onLoadMore)
-		playButton.Bind(wx.EVT_BUTTON, lambda event: self.playVideo())
+		self.playButton.Bind(wx.EVT_BUTTON, lambda event: self.playVideo())
 		self.downloadButton.Bind(wx.EVT_BUTTON, self.onDownload)
 		searchButton.Bind(wx.EVT_BUTTON, self.onSearch)
 		backButton.Bind(wx.EVT_BUTTON, lambda event: self.backAction())
@@ -100,6 +99,7 @@ class YoutubeBrowser(wx.Frame):
 			pass
 		self.searchResults.SetFocus()
 		self.togleDownload()
+		self.toglePlay()
 		return True
 
 	def onSearch(self, event):
@@ -110,6 +110,8 @@ class YoutubeBrowser(wx.Frame):
 
 	def playVideo(self):
 		number = self.searchResults.Selection
+		if self.search.get_type(number) == "playlist":
+			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
 		speak(_("جاري التشغيل"))
@@ -122,6 +124,8 @@ class YoutubeBrowser(wx.Frame):
 
 	def playAudio(self):
 		number = self.searchResults.Selection
+		if self.search.get_type(number) == "playlist":
+			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
 		speak(_("جاري التشغيل"))
@@ -143,8 +147,10 @@ class YoutubeBrowser(wx.Frame):
 		event.Skip()
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()
-		videoPlayItem = self.contextMenu.Append(-1, _("تشغيل"))
-		audioPlayItem = self.contextMenu.Append(-1, _("التشغيل كمقطع صوتي"))
+		self.videoPlayItemId = wx.NewId()
+		videoPlayItem = self.contextMenu.Append(self.videoPlayItemId, _("تشغيل"))
+		self.audioPlayItemId = wx.NewId()
+		audioPlayItem = self.contextMenu.Append(self.audioPlayItemId, _("التشغيل كمقطع صوتي"))
 		self.downloadMenu = wx.Menu()
 		videoItem = self.downloadMenu.Append(-1, _("فيديو"))
 		audioMenu = wx.Menu()
@@ -188,20 +194,23 @@ class YoutubeBrowser(wx.Frame):
 	def onM4aDownload(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
+		download_type = self.search.get_type(self.searchResults.Selection)
 		dlg = DownloadProgress(self.Parent, title)
-		direct_download(1, url, dlg)
+		direct_download(1, url, dlg, download_type)
 
 	def onMp3Download(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
+		download_type = self.search.get_type(self.searchResults.Selection)
 		dlg = DownloadProgress(self.Parent, title)
-		direct_download(2, url, dlg)
+		direct_download(2, url, dlg, download_type)
 
 	def onVideoDownload(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
+		download_type = self.search.get_type(self.searchResults.Selection)
 		dlg = DownloadProgress(self.Parent, title)
-		direct_download(0, url, dlg)
+		direct_download(0, url, dlg, download_type)
 
 
 
@@ -221,6 +230,7 @@ class YoutubeBrowser(wx.Frame):
 		wx.CallAfter(self.searchResults.SetFocus)
 	def onListBox(self, event):
 		self.togleDownload()
+		self.toglePlay()
 		if self.searchResults.Selection == len(self.searchResults.Strings)-1:
 			if not config_get("autoload"):
 				self.loadMoreButton.Enabled = True
@@ -246,21 +256,35 @@ class YoutubeBrowser(wx.Frame):
 			self.loadMoreButton.Show(not config_get("autoload"))
 	def togleDownload(self):
 		n = self.searchResults.Selection
-		if self.search.get_views(n) is None:
+		if self.search.get_views(n) is None and self.search.get_type(n) == "video":
 			self.contextMenu.Enable(self.downloadId, False)
 			self.contextMenu.Enable(self.directDownloadId, False)
 			self.downloadButton.Enabled = False
-		else:
-			self.contextMenu.Enable(self.downloadId, True)
-			self.contextMenu.Enable(self.directDownloadId, True)
-			self.downloadButton.Enabled = True
+			return
+		self.contextMenu.Enable(self.downloadId, True)
+		self.contextMenu.Enable(self.directDownloadId, True)
+		self.downloadButton.Enabled = True
+
+	def toglePlay(self):
+		n = self.searchResults.Selection
+		contextMenuIds = (self.videoPlayItemId, self.audioPlayItemId)
+		if self.search.get_type(n) == "playlist":
+			self.playButton.Enabled = False
+			for i in contextMenuIds:
+				self.contextMenu.Enable(i, False)
+			return
+			self.playButton.Enabled = True
+			for i in contextMenuIds:
+				self.contextMenu.Enable(i, True)
+
 	def directDownload(self):
 		n = self.searchResults.Selection
-		if self.search.get_views(n) is None:
+		if self.search.get_views(n) is None and self.search.get_type(n) == "video":
 			return
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
+		download_type = self.search.get_type(self.searchResults.Selection)
 		dlg = DownloadProgress(self.Parent, title)
-		direct_download(int(config_get('defaultformat')), url, dlg)
+		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 	def onShow(self, event):
 		self.searchResults.SetFocus()

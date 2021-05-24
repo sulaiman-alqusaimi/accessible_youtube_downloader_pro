@@ -54,7 +54,8 @@ class YoutubeBrowser(wx.Frame):
 		hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL, ord("F"), searchButton.GetId()),
-			(wx.ACCEL_CTRL, ord("D"), self.directDownloadId)
+			(wx.ACCEL_CTRL, ord("D"), self.directDownloadId),
+			(wx.ACCEL_CTRL, ord("L"), self.copyItemId)
 		])
 		# hotkey table
 		self.SetAcceleratorTable(hotKeys)
@@ -164,6 +165,7 @@ class YoutubeBrowser(wx.Frame):
 		openChannelItem = self.contextMenu.Append(-1, _("الانتقال إلى القناة"))
 		downloadChannelItem = self.contextMenu.Append(-1, _("تنزيل القناة"))
 		copyItem = self.contextMenu.Append(-1, _("نسخ رابط المقطع"))
+		self.copyItemId = copyItem.GetId()
 		webbrowserItem = self.contextMenu.Append(-1, _("الفتح من خلال متصفح الإنترنت"))
 		def popup():
 			if self.searchResults.Strings != []:
@@ -172,13 +174,14 @@ class YoutubeBrowser(wx.Frame):
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playAudio(), audioPlayItem)
 		self.searchResults.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelItem)
 		self.searchResults.Bind(wx.EVT_MENU, self.onDownloadChannel, downloadChannelItem)
-		self.searchResults.Bind(wx.EVT_MENU, self.onCopy, copyItem)
+		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onOpenInBrowser, webbrowserItem)
 		self.searchResults.Bind(wx.EVT_CONTEXT_MENU, lambda event: popup())
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
 		self.Bind(wx.EVT_MENU, lambda event: self.directDownload(), directDownloadItem)
+
 	def onOpenChannel(self, event):
 		n = self.searchResults.Selection
 		webbrowser.open(self.search.get_channel(n)["url"])

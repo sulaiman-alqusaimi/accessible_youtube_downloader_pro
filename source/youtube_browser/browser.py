@@ -54,7 +54,7 @@ class YoutubeBrowser(wx.Frame):
 		hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL, ord("F"), searchButton.GetId()),
-			(wx.ACCEL_CTRL, ord("D"), self.directDownloadId),
+			(wx.ACCEL_CTRL, ord("D"), self.directDownloadId)
 		])
 		# hotkey table
 		self.SetAcceleratorTable(hotKeys)
@@ -147,18 +147,18 @@ class YoutubeBrowser(wx.Frame):
 		event.Skip()
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()
-		self.videoPlayItemId = wx.NewId()
-		videoPlayItem = self.contextMenu.Append(self.videoPlayItemId, _("تشغيل"))
-		self.audioPlayItemId = wx.NewId()
-		audioPlayItem = self.contextMenu.Append(self.audioPlayItemId, _("التشغيل كمقطع صوتي"))
+
+		videoPlayItem = self.contextMenu.Append(-1, _("تشغيل"))
+		self.videoPlayItemId = videoPlayItem.GetId()
+		audioPlayItem = self.contextMenu.Append(-1, _("التشغيل كمقطع صوتي"))
+		self.audioPlayItemId = audioPlayItem.GetId()
 		self.downloadMenu = wx.Menu()
 		videoItem = self.downloadMenu.Append(-1, _("فيديو"))
 		audioMenu = wx.Menu()
 		m4aItem = audioMenu.Append(-1, "m4a")
 		mp3Item = audioMenu.Append(-1, "mp3")
-		self.downloadMenu.Append(-1, _("صوت"), audioMenu)
-		self.downloadId = wx.NewId()
-		self.contextMenu.Append(self.downloadId, _("تنزيل"), self.downloadMenu)
+		self.downloadMenu.AppendSubMenu(audioMenu, _("صوت"))
+		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("تنزيل")).GetId()
 		directDownloadItem = self.contextMenu.Append(-1, _("التنزيل المباشر...\tctrl+d"))
 		self.directDownloadId = directDownloadItem.GetId()
 		openChannelItem = self.contextMenu.Append(-1, _("الانتقال إلى القناة"))

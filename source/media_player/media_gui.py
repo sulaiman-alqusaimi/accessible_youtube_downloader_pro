@@ -120,6 +120,8 @@ class MediaGui(wx.Frame):
 			return
 		self.player.media.set_position(0.0)
 		speak(_("بداية المقطع"))
+		if self.player.media.get_state() in (State.NothingSpecial, State.Stopped):
+			self.player.media.play()
 	def closeAction(self):
 		if self.player is not None:
 			self.player.media.stop()

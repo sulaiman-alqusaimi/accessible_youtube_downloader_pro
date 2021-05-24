@@ -6,6 +6,7 @@ import application
 import pafy
 import pyperclip
 import wx
+import webbrowser
 import os
 os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
@@ -23,6 +24,9 @@ from language_handler import init_translation
 from media_player.media_gui import MediaGui
 from media_player.player import Player
 from youtube_browser.browser import YoutubeBrowser
+
+
+
 
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
 init_translation("accessible_youtube_downloader") # program localization
@@ -82,6 +86,10 @@ class HomeScreen(wx.Frame):
 		userGuideItem = aboutMenu.Append(-1, _("دليل المستخدم...\tf1")) # userguide
 		checkForUpdatesItem = aboutMenu.Append(-1, _("البحث عن التحديثات"))
 		aboutItem = aboutMenu.Append(-1, _("عن البرنامج...")) # about item
+		contactMenu = wx.Menu()
+		emailItem = contactMenu.Append(-1, _("البريد الالكتروني..."))
+		twitterItem = contactMenu.Append(-1, _("تويتر..."))
+		aboutMenu.Append(-1, _("تواصل معي"), contactMenu)
 		menuBar.Append(aboutMenu, _("حول")) # append the about menu to the menu bar
 		self.SetMenuBar(menuBar) # add the menu bar to the window
 		# event bindings
@@ -97,6 +105,8 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onGuide, userGuideItem)
 		self.Bind(wx.EVT_MENU, self.onCheckForUpdates, checkForUpdatesItem)
 		self.Bind(wx.EVT_MENU, self.onAbout, aboutItem)
+		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("mailto:Suleiman.alqusaimi@gmail.com"), emailItem)
+		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("https://twitter.com/suleiman3ahmed"), twitterItem)
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_SHOW, self.onShow)
 		self.Show()

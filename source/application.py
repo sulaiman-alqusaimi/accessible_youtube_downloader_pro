@@ -2,5 +2,5 @@
 
 name = "accessible youtube downloader pro"
 version = "1.2"
-author = "سليمان القسيمي"
+author = "Sulaiman Al Qusaimi"
 describtion = "يهدف هذا البرنامج إلى تقديم أيسر السبل أمام المستخدم الكفيف للتصفح والتنزيل من خدمة استضافة الفيديوهات youtube"

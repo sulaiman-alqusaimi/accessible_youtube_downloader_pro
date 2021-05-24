@@ -79,6 +79,7 @@ class Downloader:
 			'outtmpl':"{}\\%(title)s.%(ext)s".format(self.path),
 			'quiet': True,
 			'format': self.downloading_format,
+			"continuedl": True,
 			"youtube_include_dash_manifest": False,
 			'progress_hooks': [self.my_hook],}
 		if self.convert:
@@ -90,7 +91,6 @@ class Downloader:
 		title = self.titleCreate(self.folder)
 		if title is not None:
 			download_options['outtmpl'] = "{}\\{}\\%(title)s.%(ext)s".format(self.path, title)
-			download_options["continuedl"] = True
 			download_options["ignoreerrors"] = True
 		with youtube_dl.YoutubeDL(download_options) as youtubeDownloader:
 			youtubeDownloader.download([self.url])

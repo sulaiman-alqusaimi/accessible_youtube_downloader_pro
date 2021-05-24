@@ -89,7 +89,7 @@ class HomeScreen(wx.Frame):
 		contactMenu = wx.Menu()
 		emailItem = contactMenu.Append(-1, _("البريد الالكتروني..."))
 		twitterItem = contactMenu.Append(-1, _("تويتر..."))
-		aboutMenu.Append(-1, _("تواصل معي"), contactMenu)
+		aboutMenu.AppendSubMenu(contactMenu, _("تواصل معي"))
 		menuBar.Append(aboutMenu, _("حول")) # append the about menu to the menu bar
 		self.SetMenuBar(menuBar) # add the menu bar to the window
 		# event bindings

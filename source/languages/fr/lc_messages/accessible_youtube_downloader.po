@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.1\n"
 "POT-Creation-Date: 2021-05-23 21:46+0400\n"
-"PO-Revision-Date: 2021-05-24 14:09+0400\n"
+"PO-Revision-Date: 2021-05-24 18:26+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: fr\n"
@@ -70,6 +70,18 @@ msgstr "Rechercher des mises à jour"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:84
 msgid "عن البرنامج..."
 msgstr "à propos de l'application..."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:90
+msgid "البريد الالكتروني..."
+msgstr "Email..."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:91
+msgid "تويتر..."
+msgstr "Twitter..."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:92
+msgid "تواصل معي"
+msgstr "contact avec moi"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:85
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:155

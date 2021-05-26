@@ -192,7 +192,7 @@ class MediaGui(wx.Frame):
 			else:
 				config_set("repeatetracks", True)
 				speak(_("التكرار مفعل"))
-		elif event.KeyCode == wx.WXK_RETURN:
+		elif event.KeyCode in (wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER):
 			self.togleFullScreen()
 		elif event.KeyCode == wx.WXK_ALT:
 			if self.IsFullScreen():

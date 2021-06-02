@@ -7,10 +7,11 @@ from collections import OrderedDict
 supported_languages = OrderedDict({
 	"العربية": "ar",
 	"English": "en", 
-	"français": "fr"
+	"français": "fr",
+	"Türkçe": "tr"
 })
 
-languages = ["ar", "en", "fr"]
+languages = list(supported_languages.values())
 
 def get_default_language():
 	windll = ctypes.windll.kernel32

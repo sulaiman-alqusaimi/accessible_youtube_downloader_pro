@@ -5,8 +5,9 @@ from utiles import time_formatting
 from threading import Thread
 from settings_handler import config_get
 
+instance = vlc.Instance()
 
-media_player = vlc.MediaPlayer()
+media_player = instance.media_player_new()
 
 class Player:
 	def __init__(self,filename, hwnd):
@@ -14,11 +15,12 @@ class Player:
 		self.filename = filename
 		self.hwnd = hwnd
 		self.media = media_player
-		self.media.set_media(vlc.Media(self.filename))
+		self.set_media(self.filename)
 		self.media.set_hwnd(self.hwnd)
 		self.manager = self.media.event_manager()
 		self.manager.event_attach(vlc.EventType.MediaPlayerEndReached,self.onEnd)
 		self.media.play()
+		self.volume = self.media.audio_get_volume()
 	def onEnd(self,event):
 		if event.type == vlc.EventType.MediaPlayerEndReached:
 			self.do_reset = True
@@ -48,3 +50,6 @@ class Player:
 		if config_get("repeatetracks"):
 			self.media.play()
 
+	def set_media(self, m):
+		media = instance.media_new(m)
+		self.media.set_media(media)

@@ -375,20 +375,18 @@ class MediaGui(wx.Frame):
 
 		if self.player is None:
 			return
-
-		self.player.media.audio_set_volume(self.player.media.audio_get_volume()+5)
-
-		speak(f"{self.player.media.audio_get_volume()} {_('بالمائة')}")
+		self.player.volume += 5
+		self.player.media.audio_set_volume(self.player.volume)
+		speak(f"{self.player.volume} {_('بالمائة')}")
 
 
 	def decrease_volume(self):
 
 		if self.player is None:
 			return
-
-		self.player.media.audio_set_volume(self.player.media.audio_get_volume()-5)
-
-		speak(f"{self.player.media.audio_get_volume()} {_('بالمائة')}")
+		self.player.volume -= 5
+		self.player.media.audio_set_volume(self.player.volume)
+		speak(f"{self.player.volume} {_('بالمائة')}")
 
 
 	def togleFullScreen(self):
@@ -423,21 +421,13 @@ class MediaGui(wx.Frame):
 
 		except:
 			return
-
-		m = Media(stream.url)
-
-		self.player.media.set_media(m)
-
+		self.player.set_media(stream.url)
 		self.url = url
-
 		self.title = title
-
 		wx.CallAfter(self.SetTitle, f"{title} - {application.name}")
 
 		self.player.media.play()
-
 		Thread(target=self.extract_description).start()
-
 
 	def next(self):
 

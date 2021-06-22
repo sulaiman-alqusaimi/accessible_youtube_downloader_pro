@@ -375,7 +375,7 @@ class MediaGui(wx.Frame):
 
 		if self.player is None:
 			return
-		self.player.volume += 5
+		self.player.volume = self.player.volume+5 if self.player.volume < 350 else 350
 		self.player.media.audio_set_volume(self.player.volume)
 		speak(f"{self.player.volume} {_('بالمائة')}")
 
@@ -384,7 +384,7 @@ class MediaGui(wx.Frame):
 
 		if self.player is None:
 			return
-		self.player.volume -= 5
+		self.player.volume = self.player.volume-5 if self.player.volume > 0 else 0
 		self.player.media.audio_set_volume(self.player.volume)
 		speak(f"{self.player.volume} {_('بالمائة')}")
 

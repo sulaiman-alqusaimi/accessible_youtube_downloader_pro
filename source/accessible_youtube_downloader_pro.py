@@ -14,11 +14,12 @@ import subprocess
 from utiles import youtube_regexp, check_for_updates
 from nvda_client.client import speak
 import settings_handler
-from dialogs.auto_detect_dialog import AutoDetectDialog
-from dialogs.download_dialog import DownloadDialog
-from dialogs.link_dlg import LinkDlg
-from dialogs.settings_dialog import SettingsDialog
-from dialogs.text_viewer import Viewer
+from gui.auto_detect_dialog import AutoDetectDialog
+from gui.download_dialog import DownloadDialog
+from gui.link_dlg import LinkDlg
+from gui.settings_dialog import SettingsDialog
+from gui.text_viewer import Viewer
+from gui.custom_controls import CustomLabel
 from doc_handler import documentation_get
 from language_handler import init_translation
 from media_player.media_gui import MediaGui
@@ -33,13 +34,6 @@ init_translation("accessible_youtube_downloader") # program localization
 
 
 
-class CustomLabel(wx.StaticText):
-	# a customed focussable wx.StaticText 
-	def __init__(self, *args, **kwargs):
-		wx.StaticText.__init__(self, *args, **kwargs)
-	def AcceptsFocusFromKeyboard(self):
-		# overwriting the AcceptsFocusFromKeyboard to return True
-		return True
 
 class HomeScreen(wx.Frame):
 	# the main class

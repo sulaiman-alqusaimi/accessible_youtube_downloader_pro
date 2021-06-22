@@ -5,12 +5,16 @@ from utiles import time_formatting
 from threading import Thread
 from settings_handler import config_get
 
+
+media_player = vlc.MediaPlayer()
+
 class Player:
 	def __init__(self,filename, hwnd):
 		self.do_reset = False
 		self.filename = filename
 		self.hwnd = hwnd
-		self.media = vlc.MediaPlayer(self.filename)
+		self.media = media_player
+		self.media.set_media(vlc.Media(self.filename))
 		self.media.set_hwnd(self.hwnd)
 		self.manager = self.media.event_manager()
 		self.manager.event_attach(vlc.EventType.MediaPlayerEndReached,self.onEnd)

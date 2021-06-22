@@ -1,5 +1,4 @@
 from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch, PlaylistsSearch
-from dialogs.search_dialog import SearchDialog
 from utiles import time_formatting
 
 

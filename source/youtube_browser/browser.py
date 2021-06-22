@@ -5,9 +5,9 @@ from threading import Thread
 import pafy
 import pyperclip
 import wx
-from dialogs.download_progress import DownloadProgress
-from dialogs.search_dialog import SearchDialog
-from dialogs.settings_dialog import SettingsDialog
+from gui.download_progress import DownloadProgress
+from gui.search_dialog import SearchDialog
+from gui.settings_dialog import SettingsDialog
 from download_handler.downloader import downloadAction
 from media_player.media_gui import MediaGui
 from media_player.player import Player

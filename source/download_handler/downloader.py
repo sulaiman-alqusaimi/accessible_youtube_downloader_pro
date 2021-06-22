@@ -91,7 +91,7 @@ class Downloader:
 		title = self.titleCreate(self.folder)
 		if title is not None:
 			download_options['outtmpl'] = "{}\\{}\\%(title)s.%(ext)s".format(self.path, title)
-			download_options["ignoreerrors"] = True
+			#download_options["ignoreerrors"] = True
 		with youtube_dl.YoutubeDL(download_options) as youtubeDownloader:
 			youtubeDownloader.download([self.url])
 

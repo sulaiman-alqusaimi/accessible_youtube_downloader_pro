@@ -154,7 +154,7 @@ class HomeScreen(wx.Frame):
 	def onAbout(self, event):
 		about = f"""{_('اسم البرنامج')}: {application.name}.
 {_('الإصدار')}: {application.version}.
-{_('طُوِر بواسطة')}: {_(application.author)}.
+{_('طُوِر بواسطة')}: {application.author}.
 {_('الوصف: ')}{_(application.describtion)}."""
 		wx.MessageBox(about, _("حول"), parent=self)
 

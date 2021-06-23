@@ -377,7 +377,7 @@ class MediaGui(wx.Frame):
 			return
 		self.player.volume = self.player.volume+5 if self.player.volume < 350 else 350
 		self.player.media.audio_set_volume(self.player.volume)
-		speak(f"{self.player.volume} {_('بالمائة')}")
+		speak(f"{self.player.volume}%")
 
 
 	def decrease_volume(self):
@@ -386,7 +386,7 @@ class MediaGui(wx.Frame):
 			return
 		self.player.volume = self.player.volume-5 if self.player.volume > 0 else 0
 		self.player.media.audio_set_volume(self.player.volume)
-		speak(f"{self.player.volume} {_('بالمائة')}")
+		speak(f"{self.player.volume}%")
 
 
 	def togleFullScreen(self):

@@ -10,11 +10,13 @@ defaults = {
 	"defaultaudio": 0,
 	"lang": get_default_language(),
 	"autodetect": True,
+	"checkupdates": True,
 	"autoload": True,
 	"seek": 5,
 	"conversion": 1,
 	"repeatetracks":False,
-	"defaultformat": 0
+	"defaultformat": 0,
+	"volume": 100
 }
 
 def config_initialization():

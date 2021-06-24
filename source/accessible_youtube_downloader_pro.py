@@ -105,7 +105,8 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_SHOW, self.onShow)
 		self.Show()
 		self.detectFromClipboard(settings_handler.config_get("autodetect"))
-		Thread(target=check_for_updates, args=[True]).start()
+		if settings_handler.config_get("checkupdates"):
+			Thread(target=check_for_updates, args=[True]).start()
 	def onPlay(self, event): # the event function called when the play youtube link is clicked
 		linkDlg = LinkDlg(self)
 		data = linkDlg.data # get the link and playing format from the dialog

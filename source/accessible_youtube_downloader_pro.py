@@ -25,7 +25,7 @@ from language_handler import init_translation
 from media_player.media_gui import MediaGui
 from media_player.player import Player
 from youtube_browser.browser import YoutubeBrowser
-
+from threading import Thread
 
 
 
@@ -105,6 +105,7 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_SHOW, self.onShow)
 		self.Show()
 		self.detectFromClipboard(settings_handler.config_get("autodetect"))
+		Thread(target=check_for_updates, args=[True]).start()
 	def onPlay(self, event): # the event function called when the play youtube link is clicked
 		linkDlg = LinkDlg(self)
 		data = linkDlg.data # get the link and playing format from the dialog

@@ -62,7 +62,7 @@ def direct_download(option, url, dlg, download_type="video"):
 	trd = Thread(target=downloadAction, args=[url, path, dlg, format, dlg.gaugeProgress, dlg.textProgress, convert, folder])
 	trd.start()
 
-def check_for_updates():
+def check_for_updates(quiet=False):
 	url = "https://raw.githubusercontent.com/sulaiman-alqusaimi/accessible_youtube_downloader_pro/master/update_info.json"
 	try:
 		r = requests.get(url)
@@ -71,20 +71,20 @@ def check_for_updates():
 				_("حدث خطأ ما أثناء الاتصال بخدمة العثور على التحديثات. تأكد من وجود اتصال مستقر بالإنترنت ثم عاود المحاولة"), 
 				_("خطأ"), 
 				parent=wx.GetApp().GetTopWindow(), style=wx.ICON_ERROR
-			)
+			) if not quiet else None
 			return
 		info = r.json()
 		if application.version != info["version"]:
 			message = wx.MessageBox(_("هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"), _("تحديث جديد"), parent=wx.GetApp().GetTopWindow(), style=wx.YES_NO)
 			url = info["url"]
 			if message == wx.YES:
-				from dialogs.update_dialog import UpdateDialog
-				UpdateDialog(wx.GetApp().GetTopWindow(), url)
+				from gui.update_dialog import UpdateDialog
+				wx.CallAfter(UpdateDialog, wx.GetApp().GetTopWindow(), url)
 			return
-		wx.MessageBox(_("أنت تعمل الآن على آخر تحديث متوفر من التطبيق"), _("لا يوجد تحديث"), parent=wx.GetApp().GetTopWindow())
+		wx.MessageBox(_("أنت تعمل الآن على آخر تحديث متوفر من التطبيق"), _("لا يوجد تحديث"), parent=wx.GetApp().GetTopWindow()) if not quiet else None
 	except requests.ConnectionError:
 		wx.MessageBox(
 			_("حدث خطأ ما أثناء الاتصال بخدمة العثور على التحديثات. تأكد من وجود اتصال مستقر بالإنترنت ثم عاود المحاولة"), 
 			_("خطأ"), 
 			parent=wx.GetApp().GetTopWindow(), style=wx.ICON_ERROR
-		)
+		) if not quiet else None

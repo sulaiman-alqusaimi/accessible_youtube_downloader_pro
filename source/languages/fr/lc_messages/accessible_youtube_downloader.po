@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.1\n"
 "POT-Creation-Date: 2021-05-23 21:46+0400\n"
-"PO-Revision-Date: 2021-05-24 18:26+0400\n"
+"PO-Revision-Date: 2021-06-25 10:55+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: fr\n"
@@ -15,17 +15,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
 "X-Generator: Poedit 2.4.3\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n"
+"%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:48
 msgid ""
-"اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب "
-"للوصول سريعًا إلى أهم الخيارات المتاحة."
+"اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب للوصول سريعًا "
+"إلى أهم الخيارات المتاحة."
 msgstr ""
-"appuyez sur la touche Alt pour parcourir les options disponibles ou utilisez "
-"la touche de tabulation pour un accès rapide."
+"appuyez sur la touche Alt pour parcourir les options disponibles ou utilisez la touche "
+"de tabulation pour un accès rapide."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:49
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:64
@@ -99,11 +99,11 @@ msgstr "recherche des mises à jour en cours. veuillez patientez"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\application.py:6
 msgid ""
-"يهدف هذا البرنامج إلى تقديم أيسر السبل أمام المستخدم الكفيف للتصفح والتنزيل "
-"من خدمة استضافة الفيديوهات youtube"
+"يهدف هذا البرنامج إلى تقديم أيسر السبل أمام المستخدم الكفيف للتصفح والتنزيل من خدمة "
+"استضافة الفيديوهات youtube"
 msgstr ""
-"Cette application vise à fournir des solutions accessibles aux utilisateurs "
-"aveugles pour télécharger et parcourir le contenu YouTube"
+"Cette application vise à fournir des solutions accessibles aux utilisateurs aveugles "
+"pour télécharger et parcourir le contenu YouTube"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:12
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\search_dialog.py:14
@@ -125,11 +125,9 @@ msgid "فيديو"
 msgstr "Vidéo"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:24
-msgid ""
-"لقد تم الكشف عن وجود رابط ل{} يوتيوب في الحافظة. يرجى اختيار الإجراء المطلوب"
+msgid "لقد تم الكشف عن وجود رابط ل{} يوتيوب في الحافظة. يرجى اختيار الإجراء المطلوب"
 msgstr ""
-"il y a déjà un lien pour YouTube {} dans le presse-papiers. Que voulez-vous "
-"faire?"
+"il y a déjà un lien pour YouTube {} dans le presse-papiers. Que voulez-vous faire?"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\auto_detect_dialog.py:25
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:13
@@ -217,11 +215,10 @@ msgstr "Erreur"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:105
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:104
 msgid ""
-"لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال "
-"بالشبكة."
+"لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال بالشبكة."
 msgstr ""
-"Vous avez entré un lien incorrect. Veuillez essayer un autre lien ou essayez "
-"de vous assurer qu'il existe une connexion réseau."
+"Vous avez entré un lien incorrect. Veuillez essayer un autre lien ou essayez de vous "
+"assurer qu'il existe une connexion réseau."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\download_dialog.py:111
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\update_dialog.py:77
@@ -342,14 +339,15 @@ msgstr "Préférences générales"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:29
 msgid "اكتشاف الروابط تلقائيًا عند فتح البرنامج"
-msgstr ""
-"détecter automatiquement les liens YouTube lors du lancement du programme"
+msgstr "détecter automatiquement les liens YouTube lors du lancement du programme"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:30
+msgid "الكشف عن التحديثات الجديدة تلقائيًا عند فتح البرنامج"
+msgstr "vérifier automatiquement la nouvelle mise à jour lors du démarrage du programme"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:30
-msgid ""
-"تحميل المزيد من نتائج البحث عند الوصول إلى نهاية قائمة الفيديوهات المعروضة"
-msgstr ""
-"charger automatiquement plus de résultats à la fin de la liste de vidéos"
+msgid "تحميل المزيد من نتائج البحث عند الوصول إلى نهاية قائمة الفيديوهات المعروضة"
+msgstr "charger automatiquement plus de résultats à la fin de la liste de vidéos"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:33
 msgid "إعدادات التنزيل"
@@ -397,12 +395,11 @@ msgstr "alerte"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:109
 msgid ""
-"لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل "
-"البرنامج لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"
+"لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل البرنامج "
+"لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"
 msgstr ""
-"vous avez changé la langue du programme en {}, ce qui nécessite de "
-"redémarrer le programme pour appliquer les modifications. voulez-vous faire "
-"ça maintenant?"
+"vous avez changé la langue du programme en {}, ce qui nécessite de redémarrer le "
+"programme pour appliquer les modifications. voulez-vous faire ça maintenant?"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\update_dialog.py:17
 msgid "تنزيل التحديثات"
@@ -427,8 +424,8 @@ msgstr "La mise à jour est en cours de téléchargement {}"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\update_dialog.py:77
 msgid "اكتمل تنزيل التحديث بنجاح. يرجى الضغط على موافق للشروع في عملية التثبيت"
 msgstr ""
-"Le téléchargement de la mise à jour s'est terminé avec succès. Veuillez "
-"cliquer sur OK pour démarrer l'installation"
+"Le téléchargement de la mise à jour s'est terminé avec succès. Veuillez cliquer sur OK "
+"pour démarrer l'installation"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\update_dialog.py:79
 msgid "جاري تثبيت التحديث"
@@ -436,12 +433,12 @@ msgstr "Installation de mise à jour"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\update_dialog.py:82
 msgid ""
-"حدث خطأ ما عند محاولة فتح ملف التثبيت. فضلًا أعد محاولة التحديث مجددًا, أو "
-"تواصل مع المطور للإبلاغ بالمشكلة"
+"حدث خطأ ما عند محاولة فتح ملف التثبيت. فضلًا أعد محاولة التحديث مجددًا, أو تواصل مع "
+"المطور للإبلاغ بالمشكلة"
 msgstr ""
-"Une erreur s'est produite lors de la tentative d'ouverture du fichier "
-"d'installation. Veuillez réessayer la mise à jour, ou contacter le "
-"développeur pour signaler le problème"
+"Une erreur s'est produite lors de la tentative d'ouverture du fichier d'installation. "
+"Veuillez réessayer la mise à jour, ou contacter le développeur pour signaler le "
+"problème"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:24
 msgid "بايت"
@@ -580,8 +577,7 @@ msgstr "extraction de la description vidéo"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:278
 msgid "هناك خطأ ما أدى إلى منع جلب وصف الفيديو"
-msgstr ""
-"une erreur s'est produite lors de l'extraction de la description de la vidéo"
+msgstr "une erreur s'est produite lors de l'extraction de la description de la vidéo"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:18
 msgid "دقيقة واحدة"
@@ -642,11 +638,11 @@ msgstr "{}, {} et {}"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:71
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:87
 msgid ""
-"حدث خطأ ما أثناء الاتصال بخدمة العثور على التحديثات. تأكد من وجود اتصال "
-"مستقر بالإنترنت ثم عاود المحاولة"
+"حدث خطأ ما أثناء الاتصال بخدمة العثور على التحديثات. تأكد من وجود اتصال مستقر "
+"بالإنترنت ثم عاود المحاولة"
 msgstr ""
-"Une erreur s'est produite lors de la Recherche des mises à jour. Assurez-"
-"vous d'avoir une connexion Internet stable, puis réessayez"
+"Une erreur s'est produite lors de la Recherche des mises à jour. Assurez-vous d'avoir "
+"une connexion Internet stable, puis réessayez"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:78
 msgid "تحديث جديد"
@@ -654,9 +650,7 @@ msgstr "nouvelle mise à jour"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:78
 msgid "هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"
-msgstr ""
-"Une nouvelle mise à jour est disponible. VOULEZ-vous le télécharger "
-"maintenant?"
+msgstr "Une nouvelle mise à jour est disponible. VOULEZ-vous le télécharger maintenant?"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\utiles.py:84
 msgid "أنت تعمل الآن على آخر تحديث متوفر من التطبيق"
@@ -693,8 +687,8 @@ msgstr "options"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:91
 msgid "تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."
 msgstr ""
-"impossible d'obtenir des résultats de recherche en raison d'un "
-"dysfonctionnement de la connexion réseau."
+"impossible d'obtenir des résultats de recherche en raison d'un dysfonctionnement de la "
+"connexion réseau."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:117
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:131
@@ -753,9 +747,6 @@ msgstr "version"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:103
 msgid "طُوِر بواسطة"
 msgstr "développé par"
-
-msgid "بالمائة"
-msgstr "pour cent"
 
 msgid "اسم البرنامج"
 msgstr "nom de l'application"

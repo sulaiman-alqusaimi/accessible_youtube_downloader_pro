@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.0\n"
 "POT-Creation-Date: 2021-05-24 18:16+0400\n"
-"PO-Revision-Date: 2021-06-02 21:52+0300\n"
+"PO-Revision-Date: 2021-06-25 10:57+0400\n"
 "Last-Translator: \n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: en\n"
@@ -332,6 +332,10 @@ msgstr "genel ayarlar"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:29
 msgid "اكتشاف الروابط تلقائيًا عند فتح البرنامج"
 msgstr "programı başlatırken YouTube bağlantılarını otomatik olarak algıla"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:30
+msgid "الكشف عن التحديثات الجديدة تلقائيًا عند فتح البرنامج"
+msgstr "programı başlatırken otomatik olarak yeni güncellemeyi kontrol edin"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\dialogs\settings_dialog.py:30
 msgid ""
@@ -741,9 +745,6 @@ msgstr "versiyon"
 
 msgid "طُوِر بواسطة"
 msgstr "geliştiren"
-
-msgid "بالمائة"
-msgstr "yüzde"
 
 msgid "اسم البرنامج"
 msgstr "uygulama adı"

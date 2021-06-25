@@ -20,7 +20,8 @@ class Player:
 		self.manager = self.media.event_manager()
 		self.manager.event_attach(vlc.EventType.MediaPlayerEndReached,self.onEnd)
 		self.media.play()
-		self.volume = self.media.audio_get_volume()
+		self.volume = int(config_get("volume"))
+		self.media.audio_set_volume(self.volume)
 	def onEnd(self,event):
 		if event.type == vlc.EventType.MediaPlayerEndReached:
 			self.do_reset = True

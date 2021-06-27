@@ -6,8 +6,23 @@ import json
 import requests
 import wx
 import application
+import pafy
 
 
+
+def get_audio_stream(url):
+	media = pafy.new(url)
+	streams = media.audiostreams
+	for stream in streams[::-1]:
+		if stream.extension == "webm":
+			break
+	else:
+		stream = media.getbestaudio()
+	return stream
+
+def get_video_stream(url):
+	media = pafy.new(url)
+	return media.getbest()
 
 def time_formatting( t):
 	t = t.split(":")

@@ -1,8 +1,8 @@
 import wx
 from .download_dialog import DownloadDialog
 from media_player.media_gui import MediaGui
-import pafy
 from media_player.player import Player
+from utiles import get_video_stream
 
 
 
@@ -35,9 +35,8 @@ class AutoDetectDialog(wx.Dialog):
 		dlg.Show()
 		self.Destroy()
 	def onPlay(self, event):
-		media = pafy.new(self.url)
-		gui = MediaGui(self.Parent, media.title, self.url)
-		stream = media.getbest()
+		stream = get_video_stream(self.url)
+		gui = MediaGui(self.Parent, stream.title, self.url)
 		gui.Show()
 		self.Destroy()
 		gui.player = Player(stream.url, gui.GetHandle())

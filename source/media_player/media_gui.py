@@ -6,14 +6,14 @@ from download_handler.downloader import downloadAction
 from nvda_client.client import speak
 from settings_handler import config_get, config_set
 import application
-from utiles import direct_download
+from utiles import direct_download, get_audio_stream, get_video_stream
 from vlc import State, Media
 from gui.settings_dialog import SettingsDialog
 from gui.description import DescriptionDialog
 from gui.custom_controls import CustomButton
 from threading import Thread
 from youtube_dl import YoutubeDL
-import pafy
+
 
 
 
@@ -344,8 +344,7 @@ class MediaGui(wx.Frame):
 		if hasattr(self, "description"):
 			del self.description 
 		try:
-			media = pafy.new(url)
-			stream = media.getbest() if not self.audio_mode else media.getbestaudio()
+			stream = get_video_stream(url) if not self.audio_mode else get_audio_stream(url)
 		except:
 			return
 		self.player.set_media(stream.url)

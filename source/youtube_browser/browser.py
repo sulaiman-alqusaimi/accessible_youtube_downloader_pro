@@ -2,7 +2,7 @@
 import webbrowser
 from threading import Thread
 
-import pafy
+
 import pyperclip
 import wx
 from gui.download_progress import DownloadProgress
@@ -14,7 +14,7 @@ from media_player.player import Player
 from nvda_client.client import speak
 from settings_handler import config_get
 from youtube_browser.search_handler import Search
-from utiles import direct_download
+from utiles import direct_download, get_audio_stream, get_video_stream
 
 
 class YoutubeBrowser(wx.Frame):
@@ -116,9 +116,8 @@ class YoutubeBrowser(wx.Frame):
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
 		speak(_("جاري التشغيل"))
-		media = pafy.new(url)
+		stream = get_video_stream(url)
 		gui = MediaGui(self, title, url, True if self.search.get_views(number) is not None else False, results=self.search)
-		stream = media.getbest()
 		gui.Show()
 		self.Hide()
 		gui.player = Player(stream.url, gui.GetHandle())
@@ -130,9 +129,9 @@ class YoutubeBrowser(wx.Frame):
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
 		speak(_("جاري التشغيل"))
-		media = pafy.new(url)
+		stream = get_audio_stream(url)
 		gui = MediaGui(self, title, url, results=self.search, audio_mode=True)
-		stream = media.getbestaudio()
+
 		gui.Show()
 		self.Hide()
 		gui.player = Player(stream.url, gui.GetHandle())

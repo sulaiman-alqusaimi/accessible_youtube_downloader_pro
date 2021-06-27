@@ -3,7 +3,6 @@
 
 
 import application
-import pafy
 import pyperclip
 import wx
 import webbrowser
@@ -11,7 +10,7 @@ import os
 os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import subprocess
-from utiles import youtube_regexp, check_for_updates
+from utiles import youtube_regexp, check_for_updates, get_audio_stream, get_video_stream
 from nvda_client.client import speak
 import settings_handler
 from gui.auto_detect_dialog import AutoDetectDialog
@@ -110,9 +109,9 @@ class HomeScreen(wx.Frame):
 	def onPlay(self, event): # the event function called when the play youtube link is clicked
 		linkDlg = LinkDlg(self)
 		data = linkDlg.data # get the link and playing format from the dialog
-		media = pafy.new(data["link"]) # creating a media object from the pafy module using the givven link
-		gui = MediaGui(self, media.title, data["link"]) # initiating the media gui
-		stream = media.getbest() if not data["audio"] else media.getbestaudio() # get the user requested playing stream, either audio or video
+		url = data["link"]
+		stream = get_video_stream(url) if not data["audio"] else get_audio_stream(url)
+		gui = MediaGui(self, stream.title, data["link"]) # initiating the media gui
 		self.Hide()
 		gui.Show()
 		gui.player = Player(stream.url, gui.GetHandle()) # adding the custom vlc media player object to the media gui

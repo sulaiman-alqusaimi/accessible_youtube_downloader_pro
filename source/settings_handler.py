@@ -16,7 +16,8 @@ defaults = {
 	"conversion": 1,
 	"repeatetracks":False,
 	"defaultformat": 0,
-	"volume": 100
+	"volume": 100,
+	"continue": True,
 }
 
 def config_initialization():

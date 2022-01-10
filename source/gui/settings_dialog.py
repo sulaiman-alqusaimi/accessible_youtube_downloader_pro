@@ -40,6 +40,8 @@ class SettingsDialog(wx.Dialog):
 		self.mp3Quality = wx.Choice(downloadPreferencesBox, -1, choices=["96 kbps", "128 kbps", "192 kbps"], name="conversion")
 		self.mp3Quality.Selection = int(config_get("conversion"))
 		playerOptions = wx.StaticBox(panel, -1, _("إعدادات المشغل"))
+		self.continueWatching = wx.CheckBox(playerOptions, -1, _("متابعة المشاهدة بعد إغلاق الفيديو وتشغيله من جديد"), name="continue")
+		self.continueWatching.Value = config_get("continue")
 		self.repeateTracks = wx.CheckBox(playerOptions, -1, _("إعادة تشغيل المقطع تلقائيًا عند انتهائه"), name="repeatetracks")
 		self.repeateTracks.Value = config_get("repeatetracks")
 		okButton = wx.Button(panel, wx.ID_OK, _("مواف&ق"), name="ok_cancel")
@@ -86,6 +88,7 @@ class SettingsDialog(wx.Dialog):
 		self.autoLoadItem.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		self.autoCheckForUpdates.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		self.repeateTracks.Bind(wx.EVT_CHECKBOX, self.onCheck)
+		self.continueWatching.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		okButton.Bind(wx.EVT_BUTTON, self.onOk)
 		self.ShowModal()
 	def onCheck(self, event):

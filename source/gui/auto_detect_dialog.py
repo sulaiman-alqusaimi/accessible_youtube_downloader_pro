@@ -1,7 +1,6 @@
 import wx
 from .download_dialog import DownloadDialog
 from media_player.media_gui import MediaGui
-from media_player.player import Player
 from utiles import get_video_stream
 
 
@@ -36,8 +35,7 @@ class AutoDetectDialog(wx.Dialog):
 		self.Destroy()
 	def onPlay(self, event):
 		stream = get_video_stream(self.url)
-		gui = MediaGui(self.Parent, stream.title, self.url)
-		gui.Show()
+		gui = MediaGui(self.Parent, stream.title, stream, self.url)
 		self.Destroy()
-		gui.player = Player(stream.url, gui.GetHandle())
+
 

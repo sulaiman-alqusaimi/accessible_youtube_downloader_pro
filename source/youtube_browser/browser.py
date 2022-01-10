@@ -2,7 +2,7 @@
 import webbrowser
 from threading import Thread
 
-import pafy
+
 import pyperclip
 import wx
 from gui.download_progress import DownloadProgress
@@ -14,7 +14,8 @@ from media_player.player import Player
 from nvda_client.client import speak
 from settings_handler import config_get
 from youtube_browser.search_handler import Search
-from utiles import direct_download
+from utiles import direct_download, get_audio_stream, get_video_stream
+from database import Favorite, Continue
 
 
 class YoutubeBrowser(wx.Frame):
@@ -31,6 +32,7 @@ class YoutubeBrowser(wx.Frame):
 		self.loadMoreButton.Show(not config_get("autoload"))
 		self.playButton = wx.Button(self.panel, -1, _("تشغيل (enter)"), name="controls")
 		self.downloadButton = wx.Button(self.panel, -1, _("تنزيل"), name="controls")
+		self.favCheck = wx.CheckBox(self.panel, -1, _("تفضيل الفيديو"))
 		searchButton = wx.Button(self.panel, -1, _("بحث... (ctrl+f)"))
 		backButton = wx.Button(self.panel, -1, _("العودة إلى النافذة الرئيسية"))
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -48,6 +50,11 @@ class YoutubeBrowser(wx.Frame):
 		sizer.Add(sizer2, 1)
 		self.panel.SetSizer(sizer)
 		self.contextSetup()
+		results_shortcuts = wx.AcceleratorTable([
+			(0, wx.WXK_RETURN, self.videoPlayItemId),
+			(wx.ACCEL_CTRL, wx.WXK_RETURN, self.audioPlayItemId)
+		])
+		self.searchResults.SetAcceleratorTable(results_shortcuts)
 		menuBar = wx.MenuBar()
 		optionsMenu = wx.Menu()
 		settingsItem = optionsMenu.Append(-1, _("الإعدادات...\talt+s"))
@@ -65,10 +72,11 @@ class YoutubeBrowser(wx.Frame):
 		self.loadMoreButton.Bind(wx.EVT_BUTTON, self.onLoadMore)
 		self.playButton.Bind(wx.EVT_BUTTON, lambda event: self.playVideo())
 		self.downloadButton.Bind(wx.EVT_BUTTON, self.onDownload)
+		self.favCheck.Bind(wx.EVT_CHECKBOX, self.onFavorite)
 		searchButton.Bind(wx.EVT_BUTTON, self.onSearch)
 		backButton.Bind(wx.EVT_BUTTON, lambda event: self.backAction())
-		self.searchResults.Bind(wx.EVT_CHAR_HOOK, self.onHook)
-		self.searchResults.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
+		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
+
 		self.Bind(wx.EVT_LISTBOX_DCLICK, lambda event: self.playVideo(), self.searchResults)
 		self.searchResults.Bind(wx.EVT_LISTBOX, self.onListBox)
 		self.Bind(wx.EVT_SHOW, self.onShow)
@@ -78,6 +86,8 @@ class YoutubeBrowser(wx.Frame):
 			self.Parent.Hide()
 		else:
 			self.Destroy()
+		self.favorites = Favorite()
+		self.togleFavorite()
 
 	def searchAction(self, value=""):
 		dialog = SearchDialog(self, value=value)
@@ -116,12 +126,9 @@ class YoutubeBrowser(wx.Frame):
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
 		speak(_("جاري التشغيل"))
-		media = pafy.new(url)
-		gui = MediaGui(self, title, url, True if self.search.get_views(number) is not None else False, results=self.search)
-		stream = media.getbest()
-		gui.Show()
+		stream = get_video_stream(url)
+		gui = MediaGui(self, title, stream, url, True if self.search.get_views(number) is not None else False, results=self.search)
 		self.Hide()
-		gui.player = Player(stream.url, gui.GetHandle())
 
 	def playAudio(self):
 		number = self.searchResults.Selection
@@ -130,22 +137,19 @@ class YoutubeBrowser(wx.Frame):
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
 		speak(_("جاري التشغيل"))
-		media = pafy.new(url)
-		gui = MediaGui(self, title, url, results=self.search, audio_mode=True)
-		stream = media.getbestaudio()
-		gui.Show()
+		stream = get_audio_stream(url)
+		gui = MediaGui(self, title, stream, url, results=self.search, audio_mode=True)
 		self.Hide()
-		gui.player = Player(stream.url, gui.GetHandle())
+
 
 	def onHook(self, event):
-		if event.GetKeyCode() in (wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER): # if the enter key was pressed
-			self.playVideo() # play the video stream
 		event.Skip()
+		if event.KeyCode == wx.WXK_SPACE and self.search.get_type(self.searchResults.Selection) == "video" and self.FindFocus() == self.searchResults:
+			self.favCheck.Value = not self.favCheck.Value
+			self.onFavorite(None)
+		elif event.KeyCode == wx.WXK_BACK:
+			self.backAction()
 
-	def onKeyDown(self, event):
-		if event.controlDown and event.KeyCode == wx.WXK_SPACE:
-			self.playAudio()
-		event.Skip()
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()
 
@@ -170,8 +174,8 @@ class YoutubeBrowser(wx.Frame):
 		def popup():
 			if self.searchResults.Strings != []:
 				self.searchResults.PopupMenu(self.contextMenu)
-		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playVideo(), videoPlayItem)
-		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playAudio(), audioPlayItem)
+		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playVideo(), id=self.videoPlayItemId)
+		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playAudio(), id=self.audioPlayItemId)
 		self.searchResults.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelItem)
 		self.searchResults.Bind(wx.EVT_MENU, self.onDownloadChannel, downloadChannelItem)
 		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
@@ -250,6 +254,7 @@ class YoutubeBrowser(wx.Frame):
 	def onListBox(self, event):
 		self.togleDownload()
 		self.toglePlay()
+		self.togleFavorite()
 		if self.searchResults.Selection == len(self.searchResults.Strings)-1:
 			if not config_get("autoload"):
 				self.loadMoreButton.Enabled = True
@@ -295,6 +300,37 @@ class YoutubeBrowser(wx.Frame):
 			self.playButton.Enabled = True
 			for i in contextMenuIds:
 				self.contextMenu.Enable(i, True)
+	def onFavorite(self, event):
+		n = self.searchResults.Selection
+		url = self.search.get_url(n)
+		if self.favCheck.Value:
+			title = self.search.get_title(n)
+			display_title = f"{title}. {self.search.get_channel(n)['name']}"
+			channel_url = self.search.get_channel(n)['url']
+			channel_name = self.search.get_channel(n)['name']
+			live = 1 if not self.search.get_views(n) else 0
+			data = {"title": title, "display_title": display_title, "url": url, "live": live, "channel_url": channel_url, "channel_name": channel_name}
+			self.favorites.add_favorite(data)
+			speak(_("تمت إضافة الفيديو إلى قائمة المفضلة"))
+		else:
+			self.favorites.remove_favorite(url)
+			speak(_("تم حذف الفيديو من قائمة المفضلة"))
+
+	def togleFavorite(self):
+		n = self.searchResults.Selection
+		self.favCheck.Enabled = self.search.get_type(n) == "video"
+		if not self.favCheck.Enabled:
+			return
+		rows = self.favorites.get_all()
+		url = self.search.get_url(n)
+		def check_url(url):
+			for row in rows:
+				if url == row["url"]:
+					wx.CallAfter(self.favCheck.SetValue, True)
+					break
+			else:
+					wx.CallAfter(self.favCheck.SetValue, False)
+		Thread(target=check_url, args=[url]).start()
 
 	def directDownload(self):
 		n = self.searchResults.Selection

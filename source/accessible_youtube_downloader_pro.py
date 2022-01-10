@@ -3,7 +3,6 @@
 
 
 import application
-import pafy
 import pyperclip
 import wx
 import webbrowser
@@ -11,7 +10,7 @@ import os
 os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import subprocess
-from utiles import youtube_regexp, check_for_updates
+from utiles import youtube_regexp, check_for_updates, get_audio_stream, get_video_stream
 from nvda_client.client import speak
 import settings_handler
 from gui.auto_detect_dialog import AutoDetectDialog
@@ -20,13 +19,14 @@ from gui.link_dlg import LinkDlg
 from gui.settings_dialog import SettingsDialog
 from gui.text_viewer import Viewer
 from gui.custom_controls import CustomLabel
+from gui.favorites import Favorites
 from doc_handler import documentation_get
 from language_handler import init_translation
 from media_player.media_gui import MediaGui
 from media_player.player import Player
 from youtube_browser.browser import YoutubeBrowser
 from threading import Thread
-
+import database
 
 
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
@@ -47,6 +47,7 @@ class HomeScreen(wx.Frame):
 		youtubeBrowseButton = wx.Button(panel, -1, _("البحث في youtube\tctrl+f"), name="tab")
 		downloadFromLinkButton = wx.Button(panel, -1, _("التنزيل من خلال رابط\tctrl+d"), name="tab")
 		playYoutubeLinkButton = wx.Button(panel, -1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y"), name="tab")
+		favButton = wx.Button(panel, -1, _("الفيديوهات المفضلة	ctrl+shift+f"), name="tab")
 		# quick access buttons
 		sizer = wx.BoxSizer(wx.VERTICAL) # the main sizer
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL) # quick access buttons sizer
@@ -62,6 +63,7 @@ class HomeScreen(wx.Frame):
 		searchItem = mainMenu.Append(-1, _("البحث في youtube\tctrl+f")) # search in youtube item
 		downloadItem = mainMenu.Append(-1, _("التنزيل من خلال رابط\tctrl+d"))# download link item
 		playItem = mainMenu.Append(-1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y")) # play youtube link item
+		favoriteItem = mainMenu.Append(-1, _("الفيديوهات المفضلة	ctrl+shift+f"))
 		openDownloadingPathItem = mainMenu.Append(-1, _("فتح مجلد التنزيل\tctrl+p")) # open downloading folder item
 		settingsItem = mainMenu.Append(-1, _("الإعدادات...\talt+s")) # settings item
 		exitItem = mainMenu.Append(-1, _("خروج\tctrl+w")) # quit item
@@ -69,6 +71,7 @@ class HomeScreen(wx.Frame):
 			(wx.ACCEL_CTRL, ord("F"), searchItem.GetId()),
 			(wx.ACCEL_CTRL, ord("D"), downloadItem.GetId()),
 			(wx.ACCEL_CTRL, ord("Y"), playItem.GetId()),
+			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("F"), favoriteItem.GetId()),
 			(wx.ACCEL_CTRL, ord("P"), openDownloadingPathItem.GetId()),
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), exitItem.GetId())
@@ -93,6 +96,8 @@ class HomeScreen(wx.Frame):
 		downloadFromLinkButton.Bind(wx.EVT_BUTTON, self.onDownload)
 		self.Bind(wx.EVT_MENU, self.onPlay, playItem)
 		playYoutubeLinkButton.Bind(wx.EVT_BUTTON, self.onPlay)
+		self.Bind(wx.EVT_MENU, self.onFavorite, favoriteItem)
+		favButton.Bind(wx.EVT_BUTTON, self.onFavorite)
 		self.Bind(wx.EVT_MENU, self.onOpen, openDownloadingPathItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_MENU, lambda event: wx.Exit(), exitItem)
@@ -103,6 +108,7 @@ class HomeScreen(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("https://twitter.com/suleiman3ahmed"), twitterItem)
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_SHOW, self.onShow)
+		self.Bind(wx.EVT_CLOSE, self.onClose)
 		self.Show()
 		self.detectFromClipboard(settings_handler.config_get("autodetect"))
 		if settings_handler.config_get("checkupdates"):
@@ -110,12 +116,11 @@ class HomeScreen(wx.Frame):
 	def onPlay(self, event): # the event function called when the play youtube link is clicked
 		linkDlg = LinkDlg(self)
 		data = linkDlg.data # get the link and playing format from the dialog
-		media = pafy.new(data["link"]) # creating a media object from the pafy module using the givven link
-		gui = MediaGui(self, media.title, data["link"]) # initiating the media gui
-		stream = media.getbest() if not data["audio"] else media.getbestaudio() # get the user requested playing stream, either audio or video
+		url = data["link"]
+		stream = get_video_stream(url) if not data["audio"] else get_audio_stream(url)
+		gui = MediaGui(self, stream.title, stream, data["link"]) # initiating the media gui
 		self.Hide()
-		gui.Show()
-		gui.player = Player(stream.url, gui.GetHandle()) # adding the custom vlc media player object to the media gui
+
 	def onDownload(self, event): # the event function for the link downloading item to show the appropriate dialog
 		dlg = DownloadDialog(self)
 		dlg.Show()
@@ -128,6 +133,9 @@ class HomeScreen(wx.Frame):
 		match = youtube_regexp(clip_content)
 		if match is not None:
 			AutoDetectDialog(self, clip_content)
+	def onFavorite(self, event):
+		Favorites(self)
+		self.Hide()
 	def onOpen(self, event):
 		path = settings_handler.config_get("path")
 		if not os.path.exists(path):
@@ -159,6 +167,9 @@ class HomeScreen(wx.Frame):
 {_('طُوِر بواسطة')}: {application.author}.
 {_('الوصف: ')}{_(application.describtion)}."""
 		wx.MessageBox(about, _("حول"), parent=self)
+	def onClose(self, event):
+		database.disconnect()
+		wx.Exit()
 
 app = wx.App()
 HomeScreen()

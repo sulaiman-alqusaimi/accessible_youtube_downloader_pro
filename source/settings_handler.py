@@ -15,6 +15,7 @@ defaults = {
 	"seek": 5,
 	"conversion": 1,
 	"repeatetracks":False,
+	"autonext": False,
 	"defaultformat": 0,
 	"volume": 100,
 	"continue": True,

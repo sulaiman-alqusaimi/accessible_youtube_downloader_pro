@@ -1,18 +1,21 @@
 
 # the main module 
 
+import os
+os.chdir	(os.path.abspath(os.path.dirname(__file__)))
+os.add_dll_directory(os.getcwd())
+import settings_handler
+settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
 import database
 import application
 import pyperclip
 import wx
 import webbrowser
-import os
-os.chdir	(os.path.abspath(os.path.dirname(__file__)))
-os.add_dll_directory(os.getcwd())
+
 import subprocess
 from utiles import youtube_regexp, check_for_updates, get_audio_stream, get_video_stream
 from nvda_client.client import speak
-import settings_handler
+
 from gui.activity_dialog import LoadingDialog
 from gui.auto_detect_dialog import AutoDetectDialog
 from gui.download_dialog import DownloadDialog

@@ -161,14 +161,14 @@ class PlaylistDialog(wx.Dialog):
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
 		dlg = DownloadProgress(self.Parent, title)
-		direct_download(0, url, dlg, "video", os.path.join(config_get("path"), self.Title))
+		direct_download(0, url, dlg, "video", os.path.join(config_get("path"), self.title))
 
 	def directDownload(self):
 		n = self.videosBox.Selection
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
-		direct_download(int(config_get('defaultformat')), url, dlg, "video", os.path.join(config_get("path"), self.Title))
+		direct_download(int(config_get('defaultformat')), url, dlg, "video", os.path.join(config_get("path"), self.title))
 
 
 	def onM4aDownload(self, event):
@@ -176,14 +176,14 @@ class PlaylistDialog(wx.Dialog):
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
-		direct_download(1, url, dlg, "video", os.path.join(config_get("path"), self.Title))
+		direct_download(1, url, dlg, "video", os.path.join(config_get("path"), self.title))
 
 	def onMp3Download(self, event):
 		n = self.videosBox.Selection
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
-		direct_download(2, url, dlg, "video", os.path.join(config_get("path"), self.Title))
+		direct_download(2, url, dlg, "video", os.path.join(config_get("path"), self.title))
 
 	def onDownload(self, event):
 		downloadMenu = wx.Menu()

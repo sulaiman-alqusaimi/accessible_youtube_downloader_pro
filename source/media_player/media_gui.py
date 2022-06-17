@@ -1,4 +1,5 @@
 import webbrowser
+from numpy import SHIFT_DIVIDEBYZERO
 import pyperclip
 import wx
 from gui.download_progress import DownloadProgress
@@ -11,8 +12,9 @@ from vlc import State, Media
 from gui.settings_dialog import SettingsDialog
 from gui.description import DescriptionDialog
 from gui.custom_controls import CustomButton
+from gui.comments_dialog import CommentsDialog
+from youtubesearchpython import Video, Comments
 from threading import Thread
-from youtube_dl import YoutubeDL
 from database import Continue
 from media_player.player import Player
 
@@ -36,6 +38,7 @@ class MediaGui(wx.Frame):
 		self.seek = int(config_get("seek"))
 		self.results = results
 		self.audio_mode = audio_mode
+		self.path = config_get('path')
 		self.Centre()
 		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
@@ -71,6 +74,8 @@ class MediaGui(wx.Frame):
 		directDownloadItem = trackOptions.Append(-1, _("التنزيل المباشر...\tctrl+d"))
 		directDownloadItem.Enable(can_download)
 		descriptionItem = trackOptions.Append(-1, _("وصف الفيديو\tctrl+shift+d"))
+		commentsItem = trackOptions.Append(-1, _("التعليقات...\tctrl+shift+j"))
+		commentsItem.Enable(can_download)
 		copyItem = trackOptions.Append(-1, _("نسخ رابط المقطع\tctrl+l"))
 		browserItem = trackOptions.Append(-1, _("الفتح من خلال متصفح الإنترنت\tctrl+b"))
 		settingsItem = trackOptions.Append(-1, _("الإعدادات.\talt+s"))
@@ -79,7 +84,8 @@ class MediaGui(wx.Frame):
 			(wx.ACCEL_CTRL|wx.ACCEL_SHIFT, ord("D"), descriptionItem.GetId()),
 			(wx.ACCEL_CTRL, ord("L"), copyItem.GetId()),
 			(wx.ACCEL_CTRL, ord("B"), browserItem.GetId()),
-			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId())
+			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
+			(wx.ACCEL_CTRL + wx.ACCEL_SHIFT, ord("J"), commentsItem.GetId())
 ])
 		self.SetAcceleratorTable(hotKeys)
 		menuBar.Append(trackOptions, _("خيارات المقطع"))
@@ -89,6 +95,7 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
 		self.Bind(wx.EVT_MENU, self.onDirect, directDownloadItem)
 		self.Bind(wx.EVT_MENU, self.onDescription, descriptionItem)
+		self.Bind(wx.EVT_MENU, self.onComments, commentsItem)
 		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onBrowser, browserItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
@@ -109,10 +116,11 @@ class MediaGui(wx.Frame):
 		nextButton.Bind(wx.EVT_BUTTON, lambda event: self.next())
 		self.Bind(wx.EVT_CLOSE, lambda event: self.closeAction())
 		self.Show()
-		self.player = Player(stream.url, self.GetHandle())
+		self.player = Player(stream.url, self.GetHandle(), self)
 		if self.url in Continue.get_all() and config_get("continue"):
 			self.player.media.set_position(Continue.get_all()[url])
 		Thread(target=self.extract_description).start()
+		Thread(target=self.extract_comments).start()
 
 
 	def playAction(self):
@@ -255,12 +263,25 @@ class MediaGui(wx.Frame):
 				config_set("repeatetracks", False)
 
 				speak(_("التكرار متوقف"))
-
 			else:
 
 				config_set("repeatetracks", True)
 
 				speak(_("التكرار مفعل"))
+				config_set("autonext", False)
+		elif event.KeyCode == ord("N"):
+
+			if config_get("autonext"):
+
+				config_set("autonext", False)
+
+				speak(_("تشغيل المقطع التالي تلقائيًا متوقف"))
+			else:
+
+				config_set("autonext", True)
+
+				speak(_("تشغيل المقطع التالي تلقائيًا مفعل"))
+				config_set("repeatetracks", False)
 
 		elif event.KeyCode in (wx.WXK_RETURN, wx.WXK_NUMPAD_ENTER):
 
@@ -310,6 +331,8 @@ class MediaGui(wx.Frame):
 		self.player.media.stop()
 		if hasattr(self, "description"):
 			del self.description 
+		if hasattr(self, "comments"):
+			del self.comments
 		try:
 			stream = get_video_stream(url) if not self.audio_mode else get_audio_stream(url)
 		except:
@@ -321,13 +344,18 @@ class MediaGui(wx.Frame):
 		self.player.media.play()
 		self.player.media.audio_set_volume(self.player.volume)
 		Thread(target=self.extract_description).start()
+		Thread(target=self.extract_comments).start()
 
 	def next(self):
 		if self.results is None:
 			return
-		if not isinstance(self.results, list):
+		if hasattr(self.Parent, 'searchResults'):
 			self.Parent.searchResults.Selection += 1
 			index = self.Parent.searchResults.Selection
+		elif hasattr(self.Parent, 'videosBox'):
+			self.Parent.videosBox.Selection += 1
+			index = self.Parent.videosBox.Selection
+
 		else:
 			self.Parent.favList.Selection += 1
 			index = self.Parent.favList.Selection
@@ -337,23 +365,29 @@ class MediaGui(wx.Frame):
 		self.changeTrack(index)
 		if index >= self.results.count-2:
 			def load_more():
-				if self.results.load_more():
-					wx.CallAfter(self.Parent.searchResults.Append, self.results.get_last_titles())
+				if hasattr(self.Parent, 'searchResults'):
+					if self.results.load_more():
+						wx.CallAfter(self.Parent.searchResults.Append, self.results.get_last_titles())
+				else:
+					if self.results.next():
+						wx.CallAfter(self.Parent.videosBox.Append, self.results.get_new_titles())
+
 			Thread(target=load_more).start()
 
 	def previous(self):
 		if self.results is None:
 			return
-		if not isinstance(self.results, list):
-			if not self.Parent.searchResults.Selection == 0:
-				self.Parent.searchResults.Selection -= 1
-				index = self.Parent.searchResults.Selection
-				self.changeTrack(index)
+		if hasattr(self.Parent, 'searchResults'):
+			videosBox = self.Parent.searchResults
+		elif hasattr(self.Parent, 'videosBox'):
+			videosBox = self.Parent.videosBox
 		else:
-			if not self.Parent.favList.Selection == 0:
-				self.Parent.favList.Selection -= 1
-				index = self.Parent.favList.Selection
-				self.changeTrack(index)
+			videosBox = self.Parent.favList
+
+		if not videosBox.Selection == 0:
+			videosBox.Selection -= 1
+			index = videosBox.Selection
+			self.changeTrack(index)
 
 	def onCopy(self, event):
 		pyperclip.copy(self.url)
@@ -364,42 +398,60 @@ class MediaGui(wx.Frame):
 		webbrowser.open(self.url)
 
 	def onM4aDownload(self, event):
-		dlg = DownloadProgress(self.Parent.Parent, self.title)
-		direct_download(1, self.url, dlg)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), self.title)
+		direct_download(1, self.url, dlg, path=self.path)
 
 	def onMp3Download(self, event):
-		dlg = DownloadProgress(self.Parent.Parent, self.title)
-		direct_download(2, self.url, dlg)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), self.title)
+		direct_download(2, self.url, dlg, path=self.path)
+
 	def onVideoDownload(self, event):
-		dlg = DownloadProgress(self.Parent.Parent, self.title)
-		direct_download(0, self.url, dlg)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), self.title)
+		direct_download(0, self.url, dlg, path=self.path)
 
 
 	def onDirect(self, event):
-		dlg = DownloadProgress(self.Parent.Parent, self.title)
-		direct_download(int(config_get('defaultformat')), self.url, dlg)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), self.title)
+		direct_download(int(config_get('defaultformat')), self.url, dlg, path=self.path)
 
 	def onDescription(self, event):
 		if hasattr(self, "description"):
 			DescriptionDialog(self, self.description)
 			return
 		def extract_description():
-			with YoutubeDL({"quiet": True}) as extractor:
-				try:
-					speak(_("يتم الآن جلب وصف الفيديو"))
-					info = extractor.extract_info(self.url, download=False)
-				except:
-					speak(_("هناك خطأ ما أدى إلى منع جلب وصف الفيديو"))
-					return
-				self.description = info['description']
+			try:
+				speak(_("يتم الآن جلب وصف الفيديو"))
+				info = Video.get(self.url)
+			except:
+				speak(_("هناك خطأ ما أدى إلى منع جلب وصف الفيديو"))
+				return
+			self.description = info['description']
 			wx.CallAfter(DescriptionDialog, self, self.description)
 		Thread(target=extract_description).start()
 
 	def extract_description(self):
-		with YoutubeDL({"quiet": True}) as extractor:
-			try:
-				info = extractor.extract_info(self.url, download=False)
-			except:
-				return
-			self.description = info['description']
+		try:
+			info = Video.get(self.url)
+		except:
+			return
+		self.description = info['description']
+	def extract_comments(self):
+		if not self.stream and not hasattr(self, "comments"):
+			self.comments = Comments(self.url, 30)
+	def onComments(self, event):
+		if self.stream:
+			speak(_("لا يمكن جلب التعليقات لهذا الفيديو"))
 
+			return
+		if not hasattr(self, "comments"):
+			speak(_("يتم الآن جلب التعليقات"))
+			def extract():
+				try:
+					self.extract_comments()
+				except:
+					speak(_("لم يتم العثور على تعليقات في هذا المقطع"))
+					return
+				wx.CallAfter(CommentsDialog, self, self.comments)
+			Thread(target=extract).start()
+		else:
+			CommentsDialog(self, self.comments)

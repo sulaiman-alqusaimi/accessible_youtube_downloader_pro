@@ -6,6 +6,7 @@ from media_player.media_gui import MediaGui
 from nvda_client.client import speak
 import pyperclip
 from gui.download_progress import DownloadProgress
+from .activity_dialog import LoadingDialog
 from settings_handler import config_get
 import webbrowser
 
@@ -33,7 +34,7 @@ class Favorites(wx.Frame):
 				(0, wx.WXK_RETURN, self.videoPlayItemId),
 				(wx.ACCEL_CTRL, wx.WXK_RETURN, self.audioPlayItemId),
 				(wx.ACCEL_CTRL, ord("D"), self.directDownloadId),
-			
+			(wx.ACCEL_CTRL, ord("L"), self.copyItemId),
 			])
 			self.favList.SetAcceleratorTable(hotkeys)
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -74,8 +75,7 @@ class Favorites(wx.Frame):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
-		speak(_("جاري التشغيل"))
-		stream = get_video_stream(url)
+		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream, url).res
 		gui = MediaGui(self, title, stream, url, True if not self.rows[n]["live"] else False, self.rows)
 		self.Hide()
 
@@ -83,8 +83,7 @@ class Favorites(wx.Frame):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
-		speak(_("جاري التشغيل"))
-		stream = get_audio_stream(url)
+		stream = LoadingDialog(self, _("جاري التشغيل"), get_audio_stream, url).res
 		gui = MediaGui(self, title, stream, url, audio_mode=True, results=self.rows)
 		self.Hide()
 
@@ -121,6 +120,8 @@ class Favorites(wx.Frame):
 		self.favList.Bind(wx.EVT_MENU, lambda e: self.playAudio(), id=self.audioPlayItemId)
 		self.favList.Bind(wx.EVT_MENU, self.onCopy, id=self.copyItemId)
 		self.favList.Bind(wx.EVT_MENU, lambda e: self.directDownload(), id=self.directDownloadId)
+		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
+
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
 		self.favList.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelItem)
@@ -141,7 +142,7 @@ class Favorites(wx.Frame):
 		title = self.rows[n]["channel_name"]
 		url = self.rows[n]["channel_url"]
 		download_type = "channel"
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 
 
@@ -155,7 +156,7 @@ class Favorites(wx.Frame):
 
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, "video")
 
 	def onM4aDownload(self, event):
@@ -163,7 +164,7 @@ class Favorites(wx.Frame):
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
 
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(1, url, dlg, "video")
 
 
@@ -171,14 +172,14 @@ class Favorites(wx.Frame):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(2, url, dlg, "video")
 
 	def onVideoDownload(self, event):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(0, url, dlg, "video")
 
 

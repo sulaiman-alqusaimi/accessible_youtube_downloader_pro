@@ -1,5 +1,55 @@
-from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch, PlaylistsSearch
+from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch, PlaylistsSearch, Playlist
 from utiles import time_formatting
+
+
+
+class PlaylistResult:
+	def __init__(self, url):
+		self.url = url
+		self.playlist = Playlist(url)
+		self.videos = []
+		self.count = 0
+		self.parse()
+
+	def parse(self):
+		for vid in self.playlist.videos[self.count:]:
+			video = {
+				"title": vid["title"],
+				"url": f"https://youtube.com/watch?v={vid['id']}",
+				"duration": time_formatting(vid["duration"]),
+				"channel": {
+					"name": vid["channel"]["name"], 
+					"url": f"https://www.youtube.com/channel/{vid['channel']['id']}"},
+
+			}
+			self.videos.append(video)
+			self.count = len(self.videos)
+
+	def next(self):
+		if not self.playlist.hasMoreVideos:
+			return
+		self.playlist.getNextVideos()
+		current = self.count
+		self.parse()
+		self.new_videos = self.count-current
+
+		return True
+	def get_new_titles(self):
+		titles = self.get_display_titles()
+		return titles[len(titles)-self.new_videos:len(titles)]
+
+	def get_title(self, n):
+		return self.videos[n]["title"]
+	def get_display_titles(self):
+		titles = []
+		for vid in self.videos:
+			title = [vid['title'], _("المدة: {}").format(vid['duration']), f"{_('بواسطة')} {vid['channel']['name']}"]
+			titles.append(", ".join(title))
+		return titles
+	def get_url(self, n):
+		return self.videos[n]["url"]
+
+
 
 
 

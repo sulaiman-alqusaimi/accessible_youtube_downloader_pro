@@ -57,7 +57,7 @@ class DescriptionDialog(wx.Dialog):
 
 	def onTxt(self, event):
 		path = wx.SaveFileSelector("", ".txt", parent=self)
-		if not path:
+		if path:
 			with open(path, "w", encoding="utf-8") as file:
 				file.write(self.content)
 		self.contentBox.SetFocus()

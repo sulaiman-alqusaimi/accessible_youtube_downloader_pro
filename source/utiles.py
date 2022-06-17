@@ -11,7 +11,7 @@ import pafy
 
 
 
-
+resolution = "640x360"
 def get_audio_stream(url):
 	media = pafy.new(url)
 	streams = media.audiostreams
@@ -24,7 +24,12 @@ def get_audio_stream(url):
 
 def get_video_stream(url):
 	media = pafy.new(url)
-	return media.getbest()
+	for stream in media.streams:
+		if stream.extension == "mp4" and stream.resolution == resolution:
+			break
+	else:
+		stream = media.getbest()
+	return stream
 
 def time_formatting( t):
 	t = t.split(":")
@@ -68,8 +73,7 @@ def youtube_regexp(string):
 	pattern = re.compile("^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$") # youtube links regular expression pattern
 	return pattern.search(string)
 
-def direct_download(option, url, dlg, download_type="video"):
-	path = config_get("path")
+def direct_download(option, url, dlg, download_type="video", path=config_get("path")):
 	if option == 0:
 		format = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"
 	else:

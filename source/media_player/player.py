@@ -10,8 +10,9 @@ instance = vlc.Instance()
 media_player = instance.media_player_new()
 
 class Player:
-	def __init__(self,filename, hwnd):
+	def __init__(self,filename, hwnd, window=None):
 		self.do_reset = False
+		self.window = window
 		self.filename = filename
 		self.hwnd = hwnd
 		self.media = media_player
@@ -48,8 +49,11 @@ class Player:
 	def reset(self):
 		self.do_reset = False
 		self.media.set_media(self.media.get_media())
-		if config_get("repeatetracks"):
+		if config_get("repeatetracks") and not config_get('autonext'):
 			self.media.play()
+		elif config_get('autonext') and not config_get('repeatetracks'):
+			self.window.next()
+
 
 	def set_media(self, m):
 		media = instance.media_new(m)

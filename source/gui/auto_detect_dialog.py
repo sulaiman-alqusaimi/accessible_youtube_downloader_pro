@@ -1,5 +1,8 @@
 import wx
+
+from .playlist_dialog import PlaylistDialog
 from .download_dialog import DownloadDialog
+
 from media_player.media_gui import MediaGui
 from utiles import get_video_stream
 
@@ -23,19 +26,29 @@ class AutoDetectDialog(wx.Dialog):
 		msg = wx.StaticText(panel, -1, _("لقد تم الكشف عن وجود رابط ل{} يوتيوب في الحافظة. يرجى اختيار الإجراء المطلوب").format(link_type(url)))
 		downloadButton = wx.Button(panel, -1, _("تنزيل"))
 		playButton = wx.Button(panel, -1, _("تشغيل"))
-		if link_type(url) != _("فيديو"):
+
+		if link_type(self.url) == _("قائمة تشغيل"):
+			playButton.Label = _("فتح...")
+		elif link_type(url) != _("فيديو"):
 			playButton.Disable() 
 		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("إلغاء"))
 		downloadButton.Bind(wx.EVT_BUTTON, self.onDownload)
 		playButton.Bind(wx.EVT_BUTTON, self.onPlay)
 		self.ShowModal()
 	def onDownload(self, event):
-		dlg = DownloadDialog(self.Parent, self.url)
+		dlg = DownloadDialog(wx.GetApp().GetTopWindow(), self.url)
 		dlg.Show()
 		self.Destroy()
 	def onPlay(self, event):
-		stream = get_video_stream(self.url)
-		gui = MediaGui(self.Parent, stream.title, stream, self.url)
+		if link_type(self.url) == _("قائمة تشغيل"):
+			PlaylistDialog(self.Parent, self.url)
+			self.Destroy()
+			return
+		from .activity_dialog import LoadingDialog
+		parent = self.Parent
 		self.Destroy()
+		stream = LoadingDialog(parent, _("جاري التشغيل"), get_video_stream, self.url).res
+		gui = MediaGui(parent, stream.title, stream, self.url)
+
 
 

@@ -116,7 +116,7 @@ class DownloadDialog(wx.Frame):
 
 	def onDownload(self, event):
 		config_set("defaultaudio", str(self.convertingFormat.Selection))
-		self.downloadFrame = DownloadProgress(self)
+		self.downloadFrame = DownloadProgress(wx.GetApp().GetTopWindow())
 		t = Thread(target=self.downloadingAction)
 		t.daemon = True
 		t.start()

@@ -1,5 +1,6 @@
 
-import youtube_dl
+import yt_dlp as youtube_dl
+
 import wx
 import re
 from settings_handler import config_get
@@ -40,10 +41,10 @@ class Downloader:
 	def my_hook(self, data):
 		if data['status'] == 'finished':
 			return
-		percent = data["_percent_str"] # extracting progress value from the data variable which is passed by the youtube downloader object
-		percent = percent.replace("%", "") # remove simbles from the percentage value
-		percent = percent.strip() # remove spaces
-		percent = float(percent) # convert the progress value to float, the reason why we did not converted directly to integer because it is impocible to convert string containing a floating point number to integer
+		percent = (data["downloaded_bytes"] / data["total_bytes"]) * 100
+		#percent = percent.replace("%", "") # remove simbles from the percentage value
+		#percent = percent.strip() # remove spaces
+		#percent = float(percent) # convert the progress value to float, the reason why we did not converted directly to integer because it is impocible to convert string containing a floating point number to integer
 		percent = int(percent) # converted to integer
 		total = self.get_proper_count(data["total_bytes"])
 		downloaded = self.get_proper_count(data["downloaded_bytes"])
@@ -97,14 +98,19 @@ class Downloader:
 
 def downloadAction(url, path, dlg, downloading_format, monitor, monitor1, convert=False, folder=False):
 	downloader = Downloader(url, path, downloading_format, monitor, monitor1, convert=convert, folder=folder)
-	try:
-		wx.CallAfter(dlg.Show)
-		downloader.download()
-	except youtube_dl.utils.DownloadError:
-		wx.MessageBox(_("لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR, parent=dlg)
+	wx.CallAfter(dlg.Show)
+	def attempt(at):
+		try:
+			downloader.download()
+			return True
+		except youtube_dl.utils.DownloadError:
+			if at < 3:
+				attempt(at+1)
+			else:
+				wx.MessageBox(_("لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR, parent=dlg)
+				wx.CallAfter(dlg.Destroy)
+	if attempt(0):
+		wx.MessageBox(_("اكتمل التنزيل بنجاح"), _("نجاح"), parent=dlg)
 		wx.CallAfter(dlg.Destroy)
-		return
-	wx.MessageBox(_("اكتمل التنزيل بنجاح"), _("نجاح"), parent=dlg)
-	wx.CallAfter(dlg.Destroy)
 
 

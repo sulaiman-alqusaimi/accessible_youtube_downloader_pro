@@ -3,6 +3,6 @@ requests
 pafy
 pyperclip
 python-vlc
-youtube-dl
+yt-dlp
 youtube-search-python
 wxpython

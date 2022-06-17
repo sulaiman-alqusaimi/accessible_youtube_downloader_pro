@@ -43,6 +43,8 @@ class SettingsDialog(wx.Dialog):
 		self.continueWatching = wx.CheckBox(playerOptions, -1, _("متابعة المشاهدة بعد إغلاق الفيديو وتشغيله من جديد"), name="continue")
 		self.continueWatching.Value = config_get("continue")
 		self.repeateTracks = wx.CheckBox(playerOptions, -1, _("إعادة تشغيل المقطع تلقائيًا عند انتهائه"), name="repeatetracks")
+		self.autoPlayNext = wx.CheckBox(playerOptions, -1, _("الانتقال إلى المقطع التالي تلقائيًا عند انتهاء المقطع الحالي"), name="autonext")
+		self.autoPlayNext.Value = config_get('autonext')
 		self.repeateTracks.Value = config_get("repeatetracks")
 		okButton = wx.Button(panel, wx.ID_OK, _("مواف&ق"), name="ok_cancel")
 		okButton.SetDefault()
@@ -88,11 +90,14 @@ class SettingsDialog(wx.Dialog):
 		self.autoLoadItem.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		self.autoCheckForUpdates.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		self.repeateTracks.Bind(wx.EVT_CHECKBOX, self.onCheck)
+		self.autoPlayNext.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		self.continueWatching.Bind(wx.EVT_CHECKBOX, self.onCheck)
 		okButton.Bind(wx.EVT_BUTTON, self.onOk)
 		self.ShowModal()
 	def onCheck(self, event):
 		obj = event.EventObject
+		if all((self.repeateTracks.Value, self.autoPlayNext.Value)) and obj in (self.repeateTracks, self.autoPlayNext):
+			self.repeateTracks.Value = self.autoPlayNext.Value = False
 		if obj.Name in self.preferences and config_get(obj.Name) == obj.Value:
 			del self.preferences[obj.Name]
 		elif not obj.Value == config_get(obj.Name):

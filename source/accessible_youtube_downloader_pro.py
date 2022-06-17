@@ -1,7 +1,7 @@
 
 # the main module 
 
-
+import database
 import application
 import pyperclip
 import wx
@@ -13,6 +13,7 @@ import subprocess
 from utiles import youtube_regexp, check_for_updates, get_audio_stream, get_video_stream
 from nvda_client.client import speak
 import settings_handler
+from gui.activity_dialog import LoadingDialog
 from gui.auto_detect_dialog import AutoDetectDialog
 from gui.download_dialog import DownloadDialog
 from gui.link_dlg import LinkDlg
@@ -26,7 +27,7 @@ from media_player.media_gui import MediaGui
 from media_player.player import Player
 from youtube_browser.browser import YoutubeBrowser
 from threading import Thread
-import database
+
 
 
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
@@ -117,7 +118,7 @@ class HomeScreen(wx.Frame):
 		linkDlg = LinkDlg(self)
 		data = linkDlg.data # get the link and playing format from the dialog
 		url = data["link"]
-		stream = get_video_stream(url) if not data["audio"] else get_audio_stream(url)
+		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream if not data["audio"] else get_audio_stream, url).res
 		gui = MediaGui(self, stream.title, stream, data["link"]) # initiating the media gui
 		self.Hide()
 
@@ -158,8 +159,10 @@ class HomeScreen(wx.Frame):
 			return
 		Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content).ShowModal()
 	def onCheckForUpdates(self, event):
-		speak(_("جاري البحث عن التحديثات. يرجى الانتظار"))
-		check_for_updates()
+		from gui.activity_dialog import LoadingDialog
+		# speak(_("جاري البحث عن التحديثات. يرجى الانتظار"))
+		LoadingDialog(self, _("جاري البحث عن التحديثات. يرجى الانتظار"), check_for_updates)
+		self.instruction.SetFocus()
 
 	def onAbout(self, event):
 		about = f"""{_('اسم البرنامج')}: {application.name}.

@@ -3,7 +3,6 @@ import pyperclip
 from utiles import youtube_regexp
 
 
-
 class LinkDlg(wx.Dialog):
 	def __init__(self, parent):
 		wx.Dialog.__init__(self, parent=parent, title=_("ادخل رابط الفيديو لتشغيله من خلال مشغل البرنامج"))

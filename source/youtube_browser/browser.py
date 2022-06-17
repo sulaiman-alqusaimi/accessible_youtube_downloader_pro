@@ -8,6 +8,9 @@ import wx
 from gui.download_progress import DownloadProgress
 from gui.search_dialog import SearchDialog
 from gui.settings_dialog import SettingsDialog
+from gui.playlist_dialog import PlaylistDialog
+from gui.activity_dialog import LoadingDialog
+
 from download_handler.downloader import downloadAction
 from media_player.media_gui import MediaGui
 from media_player.player import Player
@@ -97,7 +100,7 @@ class YoutubeBrowser(wx.Frame):
 			self.togleControls()
 			return
 		try:
-			self.search = Search(query, filter)
+			self.search = LoadingDialog(self, "جاري البحث", Search, query, filter).res
 		except:
 			wx.MessageBox(_("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR)
 			self.searchAction(query)
@@ -122,11 +125,13 @@ class YoutubeBrowser(wx.Frame):
 	def playVideo(self):
 		number = self.searchResults.Selection
 		if self.search.get_type(number) == "playlist":
+
+			PlaylistDialog(self, self.search.get_url(number))
 			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
-		speak(_("جاري التشغيل"))
-		stream = get_video_stream(url)
+
+		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream, url).res
 		gui = MediaGui(self, title, stream, url, True if self.search.get_views(number) is not None else False, results=self.search)
 		self.Hide()
 
@@ -136,8 +141,7 @@ class YoutubeBrowser(wx.Frame):
 			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
-		speak(_("جاري التشغيل"))
-		stream = get_audio_stream(url)
+		stream = LoadingDialog(self, _("جاري التشغيل"), get_audio_stream, url).res
 		gui = MediaGui(self, title, stream, url, results=self.search, audio_mode=True)
 		self.Hide()
 
@@ -147,7 +151,7 @@ class YoutubeBrowser(wx.Frame):
 		if event.KeyCode == wx.WXK_SPACE and self.search.get_type(self.searchResults.Selection) == "video" and self.FindFocus() == self.searchResults:
 			self.favCheck.Value = not self.favCheck.Value
 			self.onFavorite(None)
-		elif event.KeyCode == wx.WXK_BACK:
+		elif event.KeyCode == wx.WXK_BACK and not type(self.FindFocus()) == MediaGui:
 			self.backAction()
 
 	def contextSetup(self):
@@ -195,7 +199,7 @@ class YoutubeBrowser(wx.Frame):
 		title = channel["name"]
 		url = channel["url"]
 		download_type = "channel"
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 
 	def onOpenInBrowser(self, event):
@@ -218,21 +222,21 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(1, url, dlg, download_type)
 
 	def onMp3Download(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(2, url, dlg, download_type)
 
 	def onVideoDownload(self, event):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(0, url, dlg, download_type)
 
 
@@ -293,7 +297,7 @@ class YoutubeBrowser(wx.Frame):
 		n = self.searchResults.Selection
 		contextMenuIds = (self.videoPlayItemId, self.audioPlayItemId)
 		if self.search.get_type(n) == "playlist":
-			self.playButton.Enabled = False
+			self.playButton.Label = _("فتح")
 			for i in contextMenuIds:
 				self.contextMenu.Enable(i, False)
 			return
@@ -339,7 +343,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
-		dlg = DownloadProgress(self.Parent, title)
+		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 	def onShow(self, event):
 		self.searchResults.SetFocus()

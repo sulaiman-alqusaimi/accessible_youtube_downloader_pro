@@ -49,7 +49,8 @@ class Downloader:
 		total = self.get_proper_count(data["total_bytes"])
 		downloaded = self.get_proper_count(data["downloaded_bytes"])
 		remaining = self.get_proper_count(data["total_bytes"]-data["downloaded_bytes"])
-		speed = self.get_proper_count(int(data["speed"]))
+		speed = data['speed'] if data['speed'] else 0
+		speed = self.get_proper_count(int(speed))
 		info = [_("نسبة التنزيل: {}%").format(percent), _("حجم الملف الإجمالي: {} {}").format(total[0], total[1]), _("مقدار الحجم الذي تم تنزيله: {} {}").format(downloaded[0], downloaded[1]), _("المقدار المتبقي: {} {}").format(remaining[0], remaining[1]), _("سرعة التنزيل: {} {}").format(speed[0], speed[1])]
 		# updating controls 
 		wx.CallAfter(self.monitor.SetValue, percent)

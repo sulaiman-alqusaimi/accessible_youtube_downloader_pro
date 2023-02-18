@@ -100,7 +100,7 @@ class YoutubeBrowser(wx.Frame):
 			self.togleControls()
 			return
 		try:
-			self.search = LoadingDialog(self, "جاري البحث", Search, query, filter).res
+			self.search = LoadingDialog(self, _("جاري البحث"), Search, query, filter).res
 		except:
 			wx.MessageBox(_("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR)
 			self.searchAction(query)
@@ -147,13 +147,14 @@ class YoutubeBrowser(wx.Frame):
 
 
 	def onHook(self, event):
-		event.Skip()
+
 		if event.KeyCode == wx.WXK_SPACE and self.search.get_type(self.searchResults.Selection) == "video" and self.FindFocus() == self.searchResults:
 			self.favCheck.Value = not self.favCheck.Value
 			self.onFavorite(None)
 		elif event.KeyCode == wx.WXK_BACK and not type(self.FindFocus()) == MediaGui:
 			self.backAction()
-
+		else:
+			event.Skip()
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()
 

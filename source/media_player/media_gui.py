@@ -421,8 +421,9 @@ class MediaGui(wx.Frame):
 		def extract_description():
 			try:
 				speak(_("يتم الآن جلب وصف الفيديو"))
-				info = Video.get(self.url)
-			except:
+				info = Video.getInfo(self.url)
+			except Exception as e:
+				print(e)
 				speak(_("هناك خطأ ما أدى إلى منع جلب وصف الفيديو"))
 				return
 			self.description = info['description']

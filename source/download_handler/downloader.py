@@ -41,14 +41,14 @@ class Downloader:
 	def my_hook(self, data):
 		if data['status'] == 'finished':
 			return
-		percent = (data["downloaded_bytes"] / data["total_bytes"]) * 100
+		percent = (data["downloaded_bytes"] / data["total_bytes_estimate"]) * 100
 		#percent = percent.replace("%", "") # remove simbles from the percentage value
 		#percent = percent.strip() # remove spaces
 		#percent = float(percent) # convert the progress value to float, the reason why we did not converted directly to integer because it is impocible to convert string containing a floating point number to integer
 		percent = int(percent) # converted to integer
-		total = self.get_proper_count(data["total_bytes"])
+		total = self.get_proper_count(data["total_bytes_estimate"])
 		downloaded = self.get_proper_count(data["downloaded_bytes"])
-		remaining = self.get_proper_count(data["total_bytes"]-data["downloaded_bytes"])
+		remaining = self.get_proper_count(data["total_bytes_estimate"]-data["downloaded_bytes"])
 		speed = data['speed'] if data['speed'] else 0
 		speed = self.get_proper_count(int(speed))
 		info = [_("نسبة التنزيل: {}%").format(percent), _("حجم الملف الإجمالي: {} {}").format(total[0], total[1]), _("مقدار الحجم الذي تم تنزيله: {} {}").format(downloaded[0], downloaded[1]), _("المقدار المتبقي: {} {}").format(remaining[0], remaining[1]), _("سرعة التنزيل: {} {}").format(speed[0], speed[1])]

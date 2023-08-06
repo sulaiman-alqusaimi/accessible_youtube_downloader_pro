@@ -8,7 +8,8 @@ supported_languages = OrderedDict({
 	"العربية": "ar",
 	"English": "en", 
 	"français": "fr",
-	"Türkçe": "tr"
+	"Türkçe": "tr",
+	"italiano": "it",
 })
 
 languages = list(supported_languages.values())

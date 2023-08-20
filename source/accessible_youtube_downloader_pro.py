@@ -2,13 +2,6 @@
 # the main module 
 import sys
 import os
-
-if hasattr(sys,"frozen"):
-	home_dir = os.path.join(os.getenv("USERPROFILE"), "accessible_youtube_downloader_pro")
-	os.mkdir(home_dir) if not os.path.isdir(home_dir) else None
-	sys.stderr = open(os.path.join(home_dir, "errors.log"), "w")
-
-
 os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import settings_handler

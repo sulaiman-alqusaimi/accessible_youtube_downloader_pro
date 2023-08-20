@@ -78,7 +78,7 @@ class MediaGui(wx.Frame):
 		commentsItem.Enable(can_download)
 		copyItem = trackOptions.Append(-1, _("نسخ رابط المقطع\tctrl+l"))
 		browserItem = trackOptions.Append(-1, _("الفتح من خلال متصفح الإنترنت\tctrl+b"))
-		settingsItem = trackOptions.Append(-1, _("الإعدادات.\talt+s"))
+		settingsItem = trackOptions.Append(-1, _("الإعدادات...\talt+s"))
 		hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_CTRL, ord("D"), directDownloadItem.GetId()),
 			(wx.ACCEL_CTRL|wx.ACCEL_SHIFT, ord("D"), descriptionItem.GetId()),

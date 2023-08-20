@@ -96,6 +96,7 @@ def check_for_updates(quiet=False):
 			return
 		info = r.json()
 		if application.version != info["version"]:
+			print(info)
 			message = wx.MessageBox(_("هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"), _("تحديث جديد"), parent=wx.GetApp().GetTopWindow(), style=wx.YES_NO)
 			url = info["url"]
 			if message == wx.YES:

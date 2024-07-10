@@ -1,0 +1,288 @@
+User Guide for the Accessible YouTube Browser and Downloader: Accessible YouTube Downloader Pro
+About the Software:
+Software Name: {name}
+Version: {version}
+Developed by: {author}
+Description:
+The Accessible YouTube Downloader Pro is an advanced version of its predecessor, the Accessible YouTube Downloader. It's specifically designed to cater to the needs of visually impaired users of computers running the Windows operating system. The program offers a comprehensive and compatible user experience for the popular video hosting service, YouTube, by providing an easy-to-use interface that is suitable for screen readers. This is especially useful since there isn’t an official application for interacting with YouTube on the Windows operating system.
+Note: The software might not work efficiently with older versions of Windows, such as Windows 7, due to the discontinuation of support for recent Python versions on those systems.
+The software boasts several features, summarized as follows:
+1.
+Supports searching within YouTube.
+2.
+Allows the use of various filters when searching. For example, you can select a playlist filter to only find playlists that match the search term.
+3.
+Supports browsing videos from within the application.
+4.
+Provides a specialized player tailored specifically for this software, allowing search results to be played directly without needing to navigate to a web browser.
+5.
+Supports playing live streams from within the app.
+6.
+Offers the option to play the clip as an audio track in addition to video viewing.
+7.
+The ability to download search results in both audio and video formats.
+8.
+Ability to play YouTube links through the software.
+9.
+Allows downloading video links, channels, and playlists.
+10.
+Creates separate folders for playlists and channels during the download.
+11.
+Allows simultaneous downloading and watching of clips.
+12.
+Automatically detects YouTube links from the clipboard when the software is launched.
+13.
+The software supports multiple languages.
+14.
+The software automatically detects the system language upon first-time launch.
+15.
+Supports checking for updates.
+16.
+Allows resuming viewing from the last user-stopped point.
+17.
+Supports browsing playlists from within the application.
+18.
+Browsing comments from within the app.
+19.
+Along with several other miscellaneous features.
+
+Main Interface:
+Upon launching the program, you will be greeted with a small prompt advising you to press the "Alt" key to display the main program menus, through which you can access all its components. The prompt also informs you that you can navigate using the "Tab" key to quickly reach the main options: Search, Download, and Play.
+The program contains two primary menus, each comprising a set of items:
+Main Menu:
+•
+This contains options to search on YouTube, download a YouTube link, play a YouTube link, adjust settings, and exit the program.
+•
+Each of these options can be quickly activated by pressing the corresponding keyboard shortcut indicated beside it. For instance:
+•
+You can quickly access the YouTube search dialog by pressing "Control + F".
+•
+Pressing "Control + D" will open the dialog to download YouTube links, and so forth.
+About Menu: This menu includes the following items:
+•
+User Guide: Which is the guide you're currently reading. Keep in mind, you can also access this guide by pressing the "F1" key.
+•
+Check for Updates: Through this item, you can verify if there are new versions of the application and download them if available.
+•
+About the Software: This item displays a brief tooltip message containing some information about this software.
+•
+Contact Me: This item leads to a submenu containing several options through which you can communicate with the developer.
+ 
+Program Preferences:
+In the "Accessible YouTube Downloader Pro", we offer a simple dialog where you can adjust the software's features to your liking.
+You can access the settings from the main program menu or by using the shortcut key "Alt+S".
+The options that can be adjusted from the settings window are:
+1.
+Software language.
+2.
+Download path.
+3.
+Automatically detect links upon launching the program.
+4.
+Automatically check for updates when the program is launched.
+5.
+Automatically load more search results when you reach the end of the list. If this option is disabled, you'll need to click on the "Load More" button to display subsequent results.
+Note: This option was added considering users with limited data.
+6.
+Default download format for the direct download option. If you don’t want to choose the download format manually every time, you can set a default download format.
+7.
+MP3 conversion quality.
+8.
+Enable/Disable the "Continue Watching" feature.
+9.
+Automatically repeat videos after they end; by default, this is turned off.
+10.
+Automatically move to the next video (default is off).
+Note: You cannot enable both "Repeat Video" and "Auto-move to Next Video" at the same time.
+
+Using the Search and Browsing Feature
+The "Search and Browse" functionality is one of the standout features that set this software apart from its lite version. You can access this feature in three straightforward ways:
+Method 1:
+1.
+Activate the menu by pressing the 'Alt' key.
+2.
+Use the down arrow key until you highlight the 'Search on YouTube' option.
+3.
+Confirm your choice by pressing 'Enter'.
+Method 2:
+From the main interface, use the 'Tab' key to navigate. Once you find the 'Search on YouTube' button, press 'Enter'.
+Method 3:
+You can also quickly access the feature using the shortcut 'Control+F'.
+Once inside the search interface, you'll find a search box. Here, you can type in titles or keywords of YouTube videos you're interested in. If you hit the 'Tab' key, a dropdown menu with various search filters will appear:
+•
+No Filter: This allows for a broad search without any restrictions.
+•
+Live Stream: Focuses the search results on live streaming videos.
+•
+Upload Date: Lists the results starting with the most recent uploads.
+•
+View Count: Displays videos with the highest views at the top.
+•
+Playlists: Restricts your search to only show playlist results.
+Quick Tips:
+•
+Move within the dropdown using the arrow keys.
+•
+Using a filter is optional. If you prefer, just type in your search query and hit 'Enter' to see all relevant results.
+
+Results Window:
+The results interface displays a list of videos found based on the search query entered by the user in the search dialog. The results are presented as a list, and users can navigate through the items using arrow keys. To play a displayed video, first, select the video using the arrow keys, then press the 'Enter' key. If you wish to play the video as audio-only, press 'Control' along with the 'Enter' key. Optionally, you can also click the play button located next to the results list to view the clip.
+Each search result has an associated options menu, accessible by hovering over a result and pressing the 'Application key' or 'Shift+F10'. This displays the context menu with the following choices:
+•
+Play: You can alternatively use the play methods mentioned above.
+•
+Play as Audio Clip: This plays the clip without showing the video on screen. Shortcut: 'Control + Space'.
+•
+Download: This option unfolds into a submenu with two items:
+1.
+Video: Downloads the clip in MP4 format.
+2.
+Audio: Another submenu listing available audio formats, namely M4A and MP3. Notably, M4A is faster and lighter than MP3.
+•
+Direct Download: Downloads the selected clip in the default format set in the settings. Shortcut after selecting a search result: 'Control+D'.
+•
+Go to Channel: Opens the video's or playlist's associated channel via the default web browser.
+•
+Download Channel: Downloads the channel linked to the selected video or playlist, based on direct download settings.
+•
+Copy Link: Copies the video link to the clipboard. Shortcut: 'Control + L'.
+•
+Open Video Link: Opens the video link in a web browser.
+In addition to the results list, other options are available in the browser interface:
+1.
+Play Button: Already discussed.
+2.
+Download Button: A shortcut to the download menu discussed in the context menu for videos, containing the same items.
+3.
+Favorite Checkbox: To like or unlike a video. Use the space key from the video list to like/unlike.
+4.
+Search Button: Displays the search dialog for entering another query. Note: 'Control+F' can also be used.
+5.
+Back Button: Returns to the main program window.
+Browsing Playlists:
+When using the search function with the 'Playlists' filter, the program narrows down the search results to playlists only. The playlist results page has the same properties as the video results interface. The only difference is the replacement of the play button with an open button, which displays the available videos in the playlist. Using the download feature in the playlist video view, the program saves the downloaded video to a folder dedicated to that playlist, making organization easier for the user.
+ 
+Player Interface Overview:
+The player interface appears when a user selects a search result to play or pastes a YouTube link for playback. This window is designed to cater to both visually impaired users and those with normal vision.
+For sighted users, there are four buttons that don't appear for screen-reader users, as these functions are replaced by keyboard shortcuts for the latter:
+1.
+Previous Segment: Navigate to the previous video section.
+2.
+Restart: Rewind the video to its beginning.
+3.
+Step Back: Move a bit backward in the current video.
+4.
+Play/Pause: Control the playback.
+5.
+Step Forward: Advance slightly in the video.
+6.
+Next Segment: Navigate to the subsequent video section.
+At the top of the player interface is a menu bar, accessible via the 'Alt' key. This bar holds a singular dropdown menu with essential options related to the video being played:
+1.
+Download: This option expands to show download settings identical to those in the search results interface.
+2.
+Copy Link: Copy the current video's link. Shortcut: Control+L (or Control+م in Arabic layout).
+3.
+Video Description: Displays the video's description as shown on the YouTube app. Accessible via Control+Shift+D or ي in Arabic. This dialog box consists of:
+•
+Description Field: Navigate its contents using arrow keys. Any embedded links can be opened by pressing 'Enter'.
+•
+Copy: Allows users to copy the description to their clipboard.
+•
+Export to TXT: Save the description as a text file.
+•
+Export to HTML: Save as an HTML web page, facilitating link navigation.
+•
+Close: Hide the dialog, or use the 'Escape' key as a shortcut.
+4.
+Comments Box: View the video comments. Access this via Control+Shift+J or ت in Arabic. It consists of:
+•
+Comments List: Navigate using arrow keys.
+•
+Close Button: Return to the full player view. Comments can be copied either through a context menu or with the Control+L shortcut.
+5.
+Open in Web Browser: Launch the currently playing video in your default web browser. Activated with Control+B (or Control+لا in Arabic layout).
+Centrally in the player interface, the video is displayed in full-screen mode.
+
+Video Player Shortcuts:
+•
+Spacebar: Play/Pause the current clip.
+•
+Up Arrow: Increase the volume. Note that the software allows you to amplify the volume beyond 100% if the clip's sound is too low.
+•
+Down Arrow: Decrease the volume.
+•
+Right Arrow: Fast-forward.
+•
+Left Arrow: Rewind.
+•
+Home Key: Jump to the beginning of the clip.
+•
+Numbers 1-9: Navigate through the clip in 10% increments. For example, pressing '5' will take you to the middle (50%) of the clip, while '8' will jump to 80%.
+•
+Control + Right Arrow: Go to the next clip.
+•
+Control + Left Arrow: Return to the previous clip.
+•
+Control + Shift + T: Check the clip's duration.
+•
+Control + Shift + L: See the total length of the clip.
+•
+S: Speed up the clip.
+•
+D: Reset the clip's speed to normal.
+•
+F: Slow down the clip.
+•
+R: Toggle repeat mode on/off.
+•
+N: Toggle automatic transition to the next clip on/off.
+•
+Enter: Toggle full-screen mode on/off. In this mode, the video will cover the entire screen, including the menu bar and taskbar.
+•
+Ctrl + D: Activate the direct download feature. This downloads the clip in the default format set in the settings.
+•
+Control + Shift + D: Display the video description.
+•
+Alt + S: Access the app settings.
+
+Notes:
+1.
+Skip Duration: By default, fast-forwarding and rewinding will move the clip by 5 seconds. You can adjust this duration: use the minus key (-) to decrease by one second and the equal key (=) or the plus key on the numeric keypad to increase by one second. Keep in mind that the maximum increment is 10 seconds and the minimum is one second.
+2.
+Simultaneous Playback and Download: The software allows you to watch and download a clip simultaneously. If you open the clip options as described above and choose a download method, the download will commence while the clip is playing. You can easily switch between the video window and the download dialog using the Alt + Tab shortcut.
+3.
+Media Control Keys: You can use the media control keys on your computer to control the media player, such as play, pause, and navigate between clips, even if the application window is minimized.
+ 
+YouTube Link Download Dialog Explanation:
+There are three methods to access the YouTube link download dialog from the main program interface:
+1.
+Menu Navigation:
+•
+Press the menu button (Alt).
+•
+Navigate downwards using the down arrow to find the option "Download via Link."
+•
+Press the Enter key to select.
+2.
+Main Interface Navigation:
+•
+From the main interface, use the Tab key to locate a button labeled "Download via Link."
+•
+Activate it by pressing Enter.
+3.
+Shortcut Key:
+•
+Use the shortcut key Control+D (or its Arabic equivalent Control+ي).
+Regardless of the method you used to access, you'll be in a download dialog which mirrors the interface of the "accessible YouTube downloader" lite version. Here, you can download various YouTube links including channels, playlists, and individual videos. Playlists and channels will be saved in a dedicated folder named after the channel or playlist.
+The first field in this dialog is where you input the download link. The software will automatically recognize the link, eliminating the need for manual pasting. The next component lets you select the type of download – either audio or video. If you choose to download audio, the subsequent option will allow you to select the audio format, either m4a (faster option) or mp3. The next button, labeled "Download," starts the download process for the given link once you press Enter.
+Note:
+You can quickly change the download path directly from the download dialog using a dedicated button. It's essential to understand that the path chosen here will only apply to the current download and won't be saved in the program settings. If you wish to permanently change the default path, do it through the program settings, as explained earlier. The reason for including a path change option in this dialog is for users who might want to download specific content to a particular location for a one-time occurrence, without the hassle of altering the main settings. The default download folder for the program is titled "accessible YouTube downloader" located within the user's downloads folder.
+ 
+Playing YouTube Links:
+If you have a YouTube link for a specific video—perhaps one you received through communication means like email—and you wish to play it using the software to benefit from its built-in media player features, it's a straightforward process. Start the program and press the shortcut `control+y`. This will prompt a dialog box where you'll be asked to provide the video link and specify if you'd like to play it as audio or video. By default, the software will detect any copied link and automatically place it in the link field. When you play the video in this manner, you can utilize all the media player features of the software, as previously described. Furthermore, you'll also have the option to download the clip directly from within the player.
+Favorites Video Interface:
+The application offers a dedicated section where users can save certain videos, allowing quicker access for both viewing and downloading. This window bears a close resemblance to the search results window in terms of available options and helpful shortcut commands. The primary difference here is that the favorites window does not have a search button. Instead, it introduces a new button for removing the selected video from the favorites list. Alternatively, you can also use the `delete` key on your keyboard to perform the same task as the on-screen delete icon. It's worth noting that when playing a clip from the favorites list, the navigation keys will allow you to move between the other favorite clips on the list, rather than browsing through the search results.
+ 
+End of Guide.
+ 

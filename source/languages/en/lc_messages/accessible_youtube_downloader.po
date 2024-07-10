@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: accessible_youtube_downloader_pro_v1.0\n"
 "POT-Creation-Date: 2022-06-17 18:40+0400\n"
-"PO-Revision-Date: 2023-02-18 10:28+0400\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2023-08-21 10:16+0400\n"
+"Last-Translator: sulaiman al qusaimi <suleiman.alqusaimi@gmail.com>\n"
 "Language-Team: Sulaiman Al Qusaimi\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && "
 "n%100<=99 ? 4 : 5);\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:47
@@ -120,19 +120,19 @@ msgstr "bytes"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:27
 msgid "كيلو بايت"
-msgstr "kilo bytes"
+msgstr "kilobytes"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:29
 msgid "ميجا بايت"
-msgstr "mega bytes"
+msgstr "megabytes"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:31
 msgid "جيجا بايت"
-msgstr "gega bytes"
+msgstr "gigabytes"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:33
 msgid "تيرا بايت"
-msgstr "tera bytes"
+msgstr "terabytes"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:53
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\download_progress.py:10
@@ -175,7 +175,7 @@ msgstr "error"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\download_dialog.py:105
 msgid "لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال بالشبكة."
 msgstr ""
-"either an internet connection accurd or you have enterd an envalid YouTube url. please check that out and try "
+"either an internet connection occured or you have enterd an invalid YouTube url. please check that out and try "
 "again."
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:108
@@ -742,7 +742,7 @@ msgstr "extracting video description"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:427
 msgid "هناك خطأ ما أدى إلى منع جلب وصف الفيديو"
-msgstr "an error occurred while extracting the video description"
+msgstr "an error occured while extracting the video description"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:444
 msgid "لا يمكن جلب التعليقات لهذا الفيديو"
@@ -890,12 +890,6 @@ msgstr "contains {} videos"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\search_handler.py:141
 msgid "عدد المشاهدات {}"
 msgstr "{} views"
-
-msgid ""
-"يهدف هذا البرنامج إلى تقديم أيسر السبل أمام المستخدم الكفيف للتصفح \"\tوالتنزيل من خدمة استضافة الفيديوهات "
-"youtube"
-msgstr ""
-"This application aims to provide accessible solutions for blind users to download and browse YouTube content"
 
 msgid "موافق"
 msgstr "ok"

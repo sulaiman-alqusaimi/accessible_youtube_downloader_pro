@@ -20,7 +20,7 @@ class Downloader:
 
 	# progress bar updator
 	def get_proper_count(self, number):
-		length = len(str(number))
+		length = len(str(int(number)))
 		if length <= 3:
 			return (number, _("بايت"))
 		elif length >=4 and length <7:
@@ -41,12 +41,14 @@ class Downloader:
 	def my_hook(self, data):
 		if data['status'] == 'finished':
 			return
-		percent = (data["downloaded_bytes"] / data.get("total_bytes", data.get("total_bytes_estimate"))) * 100
+		percent = (data["downloaded_bytes"] / data.get("total_bytes", data.get("total_bytes_estimate", "0"))) * 100
 		#percent = percent.replace("%", "") # remove simbles from the percentage value
 		#percent = percent.strip() # remove spaces
 		#percent = float(percent) # convert the progress value to float, the reason why we did not converted directly to integer because it is impocible to convert string containing a floating point number to integer
 		percent = int(percent) # converted to integer
-		total = self.get_proper_count(data.get("total_bytes", data.get("total_bytes_estimate")))
+		total = data.get("total_bytes", data.get("total_bytes_estimate", 0))
+		print(f"total: {total}")
+		total = self.get_proper_count(total)
 		downloaded = self.get_proper_count(data["downloaded_bytes"])
 		remaining = self.get_proper_count(data.get("total_bytes", data.get("total_bytes_estimate"))-data["downloaded_bytes"])
 		speed = data['speed'] if data['speed'] else 0

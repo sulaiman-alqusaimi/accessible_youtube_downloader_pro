@@ -1,7 +1,7 @@
 from settings_handler import config_get
 import os
 import application
-available_languages = os.listdir()
+available_languages = os.listdir("docs")
 
 def documentation_get():
 	lang = config_get("lang")

@@ -25,7 +25,7 @@ from gui.text_viewer import Viewer
 from gui.custom_controls import CustomLabel
 from gui.favorites import Favorites
 from doc_handler import documentation_get
-from language_handler import init_translation
+from language_handler import init_translation, codes
 from media_player.media_gui import MediaGui
 from media_player.player import Player
 from youtube_browser.browser import YoutubeBrowser
@@ -178,5 +178,7 @@ class HomeScreen(wx.Frame):
 		wx.Exit()
 
 app = wx.App()
+lang_id = codes.get(settings_handler.config_get("lang"), wx.LANGUAGE_ARABIC)
+locale = wx.Locale(lang_id)
 HomeScreen()
 app.MainLoop()

@@ -3,6 +3,8 @@ import gettext
 import ctypes
 import locale
 from collections import OrderedDict
+import wx
+
 
 supported_languages = OrderedDict({
 	"العربية": "ar",
@@ -13,6 +15,14 @@ supported_languages = OrderedDict({
 })
 
 languages = list(supported_languages.values())
+
+codes = {"ar": wx.LANGUAGE_ARABIC,
+		 "en": wx.LANGUAGE_ENGLISH,
+		 "fr": wx.LANGUAGE_FRENCH,
+		 "tr": wx.LANGUAGE_TURKISH,
+		 "it": wx.LANGUAGE_ITALIAN,
+		 }
+lang_id = wx.LANGUAGE_ARABIC
 
 def get_default_language():
 	windll = ctypes.windll.kernel32

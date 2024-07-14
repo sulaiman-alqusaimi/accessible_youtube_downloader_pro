@@ -1,5 +1,4 @@
 import webbrowser
-from numpy import SHIFT_DIVIDEBYZERO
 import pyperclip
 import wx
 from gui.download_progress import DownloadProgress

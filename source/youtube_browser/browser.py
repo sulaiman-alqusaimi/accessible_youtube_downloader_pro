@@ -54,8 +54,8 @@ class YoutubeBrowser(wx.Frame):
 		self.panel.SetSizer(sizer)
 		self.contextSetup()
 		results_shortcuts = wx.AcceleratorTable([
-			(0, wx.WXK_RETURN, self.videoPlayItemId),
-			(wx.ACCEL_CTRL, wx.WXK_RETURN, self.audioPlayItemId)
+			(0, wx.WXK_RETURN, self.audioPlayItemId),
+			(wx.ACCEL_CTRL, wx.WXK_RETURN, self.videoPlayItemId)
 		])
 		self.searchResults.SetAcceleratorTable(results_shortcuts)
 		menuBar = wx.MenuBar()
@@ -130,7 +130,7 @@ class YoutubeBrowser(wx.Frame):
 			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
-
+		print(url)
 		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream, url).res
 		gui = MediaGui(self, title, stream, url, True if self.search.get_views(number) is not None else False, results=self.search)
 		self.Hide()

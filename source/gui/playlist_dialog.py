@@ -27,8 +27,8 @@ class PlaylistDialog(wx.Dialog):
 		self.contextSetup()
 
 		hotkeys = wx.AcceleratorTable([
-				(0, wx.WXK_RETURN, self.videoPlayItemId),
-				(wx.ACCEL_CTRL, wx.WXK_RETURN, self.audioPlayItemId),
+				(0, wx.WXK_RETURN, self.audioPlayItemId),
+				(wx.ACCEL_CTRL, wx.WXK_RETURN, self.videoPlayItemId),
 				(wx.ACCEL_CTRL, ord("D"), self.directDownloadId),
 			(wx.ACCEL_CTRL, ord("L"), self.copyItemId),
 			])

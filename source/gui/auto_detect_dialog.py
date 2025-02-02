@@ -4,7 +4,7 @@ from .playlist_dialog import PlaylistDialog
 from .download_dialog import DownloadDialog
 
 from media_player.media_gui import MediaGui
-from utiles import get_video_stream
+from utiles import get_video_stream, get_audio_stream
 
 
 
@@ -47,7 +47,7 @@ class AutoDetectDialog(wx.Dialog):
 		from .activity_dialog import LoadingDialog
 		parent = self.Parent
 		self.Destroy()
-		stream = LoadingDialog(parent, _("جاري التشغيل"), get_video_stream, self.url).res
+		stream = LoadingDialog(parent, _("جاري التشغيل"), get_audio_stream, self.url).res
 		gui = MediaGui(parent, stream.title, stream, self.url)
 
 

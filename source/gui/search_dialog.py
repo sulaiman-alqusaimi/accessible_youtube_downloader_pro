@@ -11,7 +11,13 @@ class SearchDialog(wx.Dialog):
 		lbl = wx.StaticText(panel, -1, _("ابحث في youtube: "))
 		self.searchField = wx.TextCtrl(panel, -1, value=value)
 		lbl1 = wx.StaticText(panel, -1, _("فلتر: "))
-		self.filterBox = wx.Choice(panel, -1, choices=[_("بلا فلتر"), _("بث مباشر"), _("تاريخ الرفع"), _("عدد المشاهدات"), _("قائمة تشغيل")])
+		self.filterBox = wx.Choice(panel, -1, choices=
+							 [_("بلا فلتر"), 
+		 _("بث مباشر"), 
+		 _("تاريخ الرفع"), 
+		 _("عدد المشاهدات"), 
+		#  _("قائمة تشغيل")
+		 ])
 		self.filterBox.Selection = 0
 		searchButton = wx.Button(panel, wx.ID_OK, _("ابحث"))
 		searchButton.SetDefault()

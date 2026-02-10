@@ -1,0 +1,871 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: accessible_youtube_downloader_pro_v1.5.7\n"
+"POT-Creation-Date: 2025-04-15 06:27+0500\n"
+"PO-Revision-Date: 2025-04-15 06:37+0500\n"
+"Last-Translator: sulaiman al qusaimi <suleiman.alqusaimi@gmail.com>\n"
+"Language-Team: Danil Kostenkov <danilkostenkov38@gmail.com\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 3.6\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../../../..\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: source\n"
+"X-Poedit-SearchPath-2: source/download_handler\n"
+"X-Poedit-SearchPath-3: source/gui\n"
+"X-Poedit-SearchPath-4: source/media_player\n"
+"X-Poedit-SearchPath-5: source/nvda_client\n"
+"X-Poedit-SearchPath-6: source/pafy\n"
+"X-Poedit-SearchPath-7: source/youtube_browser\n"
+
+#: source/accessible_youtube_downloader_pro.py:50
+msgid ""
+"اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب "
+"للوصول سريعًا إلى أهم الخيارات المتاحة."
+msgstr ""
+"нажмите клавишу alt, чтобы просмотреть доступные параметры, или используйте "
+"клавишу tab для быстрого доступа."
+
+#: source/accessible_youtube_downloader_pro.py:51
+#: source/accessible_youtube_downloader_pro.py:67
+msgid "البحث في youtube\tctrl+f"
+msgstr "Поиск на youtube\tctrl+f"
+
+#: source/accessible_youtube_downloader_pro.py:52
+#: source/accessible_youtube_downloader_pro.py:68
+msgid "التنزيل من خلال رابط\tctrl+d"
+msgstr "Загрузить по ссылке на YouTube\tctrl+d"
+
+#: source/accessible_youtube_downloader_pro.py:53
+#: source/accessible_youtube_downloader_pro.py:69
+msgid "تشغيل فيديو youtube من خلال الرابط\tctrl+y"
+msgstr "Воспроизвести по ссылке на YouTube\tctrl+y"
+
+#: source/accessible_youtube_downloader_pro.py:54
+#: source/accessible_youtube_downloader_pro.py:70
+msgid "الفيديوهات المفضلة\tctrl+shift+f"
+msgstr "избранные видео\tctrl+shift+f"
+
+#: source/accessible_youtube_downloader_pro.py:71
+msgid "فتح مجلد التنزيل\tctrl+p"
+msgstr "открыть папку загрузки\tctrl+p"
+
+#: source/accessible_youtube_downloader_pro.py:72
+#: source/media_player/media_gui.py:80 source/youtube_browser/browser.py:63
+msgid "الإعدادات...\talt+s"
+msgstr "настройки...\talt+s"
+
+#: source/accessible_youtube_downloader_pro.py:73
+msgid "خروج\tctrl+w"
+msgstr "выход\tctrl+w"
+
+#: source/accessible_youtube_downloader_pro.py:85
+msgid "القائمة الرئيسية"
+msgstr "главное меню"
+
+#: source/accessible_youtube_downloader_pro.py:87
+msgid "دليل المستخدم...\tf1"
+msgstr "руководство пользователя…\tf1"
+
+#: source/accessible_youtube_downloader_pro.py:88
+msgid "البحث عن التحديثات"
+msgstr "поиск обновлений"
+
+#: source/accessible_youtube_downloader_pro.py:89
+msgid "عن البرنامج..."
+msgstr "о программе..."
+
+#: source/accessible_youtube_downloader_pro.py:91
+msgid "البريد الالكتروني..."
+msgstr "электронная почта..."
+
+#: source/accessible_youtube_downloader_pro.py:92
+msgid "تويتر..."
+msgstr "twitter..."
+
+#: source/accessible_youtube_downloader_pro.py:93
+msgid "تواصل معي"
+msgstr "связаться с разработчиком"
+
+#: source/accessible_youtube_downloader_pro.py:94
+#: source/accessible_youtube_downloader_pro.py:175
+msgid "حول"
+msgstr "о программе"
+
+#: source/accessible_youtube_downloader_pro.py:124
+#: source/gui/auto_detect_dialog.py:50 source/gui/favorites.py:78
+#: source/gui/favorites.py:86 source/gui/playlist_dialog.py:127
+#: source/gui/playlist_dialog.py:138 source/youtube_browser/browser.py:134
+#: source/youtube_browser/browser.py:144
+msgid "جاري التشغيل"
+msgstr "Воспроизведение"
+
+#: source/accessible_youtube_downloader_pro.py:155
+#: source/accessible_youtube_downloader_pro.py:163
+msgid "دليل استخدام برنامج accessible youtube downloader pro"
+msgstr "руководство пользователя accessible youtube downloader pro"
+
+#: source/accessible_youtube_downloader_pro.py:167
+msgid "جاري البحث عن التحديثات. يرجى الانتظار"
+msgstr "настройки...\talt+s"
+
+#: source/accessible_youtube_downloader_pro.py:171
+msgid "اسم البرنامج"
+msgstr "название программы"
+
+#: source/accessible_youtube_downloader_pro.py:172
+msgid "الإصدار"
+msgstr "версия"
+
+#: source/accessible_youtube_downloader_pro.py:173
+msgid "طُوِر بواسطة"
+msgstr "разработчик"
+
+#: source/accessible_youtube_downloader_pro.py:174 source/gui/description.py:15
+msgid "الوصف: "
+msgstr "описание: "
+
+#: source/download_handler/downloader.py:25
+msgid "بايت"
+msgstr "байт"
+
+#: source/download_handler/downloader.py:27
+msgid "كيلو بايت"
+msgstr "килобайт"
+
+#: source/download_handler/downloader.py:29
+msgid "ميجا بايت"
+msgstr "мегабайт"
+
+#: source/download_handler/downloader.py:31
+msgid "جيجا بايت"
+msgstr "гигабайт"
+
+#: source/download_handler/downloader.py:33
+msgid "تيرا بايت"
+msgstr "терабайт"
+
+#: source/download_handler/downloader.py:56 source/gui/download_progress.py:10
+msgid "نسبة التنزيل: {}%"
+msgstr "процент загрузки: {}%"
+
+#: source/download_handler/downloader.py:56 source/gui/download_progress.py:10
+msgid "حجم الملف الإجمالي: {} {}"
+msgstr "общий размер файла: {} {}"
+
+#: source/download_handler/downloader.py:56 source/gui/download_progress.py:10
+msgid "مقدار الحجم الذي تم تنزيله: {} {}"
+msgstr "загружено: {} {}"
+
+#: source/download_handler/downloader.py:56 source/gui/download_progress.py:10
+msgid "المقدار المتبقي: {} {}"
+msgstr "осталось загрузить: {} {}"
+
+#: source/download_handler/downloader.py:56 source/gui/download_progress.py:10
+msgid "سرعة التنزيل: {} {}"
+msgstr "скорость загрузки: {} {}"
+
+#: source/download_handler/downloader.py:113 source/gui/download_dialog.py:105
+msgid ""
+"لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال "
+"بالشبكة."
+msgstr ""
+"Произошёл сбой в подключении к Интернету, либо вы ввели неверный URL-адрес "
+"YouTube. пожалуйста, проверьте и повторите попытку."
+
+#: source/download_handler/downloader.py:113 source/gui/download_dialog.py:82
+#: source/gui/download_dialog.py:105 source/gui/playlist_dialog.py:58
+#: source/gui/update_dialog.py:69 source/gui/update_dialog.py:83
+#: source/utiles.py:93 source/utiles.py:110
+#: source/youtube_browser/browser.py:105
+msgid "خطأ"
+msgstr "ошибка"
+
+#: source/download_handler/downloader.py:116 source/gui/download_dialog.py:111
+msgid "اكتمل التنزيل بنجاح"
+msgstr "Загрузка успешно завершена"
+
+#: source/download_handler/downloader.py:116 source/gui/download_dialog.py:111
+#: source/gui/update_dialog.py:77
+msgid "نجاح"
+msgstr "успешно"
+
+#: source/gui/auto_detect_dialog.py:14 source/gui/auto_detect_dialog.py:30
+#: source/gui/auto_detect_dialog.py:43
+#: source/youtube_browser/search_handler.py:103
+msgid "قائمة تشغيل"
+msgstr "Плейлист"
+
+#: source/gui/auto_detect_dialog.py:16
+msgid "قناة"
+msgstr "канал"
+
+#: source/gui/auto_detect_dialog.py:18 source/gui/auto_detect_dialog.py:32
+#: source/gui/download_dialog.py:23 source/gui/favorites.py:102
+#: source/gui/favorites.py:188 source/gui/playlist_dialog.py:71
+#: source/gui/playlist_dialog.py:190 source/media_player/media_gui.py:66
+#: source/youtube_browser/browser.py:166 source/youtube_browser/browser.py:212
+msgid "فيديو"
+msgstr "Видео"
+
+#: source/gui/auto_detect_dialog.py:26
+msgid ""
+"لقد تم الكشف عن وجود رابط ل{} يوتيوب في الحافظة. يرجى اختيار الإجراء المطلوب"
+msgstr ""
+"В буфере обмена обнаружена ссылка на YouTube {}. Пожалуйста, выберите нужное "
+"действие"
+
+#: source/gui/auto_detect_dialog.py:27 source/gui/download_dialog.py:13
+#: source/gui/download_dialog.py:27 source/gui/favorites.py:24
+#: source/gui/favorites.py:107 source/gui/playlist_dialog.py:25
+#: source/gui/playlist_dialog.py:76 source/media_player/media_gui.py:71
+#: source/youtube_browser/browser.py:37 source/youtube_browser/browser.py:171
+msgid "تنزيل"
+msgstr "загрузить"
+
+#: source/gui/auto_detect_dialog.py:28 source/gui/favorites.py:23
+#: source/gui/favorites.py:97 source/gui/link_dlg.py:15
+#: source/gui/playlist_dialog.py:24 source/gui/playlist_dialog.py:66
+#: source/youtube_browser/browser.py:161
+msgid "تشغيل"
+msgstr "играть"
+
+#: source/gui/auto_detect_dialog.py:31
+msgid "فتح..."
+msgstr "открыть..."
+
+#: source/gui/auto_detect_dialog.py:34
+msgid "إلغاء"
+msgstr "отменить"
+
+#: source/gui/comments_dialog.py:16 source/gui/comments_dialog.py:21
+msgid "التعليقات"
+msgstr "комментарии"
+
+#: source/gui/comments_dialog.py:23 source/gui/description.py:20
+#: source/gui/link_dlg.py:17 source/gui/search_dialog.py:25
+#: source/gui/text_viewer.py:15
+msgid "إغلاق"
+msgstr "закрыть"
+
+#: source/gui/comments_dialog.py:51
+msgid "بواسطة {}"
+msgstr "комментарий пользователя {}"
+
+#: source/gui/comments_dialog.py:66
+msgid "لم نتمكن من تحميل المزيد من التعليقات"
+msgstr "не удалось подгрузить комментарии"
+
+#: source/gui/comments_dialog.py:70
+msgid "لا يزال التحميل جار"
+msgstr "ещё идёт загрузка"
+
+#: source/gui/comments_dialog.py:72
+msgid "ليس هناك المزيد من التعليقات"
+msgstr "Больше нет комментариев"
+
+#: source/gui/comments_dialog.py:82
+msgid "تم تحميل المزيد من التعليقات"
+msgstr "Комментарии подгружены"
+
+#: source/gui/comments_dialog.py:85
+msgid "نسخ التعليق"
+msgstr "скопировать комментарий"
+
+#: source/gui/comments_dialog.py:93
+msgid "تم نسخ التعليق المحدد إلى الحافظة"
+msgstr "выбранный комментарий скопирован"
+
+#: source/gui/description.py:11
+msgid "وصف الفيديو"
+msgstr "описание видео"
+
+#: source/gui/description.py:17
+msgid "نسخ"
+msgstr "копировать"
+
+#: source/gui/description.py:18
+msgid "التصدير إلى مستند نصي (txt)..."
+msgstr "экспортировать как текстовый файл..."
+
+#: source/gui/description.py:19
+msgid "التصدير إلى صفحة ويب (html)..."
+msgstr "экспортировать как веб-документ html..."
+
+#: source/gui/download_dialog.py:21
+msgid "رابط التنزيل: : "
+msgstr "ссылка для загрузки: "
+
+#: source/gui/download_dialog.py:23
+msgid "نوع المقطع"
+msgstr "Тип файла"
+
+#: source/gui/download_dialog.py:23 source/gui/favorites.py:106
+#: source/gui/favorites.py:192 source/gui/playlist_dialog.py:75
+#: source/gui/playlist_dialog.py:194 source/media_player/media_gui.py:70
+#: source/youtube_browser/browser.py:170 source/youtube_browser/browser.py:216
+msgid "صوت"
+msgstr "аудио"
+
+#: source/gui/download_dialog.py:24
+msgid "صيغة المقطع"
+msgstr "Формат файла"
+
+#: source/gui/download_dialog.py:29 source/gui/download_dialog.py:70
+#: source/gui/settings_dialog.py:25
+msgid "مسار مجلد التنزيل: "
+msgstr "путь к папке загрузки: "
+
+#: source/gui/download_dialog.py:67 source/gui/settings_dialog.py:106
+msgid "اختر مجلد التنزيل"
+msgstr "выберите папку для загрузки"
+
+#: source/gui/download_dialog.py:82
+msgid "يرجى إدخال رابطًا صحيحًا."
+msgstr "пожалуйста, введите действительный URL-адрес YouTube."
+
+#: source/gui/download_progress.py:7
+msgid "جاري التنزيل - {}"
+msgstr "загрузка"
+
+#: source/gui/favorites.py:21
+msgid "المفضلة: "
+msgstr "Избранное: "
+
+#: source/gui/favorites.py:25
+msgid "إلغاء التفضيل"
+msgstr "удалить из избранного"
+
+#: source/gui/favorites.py:26 source/youtube_browser/browser.py:40
+msgid "العودة إلى النافذة الرئيسية"
+msgstr "вернуться в главное окно"
+
+#: source/gui/favorites.py:73 source/youtube_browser/browser.py:322
+msgid "تم حذف الفيديو من قائمة المفضلة"
+msgstr "удалено из избранного"
+
+#: source/gui/favorites.py:99 source/gui/playlist_dialog.py:68
+#: source/youtube_browser/browser.py:163
+msgid "التشغيل كمقطع صوتي"
+msgstr "воспроизвести только аудио"
+
+#: source/gui/favorites.py:108 source/gui/playlist_dialog.py:77
+#: source/media_player/media_gui.py:73 source/youtube_browser/browser.py:172
+msgid "التنزيل المباشر...\tctrl+d"
+msgstr "прямая загрузка...\tctrl+d"
+
+#: source/gui/favorites.py:110 source/gui/playlist_dialog.py:79
+#: source/youtube_browser/browser.py:174
+msgid "الانتقال إلى القناة"
+msgstr "перейти в канал"
+
+#: source/gui/favorites.py:111 source/gui/playlist_dialog.py:80
+#: source/youtube_browser/browser.py:175
+msgid "تنزيل القناة"
+msgstr "загрузить канал"
+
+#: source/gui/favorites.py:112 source/gui/playlist_dialog.py:81
+#: source/youtube_browser/browser.py:176
+msgid "نسخ رابط المقطع"
+msgstr "скопировать ссылку на видео"
+
+#: source/gui/favorites.py:114 source/gui/playlist_dialog.py:83
+#: source/youtube_browser/browser.py:178
+msgid "الفتح من خلال متصفح الإنترنت"
+msgstr "открыть в браузере"
+
+#: source/gui/favorites.py:152 source/gui/playlist_dialog.py:107
+#: source/media_player/media_gui.py:393 source/youtube_browser/browser.py:247
+msgid "تم نسخ رابط المقطع بنجاح"
+msgstr "Ссылка на видео успешно скопирована"
+
+#: source/gui/favorites.py:152 source/gui/playlist_dialog.py:107
+#: source/media_player/media_gui.py:393 source/youtube_browser/browser.py:247
+msgid "اكتمال"
+msgstr "готово"
+
+#: source/gui/link_dlg.py:8
+msgid "ادخل رابط الفيديو لتشغيله من خلال مشغل البرنامج"
+msgstr "пожалуйста, введите ссылку на видео с YouTube для воспроизведения"
+
+#: source/gui/link_dlg.py:12
+msgid "رابط المقطع"
+msgstr "ссылка на видео"
+
+#: source/gui/link_dlg.py:14
+msgid "التشغيل ك: "
+msgstr "формат воспроизведения: "
+
+#: source/gui/link_dlg.py:14
+msgid "مقطع فيديو"
+msgstr "видео"
+
+#: source/gui/link_dlg.py:14
+msgid "مقطع صوتي"
+msgstr "аудио"
+
+#: source/gui/playlist_dialog.py:22
+msgid "قائمة الفيديوهات: "
+msgstr "список видео: "
+
+#: source/gui/playlist_dialog.py:26
+msgid "رجوع"
+msgstr "назад"
+
+#: source/gui/playlist_dialog.py:53
+msgid "جاري عرض قائمة التشغيل"
+msgstr "загрузка плейлиста"
+
+#: source/gui/playlist_dialog.py:58
+msgid "حدث خطأ ما أثناء محاولة فتح قائمة التشغيل"
+msgstr "при попытке загрузить плейлист произошла ошибка"
+
+#: source/gui/playlist_dialog.py:153
+msgid "تم تحميل المزيد من الفيديوهات"
+msgstr "видео подгружены"
+
+#: source/gui/playlist_dialog.py:155
+msgid "ليس هناك فيديوهات أخرى"
+msgstr "больше нет видео"
+
+#: source/gui/playlist_dialog.py:157
+msgid "لم يتم تحميل المزيد من الفيديوهات"
+msgstr "не удалось подгрузить видео"
+
+#: source/gui/search_dialog.py:7
+msgid "بحث"
+msgstr "Поиск"
+
+#: source/gui/search_dialog.py:11
+msgid "ابحث في youtube: "
+msgstr "поиск на youtube: "
+
+#: source/gui/search_dialog.py:13
+msgid "فلتر: "
+msgstr "фильтр: "
+
+#: source/gui/search_dialog.py:15
+msgid "بلا فلتر"
+msgstr "без фильтра"
+
+#: source/gui/search_dialog.py:16 source/youtube_browser/search_handler.py:143
+msgid "بث مباشر"
+msgstr "прямые эфиры"
+
+#: source/gui/search_dialog.py:17
+msgid "تاريخ الرفع"
+msgstr "дата загрузки"
+
+#: source/gui/search_dialog.py:18
+msgid "عدد المشاهدات"
+msgstr "{} просмотров"
+
+#: source/gui/search_dialog.py:22
+msgid "ابحث"
+msgstr "поиск"
+
+#: source/gui/settings_dialog.py:13
+msgid "الإعدادات"
+msgstr "настройки"
+
+#: source/gui/settings_dialog.py:18
+msgid "لغة البرنامج: "
+msgstr "язык программы: "
+
+#: source/gui/settings_dialog.py:27
+msgid "&تغيير المسار"
+msgstr "&изменить путь"
+
+#: source/gui/settings_dialog.py:28
+msgid "التفضيلات العامة"
+msgstr "общие настройки"
+
+#: source/gui/settings_dialog.py:29
+msgid "اكتشاف الروابط تلقائيًا عند فتح البرنامج"
+msgstr "автоматически обнаруживать ссылки на YouTube при запуске программы"
+
+#: source/gui/settings_dialog.py:30
+msgid "الكشف عن التحديثات الجديدة تلقائيًا عند فتح البرنامج"
+msgstr "автоматически проверять наличие новых версий при запуске программы"
+
+#: source/gui/settings_dialog.py:31
+msgid ""
+"تحميل المزيد من نتائج البحث عند الوصول إلى نهاية قائمة الفيديوهات المعروضة"
+msgstr "автоматически подгружать результаты поиска при достижении конца списка"
+
+#: source/gui/settings_dialog.py:35
+msgid "إعدادات التنزيل"
+msgstr "настройки загрузки"
+
+#: source/gui/settings_dialog.py:36
+msgid "صيغة التحميل المباشر: "
+msgstr "формат прямой загрузки: "
+
+#: source/gui/settings_dialog.py:37
+msgid "فيديو (mp4)"
+msgstr "видео mp4"
+
+#: source/gui/settings_dialog.py:37
+msgid "صوت (m4a)"
+msgstr "аудио m4a"
+
+#: source/gui/settings_dialog.py:37
+msgid "صوت (mp3)"
+msgstr "аудио mp3"
+
+#: source/gui/settings_dialog.py:39
+msgid "جودة تحويل ملفات mp3: "
+msgstr "mp3 conversion quality: "
+
+#: source/gui/settings_dialog.py:42
+msgid "إعدادات المشغل"
+msgstr "параметры плеера"
+
+#: source/gui/settings_dialog.py:43
+msgid "متابعة المشاهدة بعد إغلاق الفيديو وتشغيله من جديد"
+msgstr "continue where you left the video when open it again"
+
+#: source/gui/settings_dialog.py:45
+msgid "إعادة تشغيل المقطع تلقائيًا عند انتهائه"
+msgstr "Автоматически воспроизводит клип после его завершения"
+
+#: source/gui/settings_dialog.py:46
+msgid "الانتقال إلى المقطع التالي تلقائيًا عند انتهاء المقطع الحالي"
+msgstr "автоматически воспроизводить следующее видео по окончании текущего"
+
+#: source/gui/settings_dialog.py:49
+msgid "مواف&ق"
+msgstr "&ОК"
+
+#: source/gui/settings_dialog.py:51
+msgid "إل&غاء"
+msgstr "&отменить"
+
+#: source/gui/settings_dialog.py:120
+msgid ""
+"لقد قمت بتغيير لغة البرنامج إلى {}, مما يعني أنه ينبغي عليك إعادة تشغيل "
+"البرنامج لتطبيق التعديلات. هل تريد القيام بذلك حالًا?"
+msgstr ""
+"вы изменили язык программы на {}, необходимо перезапустить программу, чтобы "
+"применить изменения. хотите сделать это сейчас?"
+
+#: source/gui/settings_dialog.py:120
+msgid "تنبيه"
+msgstr "Предупреждение"
+
+#: source/gui/update_dialog.py:17
+msgid "تنزيل التحديثات"
+msgstr "загрузка обновлений"
+
+#: source/gui/update_dialog.py:21
+msgid "في انتظار بدء التحميل..."
+msgstr "Ожидание начала загрузки..."
+
+#: source/gui/update_dialog.py:22
+msgid "إيقاف التحميل"
+msgstr "отменить загрузку"
+
+#: source/gui/update_dialog.py:69
+msgid "لا يمكن تحديث البرنامج في الوقت الحالي"
+msgstr "не удалось обновить программу"
+
+#: source/gui/update_dialog.py:74
+msgid "يتم الآن تنزيل التحديث {}"
+msgstr "Загрузка обновления {}"
+
+#: source/gui/update_dialog.py:77
+msgid "اكتمل تنزيل التحديث بنجاح. يرجى الضغط على موافق للشروع في عملية التثبيت"
+msgstr ""
+"обновление программы успешно загружено. Пожалуйста, нажмите \"ОК\", чтобы "
+"приступить к процессу установки"
+
+#: source/gui/update_dialog.py:79
+msgid "جاري تثبيت التحديث"
+msgstr "установка обновления"
+
+#: source/gui/update_dialog.py:83
+msgid ""
+"حدث خطأ ما عند محاولة فتح ملف التثبيت. فضلًا أعد محاولة التحديث مجددًا, أو "
+"تواصل مع المطور للإبلاغ بالمشكلة"
+msgstr ""
+"при попытке запустить файл обновления появляется сообщение о неизвестной "
+"ошибке. Попробуйте обновить приложение ещё раз или свяжитесь с "
+"разработчиком, чтобы сообщить о проблеме"
+
+#: source/media_player/media_gui.py:47
+msgid "المقطع السابق"
+msgstr "предыдущее"
+
+#: source/media_player/media_gui.py:49 source/media_player/media_gui.py:153
+msgid "بداية المقطع"
+msgstr "воспроизвести с начала"
+
+#: source/media_player/media_gui.py:50
+msgid "إرجاع المقطع <"
+msgstr "перемотать назад<"
+
+#: source/media_player/media_gui.py:51
+msgid "تشغيل\\إيقاف"
+msgstr "воспроизвести/приостановить"
+
+#: source/media_player/media_gui.py:52
+msgid "تقديم المقطع >"
+msgstr "Перемотать вперёд>"
+
+#: source/media_player/media_gui.py:53
+msgid "المقطع التالي"
+msgstr "Следующее"
+
+#: source/media_player/media_gui.py:75
+msgid "وصف الفيديو\tctrl+shift+d"
+msgstr "описание видео\tctrl+shift+d"
+
+#: source/media_player/media_gui.py:76
+msgid "التعليقات...\tctrl+shift+j"
+msgstr "комментарии...\tctrl+shift+j"
+
+#: source/media_player/media_gui.py:78
+msgid "نسخ رابط المقطع\tctrl+l"
+msgstr "скопировать ссылку на видео\tctrl+l"
+
+#: source/media_player/media_gui.py:79
+msgid "الفتح من خلال متصفح الإنترنت\tctrl+b"
+msgstr "открыть в браузере\tctrl+b"
+
+#: source/media_player/media_gui.py:90
+msgid "خيارات المقطع"
+msgstr "параметры видео"
+
+#: source/media_player/media_gui.py:148 source/media_player/media_gui.py:211
+msgid "الوقت المنقضي: {}"
+msgstr "прошло: _BOS_}"
+
+#: source/media_player/media_gui.py:216
+msgid "سريع"
+msgstr "быстро"
+
+#: source/media_player/media_gui.py:224
+msgid "معتدل"
+msgstr "нормально"
+
+#: source/media_player/media_gui.py:232
+msgid "بطيء"
+msgstr "медленно"
+
+#: source/media_player/media_gui.py:242 source/media_player/media_gui.py:254
+msgid "تحريك المقطع"
+msgstr "скорость воспроизведения"
+
+#: source/media_player/media_gui.py:242 source/media_player/media_gui.py:254
+msgid "ثانية/ثواني"
+msgstr "секунда/с"
+
+#: source/media_player/media_gui.py:264
+msgid "التكرار متوقف"
+msgstr "повтор выключен"
+
+#: source/media_player/media_gui.py:269
+msgid "التكرار مفعل"
+msgstr "повтор включён"
+
+#: source/media_player/media_gui.py:277
+msgid "تشغيل المقطع التالي تلقائيًا متوقف"
+msgstr "автоматическое воспроизведение следующего трека отключено"
+
+#: source/media_player/media_gui.py:282
+msgid "تشغيل المقطع التالي تلقائيًا مفعل"
+msgstr "автоматическое воспроизведение следующего трека включено"
+
+#: source/media_player/media_gui.py:301
+#: source/youtube_browser/search_handler.py:46
+#: source/youtube_browser/search_handler.py:147
+msgid "المدة: {}"
+msgstr "продолжительность: {}"
+
+#: source/media_player/media_gui.py:319
+msgid "وضع ملء الشاشة مفعل"
+msgstr "Полноэкранный режим включён"
+
+#: source/media_player/media_gui.py:321
+msgid "وضع ملء الشاشة متوقف"
+msgstr "полноэкранный режим выключен"
+
+#: source/media_player/media_gui.py:396
+msgid "جاري الفتح"
+msgstr "открытие"
+
+#: source/media_player/media_gui.py:422
+msgid "يتم الآن جلب وصف الفيديو"
+msgstr "извлечение описания видео"
+
+#: source/media_player/media_gui.py:426
+msgid "هناك خطأ ما أدى إلى منع جلب وصف الفيديو"
+msgstr "при извлечении описания видео произошла ошибка"
+
+#: source/media_player/media_gui.py:443
+msgid "لا يمكن جلب التعليقات لهذا الفيديو"
+msgstr "не удаётся загрузить комментарии к этому видео"
+
+#: source/media_player/media_gui.py:447
+msgid "يتم الآن جلب التعليقات"
+msgstr "загрузка комментариев"
+
+#: source/media_player/media_gui.py:452
+msgid "لم يتم العثور على تعليقات في هذا المقطع"
+msgstr "не удалось найти комментарии"
+
+#: source/utiles.py:40
+msgid "دقيقة واحدة"
+msgstr "1 минута"
+
+#: source/utiles.py:42
+msgid "دقيقتان"
+msgstr "2 минуты"
+
+#: source/utiles.py:44
+msgid "{} دقائق"
+msgstr "{} минуты"
+
+#: source/utiles.py:46
+msgid "{} دقيقة"
+msgstr "{} минут"
+
+#: source/utiles.py:49
+msgid "ثانية"
+msgstr "1 секунда"
+
+#: source/utiles.py:51
+msgid "ثانيتين"
+msgstr "2 секунды"
+
+#: source/utiles.py:53
+msgid "{} ثواني"
+msgstr "{} секунды"
+
+#: source/utiles.py:55
+msgid "{} ثانية"
+msgstr "{} секунд"
+
+#: source/utiles.py:58
+msgid "ساعة"
+msgstr "1 час"
+
+#: source/utiles.py:60
+msgid "ساعتان"
+msgstr "2 часа"
+
+#: source/utiles.py:62
+msgid "{} ساعات"
+msgstr "{} часа"
+
+#: source/utiles.py:64
+msgid "{} ساعة"
+msgstr "{} часов"
+
+#: source/utiles.py:68
+msgid "{} و{}"
+msgstr "{} и {}"
+
+#: source/utiles.py:70
+msgid "{} و{} و{}"
+msgstr "{}, {} и {}"
+
+#: source/utiles.py:92 source/utiles.py:109
+msgid ""
+"حدث خطأ ما أثناء الاتصال بخدمة العثور على التحديثات. تأكد من وجود اتصال "
+"مستقر بالإنترنت ثم عاود المحاولة"
+msgstr ""
+"Что-то пошло не так при подключении к сервису поиска обновлений. Убедитесь, "
+"что у вас стабильное подключение к Интернету, а затем повторите попытку"
+
+#: source/utiles.py:100
+msgid "هناك تحديث جديد متوفر. هل ترغب في تنزيله الآن؟"
+msgstr "Доступно обновление программы. Хотите загрузить его؟"
+
+#: source/utiles.py:100
+msgid "تحديث جديد"
+msgstr "новая версия программы"
+
+#: source/utiles.py:106
+msgid "أنت تعمل الآن على آخر تحديث متوفر من التطبيق"
+msgstr "вы используете последнюю версию программы"
+
+#: source/utiles.py:106
+msgid "لا يوجد تحديث"
+msgstr "нет доступных обновлений"
+
+#: source/youtube_browser/browser.py:31
+msgid "نتائج البحث: "
+msgstr "результаты поиска: "
+
+#: source/youtube_browser/browser.py:33
+msgid "تحميل المزيد من النتائج"
+msgstr "подгрузить результаты поиска"
+
+#: source/youtube_browser/browser.py:36
+msgid "تشغيل (enter)"
+msgstr "Воспроизвести (enter)"
+
+#: source/youtube_browser/browser.py:38
+msgid "تفضيل الفيديو"
+msgstr "понравившееся видео"
+
+#: source/youtube_browser/browser.py:39
+msgid "بحث... (ctrl+f)"
+msgstr "поиск... (ctrl+f)"
+
+#: source/youtube_browser/browser.py:72
+msgid "خيارات"
+msgstr "параметры"
+
+#: source/youtube_browser/browser.py:103
+msgid "جاري البحث"
+msgstr "поиск"
+
+#: source/youtube_browser/browser.py:105
+msgid "تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."
+msgstr "не удаётся получить результаты поиска из-за проблем с сетью."
+
+#: source/youtube_browser/browser.py:251
+msgid "جاري تحميل المزيد من النتائج"
+msgstr "Подгрузка результатов поиска"
+
+#: source/youtube_browser/browser.py:253
+msgid "لم يتمكن البرنامج من تحميل المزيد من النتائج"
+msgstr "Не удалось подгрузить результаты поиска"
+
+#: source/youtube_browser/browser.py:257
+msgid "تم تحميل المزيد من نتائج البحث"
+msgstr "результаты поиска  подгружены успешно"
+
+#: source/youtube_browser/browser.py:301
+msgid "فتح"
+msgstr "открыть"
+
+#: source/youtube_browser/browser.py:319
+msgid "تمت إضافة الفيديو إلى قائمة المفضلة"
+msgstr "успешно добавлено в список избранных"
+
+#: source/youtube_browser/search_handler.py:46
+#: source/youtube_browser/search_handler.py:100
+#: source/youtube_browser/search_handler.py:104
+msgid "بواسطة"
+msgstr "от"
+
+#: source/youtube_browser/search_handler.py:105
+msgid "تحتوي على {} من الفيديوهات"
+msgstr "содержит {} видео"
+
+#: source/youtube_browser/search_handler.py:141
+msgid "عدد المشاهدات {}"
+msgstr "{} просмотров"

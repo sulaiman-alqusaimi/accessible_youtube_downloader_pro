@@ -9,21 +9,26 @@ from gui.download_progress import DownloadProgress
 from .activity_dialog import LoadingDialog
 from settings_handler import config_get
 import webbrowser
+from app_logger import get_logger
+
+
+logger = get_logger()
 
 
 class Favorites(wx.Frame):
 	def __init__(self, parent):
+		logger.info("Opening favorites window")
 		super().__init__(parent, title=application.name)
 		self.Centre()
 		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
 		p = wx.Panel(self)
-		l1 = wx.StaticText(p, -1, _("المفضلة: "))
+		l1 = wx.StaticText(p, -1, _("favorites"))
 		self.favList = wx.ListBox(p, -1)
-		self.playButton = wx.Button(p, -1, _("تشغيل"), name="control")
-		self.downloadButton = wx.Button(p, -1, _("تنزيل"), name="control")
-		self.deleteButton = wx.Button(p, -1, _("إلغاء التفضيل"), name="control")
-		backButton = wx.Button(p, -1, _("العودة إلى النافذة الرئيسية"), name="control")
+		self.playButton = wx.Button(p, -1, _("play"), name="control")
+		self.downloadButton = wx.Button(p, -1, _("download"), name="control")
+		self.deleteButton = wx.Button(p, -1, _("remove from favorites"), name="control")
+		backButton = wx.Button(p, -1, _("return to the main window"), name="control")
 		self.favorites = Favorite()
 		self.rows = self.favorites.get_all()
 		self.favList.Set([row["display_title"] for row in self.rows])
@@ -61,6 +66,7 @@ class Favorites(wx.Frame):
 		if n == -1:
 			return
 		url = self.rows[n]["url"]
+		logger.info("Deleting favorite. url=%s", url)
 		self.favorites.remove_favorite(url)
 		self.favList.Delete(n)
 		self.rows.pop(n)
@@ -70,12 +76,13 @@ class Favorites(wx.Frame):
 		except:
 			pass
 		self.favList.SetFocus()
-		speak(_("تم حذف الفيديو من قائمة المفضلة"))
+		speak(_("deleted from favorite list"))
 	def playVideo(self):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
-		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream, url).res
+		logger.info("Playing favorite video. title=%s url=%s", title, url)
+		stream = LoadingDialog(self, _("playing"), get_video_stream, url).res
 		gui = MediaGui(self, title, stream, url, True if not self.rows[n]["live"] else False, self.rows)
 		self.Hide()
 
@@ -83,7 +90,8 @@ class Favorites(wx.Frame):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
-		stream = LoadingDialog(self, _("جاري التشغيل"), get_audio_stream, url).res
+		logger.info("Playing favorite audio. title=%s url=%s", title, url)
+		stream = LoadingDialog(self, _("playing"), get_audio_stream, url).res
 		gui = MediaGui(self, title, stream, url, audio_mode=True, results=self.rows)
 		self.Hide()
 
@@ -94,24 +102,24 @@ class Favorites(wx.Frame):
 
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()
-		videoPlayItem = self.contextMenu.Append(-1, _("تشغيل"))
+		videoPlayItem = self.contextMenu.Append(-1, _("play"))
 		self.videoPlayItemId = videoPlayItem.GetId()
-		audioPlayItem = self.contextMenu.Append(-1, _("التشغيل كمقطع صوتي"))
+		audioPlayItem = self.contextMenu.Append(-1, _("play as audio track"))
 		self.audioPlayItemId = audioPlayItem.GetId()
 		self.downloadMenu = wx.Menu()
-		videoItem = self.downloadMenu.Append(-1, _("فيديو"))
+		videoItem = self.downloadMenu.Append(-1, _("Video"))
 		audioMenu = wx.Menu()
 		m4aItem = audioMenu.Append(-1, "m4a")
 		mp3Item = audioMenu.Append(-1, "mp3")
-		self.downloadMenu.AppendSubMenu(audioMenu, _("صوت"))
-		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("تنزيل")).GetId()
-		directDownloadItem = self.contextMenu.Append(-1, _("التنزيل المباشر...\tctrl+d"))
+		self.downloadMenu.AppendSubMenu(audioMenu, _("audio"))
+		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("download")).GetId()
+		directDownloadItem = self.contextMenu.Append(-1, _("direct download...\tctrl+d"))
 		self.directDownloadId = directDownloadItem.GetId()
-		openChannelItem = self.contextMenu.Append(-1, _("الانتقال إلى القناة"))
-		downloadChannelItem = self.contextMenu.Append(-1, _("تنزيل القناة"))
-		copyItem = self.contextMenu.Append(-1, _("نسخ رابط المقطع"))
+		openChannelItem = self.contextMenu.Append(-1, _("navigate to the channel"))
+		downloadChannelItem = self.contextMenu.Append(-1, _("download channel"))
+		copyItem = self.contextMenu.Append(-1, _("copy video link"))
 		self.copyItemId = copyItem.GetId()
-		webbrowserItem = self.contextMenu.Append(-1, _("الفتح من خلال متصفح الإنترنت"))
+		webbrowserItem = self.contextMenu.Append(-1, _("open in browser"))
 		def popup():
 			if self.rows != []:
 				self.favList.PopupMenu(self.contextMenu)
@@ -142,6 +150,7 @@ class Favorites(wx.Frame):
 		title = self.rows[n]["channel_name"]
 		url = self.rows[n]["channel_url"]
 		download_type = "channel"
+		logger.info("Downloading favorite channel. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 
@@ -149,13 +158,14 @@ class Favorites(wx.Frame):
 
 	def onCopy(self, event):
 		pyperclip.copy(self.rows[self.favList.Selection]["url"])
-		wx.MessageBox(_("تم نسخ رابط المقطع بنجاح"), _("اكتمال"), parent=self)
+		wx.MessageBox(_("video URL has been copyed successfully."), _("done"), parent=self)
 
 	def directDownload(self):
 		n = self.favList.Selection
 
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
+		logger.info("Direct download from favorites. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, "video")
 
@@ -163,6 +173,7 @@ class Favorites(wx.Frame):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
+		logger.info("Downloading favorite as m4a. title=%s url=%s", title, url)
 
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(1, url, dlg, "video")
@@ -172,6 +183,7 @@ class Favorites(wx.Frame):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
+		logger.info("Downloading favorite as mp3. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(2, url, dlg, "video")
 
@@ -179,17 +191,18 @@ class Favorites(wx.Frame):
 		n = self.favList.Selection
 		url = self.rows[n]["url"]
 		title = self.rows[n]["title"]
+		logger.info("Downloading favorite as video. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(0, url, dlg, "video")
 
 
 	def onDownload(self, event):
 		downloadMenu = wx.Menu()
-		videoItem = downloadMenu.Append(-1, _("فيديو"))
+		videoItem = downloadMenu.Append(-1, _("Video"))
 		audioMenu = wx.Menu()
 		m4aItem = audioMenu.Append(-1, "m4a")
 		mp3Item = audioMenu.Append(-1, "mp3")
-		downloadMenu.Append(-1, _("صوت"), audioMenu)
+		downloadMenu.Append(-1, _("audio"), audioMenu)
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)

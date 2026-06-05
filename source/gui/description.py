@@ -8,16 +8,16 @@ url = re.compile(r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)
 
 class DescriptionDialog(wx.Dialog):
 	def __init__(self, parent, content):
-		wx.Dialog.__init__(self, parent, title=_("وصف الفيديو"), size=(500, 500))
+		wx.Dialog.__init__(self, parent, title=_("video description"), size=(500, 500))
 		self.Centre()
 		self.content = content
 		panel = wx.Panel(self)
-		lbl = wx.StaticText(panel, -1, _("الوصف: "))
+		lbl = wx.StaticText(panel, -1, _("description: "))
 		self.contentBox = wx.TextCtrl(panel, -1, value=self.process(), style=wx.TE_PROCESS_ENTER|wx.TE_READONLY|wx.TE_MULTILINE|wx.HSCROLL)
-		copyButton = wx.Button(panel, -1, _("نسخ"), name="export")
-		txtExport = wx.Button(panel, -1, _("التصدير إلى مستند نصي (txt)..."), name="export")
-		htmlExport = wx.Button(panel, -1, _("التصدير إلى صفحة ويب (html)..."), name="export")
-		closeButton = wx.Button(panel, wx.ID_CANCEL, _("إغلاق"))
+		copyButton = wx.Button(panel, -1, _("copy"), name="export")
+		txtExport = wx.Button(panel, -1, _("export as txt file..."), name="export")
+		htmlExport = wx.Button(panel, -1, _("export as html web document..."), name="export")
+		closeButton = wx.Button(panel, wx.ID_CANCEL, _("close"))
 		for button in panel.GetChildren():
 			button.Disable() if self.content == "" and button.Name == "export" else None
 		sizer = wx.BoxSizer(wx.VERTICAL)

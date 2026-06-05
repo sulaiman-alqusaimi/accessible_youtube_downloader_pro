@@ -1,16 +1,21 @@
 import wx
 import pyperclip
 import os
+import yt_dlp as youtube_dl
 from download_handler.downloader import Downloader
 from settings_handler import config_get, config_set
+from app_logger import get_logger
 from .download_progress import DownloadProgress
 from threading import Thread
 from utiles import youtube_regexp
 
 
+logger = get_logger()
+
+
 class DownloadDialog(wx.Frame):
 	def __init__(self, parent, default_url=""):
-		wx.Frame.__init__(self, parent=parent, title=_("تنزيل"))
+		wx.Frame.__init__(self, parent=parent, title=_("download"))
 		self.path = config_get("path")
 		self.Centre()
 		self.downloading = False
@@ -18,15 +23,15 @@ class DownloadDialog(wx.Frame):
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer2 = wx.BoxSizer(wx.HORIZONTAL)
-		lbl = wx.StaticText(self.panel, -1, _("رابط التنزيل: : "))
+		lbl = wx.StaticText(self.panel, -1, _("download link: "))
 		self.videoLink = wx.TextCtrl(self.panel, -1, value=default_url)
-		self.downloadingFormat = wx.RadioBox(self.panel, -1, _("نوع المقطع"), choices=[_("صوت"), _("فيديو")])
-		lbl2 = wx.StaticText(self.panel, -1, _("صيغة المقطع"), name="convert")
+		self.downloadingFormat = wx.RadioBox(self.panel, -1, _("file type: "), choices=[_("audio"), _("Video")])
+		lbl2 = wx.StaticText(self.panel, -1, _("file format: "), name="convert")
 		self.convertingFormat = wx.Choice(self.panel, -1, choices=["m4a", "mp3"], name="convert")
 		self.convertingFormat.SetSelection(int(config_get("defaultaudio")))
-		self.downloadButton = wx.Button(self.panel, -1, _("تنزيل"))
+		self.downloadButton = wx.Button(self.panel, -1, _("download"))
 		self.downloadButton.SetDefault()
-		self.changePath = wx.Button(self.panel, -1, f"{_('مسار مجلد التنزيل: ')} {self.path}")
+		self.changePath = wx.Button(self.panel, -1, f"{_("download folder path: ")} {self.path}")
 		self.changePath.Bind(wx.EVT_BUTTON, self.onChangePath)
 		sizer1.Add(lbl, 1)
 		sizer1.Add(self.videoLink, 1, wx.EXPAND)
@@ -64,10 +69,11 @@ class DownloadDialog(wx.Frame):
 		event.Skip()
  # changing path button action
 	def onChangePath(self, event):
-		path = wx.DirSelector(_("اختر مجلد التنزيل"), os.path.join(os.getenv("userprofile"), "downloads"), parent=self) # folder select dialog
+		path = wx.DirSelector(_("choose download folder"), os.path.join(os.getenv("userprofile"), "downloads"), parent=self) # folder select dialog
 		if path == "":
 			return
-		self.changePath.SetLabel(f"{_('مسار مجلد التنزيل: ')} {path}") # editing the change path label to show the new path
+		logger.info("Temporary download dialog path changed. path=%s", path)
+		self.changePath.SetLabel(f"{_("download folder path: ")} {path}") # editing the change path label to show the new path
 		self.path = path
 	# detect youtube links from the clipboard function
 	def detectFromClipboard(self):
@@ -79,7 +85,8 @@ class DownloadDialog(wx.Frame):
 	def downloadingAction(self):
 		url = self.videoLink.GetValue()
 		if url == "" or youtube_regexp(url) is None:
-			wx.MessageBox(_("يرجى إدخال رابطًا صحيحًا."), _("خطأ"), style=wx.ICON_ERROR, parent=self)
+			logger.warning("Invalid download URL entered: %s", url)
+			wx.MessageBox(_("please input a valid YouTube url."), _("error"), style=wx.ICON_ERROR, parent=self)
 			wx.CallAfter(self.videoLink.SetFocus)
 			return
 		cases = ("list", "channel", "playlist", "/user/")
@@ -97,18 +104,21 @@ class DownloadDialog(wx.Frame):
 			convert = False
 		downloader = Downloader(url, self.path, format, self.downloadFrame.gaugeProgress, self.downloadFrame.textProgress, convert=convert, folder=folder)
 		try:
+			logger.info("Starting dialog download. format=%s convert=%s folder=%s path=%s url=%s", format, convert, folder, self.path, url)
 			wx.CallAfter(self.Hide)
 			self.downloading = True
 			wx.CallAfter(self.downloadFrame.Show)
-			downloader.download()
+			downloader.download_with_cookie_fallback()
 		except youtube_dl.utils.DownloadError:
-			wx.MessageBox(_("لقد أدخلت رابطًأ غير صحيح. يرجى تجربة رابط آخر, أو حاول التأكد من وجود اتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR, parent=self)
+			logger.exception("Dialog download failed. url=%s", url)
+			wx.MessageBox(_("either an internet connection occured or you have enterd an invalid YouTube url. please check that out and try again."), _("error"), style=wx.ICON_ERROR, parent=self)
 			wx.CallAfter(self.videoLink.SetValue, "")
 			wx.CallAfter(self.Show)
 			wx.CallAfter(self.videoLink.SetFocus)
 			wx.CallAfter(self.downloadFrame.Destroy)
 			return
-		wx.MessageBox(_("اكتمل التنزيل بنجاح"), _("نجاح"), parent=self.downloadFrame)
+		logger.info("Dialog download finished. url=%s", url)
+		wx.MessageBox(_("download has been completed successfully."), _("success"), parent=self.downloadFrame)
 		wx.CallAfter(self.downloadFrame.Destroy)
 		wx.CallAfter(self.Show)
 		wx.CallAfter(self.videoLink.SetFocus)

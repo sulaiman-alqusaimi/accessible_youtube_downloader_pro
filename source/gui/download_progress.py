@@ -4,15 +4,15 @@ import wx
 class DownloadProgress(wx.Frame):
 	def __init__(self, parent, title=""):
 		wx.Frame.__init__(self, parent=parent)
-		self.Title = _("جاري التنزيل - {}").format(title if title != "" else "accessible youtube downloader pro")
+		self.Title = _("downloading - {}").format(title if title != "" else "accessible youtube downloader pro")
 		self.Centre()
 		panel = wx.Panel(self)
-		self.textProgress = wx.Choice(panel, -1, choices=[_("نسبة التنزيل: {}%").format(0), _("حجم الملف الإجمالي: {} {}"), _("مقدار الحجم الذي تم تنزيله: {} {}"), _("المقدار المتبقي: {} {}"), _("سرعة التنزيل: {} {}")])
+		self.textProgress = wx.Choice(panel, -1, choices=[_("download percentage: {}%").format(0), _("total file size: {} {}"), _("downloaded size: {} {}"), _("remaining file size: {} {}"), _("downloading speed: {} {}")])
 		self.textProgress.Selection = 0
 		self.gaugeProgress = wx.Gauge(panel, -1, range=100)
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 	def onClose(self, event):
-		message = wx.MessageBox("هناك عملية تنزيل جارية. هل تريد إلغاءها؟", "إنهاء", style=wx.YES_NO, parent=self)
+		message = wx.MessageBox(_("There is an active download. Do you want to cancel it?"), _("Exit"), style=wx.YES_NO, parent=self)
 		if message == 2:
 			self.Destroy()
 

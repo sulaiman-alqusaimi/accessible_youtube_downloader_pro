@@ -11,11 +11,11 @@ from utiles import get_video_stream, get_audio_stream
 def link_type(url):
 	cases = ("list", "channel", "playlist", "/user/")
 	if cases[0] in url or cases[2] in url:
-		return _("قائمة تشغيل")
+		return _("playlist")
 	elif cases[1] in url or cases[3] in url:
-		return _("قناة")
+		return _("channel")
 	else:
-		return _("فيديو")
+		return _("Video")
 
 class AutoDetectDialog(wx.Dialog):
 	def __init__(self, parent, url):
@@ -23,15 +23,15 @@ class AutoDetectDialog(wx.Dialog):
 		self.url  = url
 		self.Centre()
 		panel = wx.Panel(self)
-		msg = wx.StaticText(panel, -1, _("لقد تم الكشف عن وجود رابط ل{} يوتيوب في الحافظة. يرجى اختيار الإجراء المطلوب").format(link_type(url)))
-		downloadButton = wx.Button(panel, -1, _("تنزيل"))
-		playButton = wx.Button(panel, -1, _("تشغيل"))
+		msg = wx.StaticText(panel, -1, _("their is a link for YouTube {} detected in the clipboard. What would you like to do now?").format(link_type(url)))
+		downloadButton = wx.Button(panel, -1, _("download"))
+		playButton = wx.Button(panel, -1, _("play"))
 
-		if link_type(self.url) == _("قائمة تشغيل"):
-			playButton.Label = _("فتح...")
-		elif link_type(url) != _("فيديو"):
+		if link_type(self.url) == _("playlist"):
+			playButton.Label = _("open...")
+		elif link_type(url) != _("Video"):
 			playButton.Disable() 
-		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("إلغاء"))
+		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("cancel"))
 		downloadButton.Bind(wx.EVT_BUTTON, self.onDownload)
 		playButton.Bind(wx.EVT_BUTTON, self.onPlay)
 		self.ShowModal()
@@ -40,14 +40,14 @@ class AutoDetectDialog(wx.Dialog):
 		dlg.Show()
 		self.Destroy()
 	def onPlay(self, event):
-		if link_type(self.url) == _("قائمة تشغيل"):
+		if link_type(self.url) == _("playlist"):
 			PlaylistDialog(self.Parent, self.url)
 			self.Destroy()
 			return
 		from .activity_dialog import LoadingDialog
 		parent = self.Parent
 		self.Destroy()
-		stream = LoadingDialog(parent, _("جاري التشغيل"), get_audio_stream, self.url).res
+		stream = LoadingDialog(parent, _("playing"), get_audio_stream, self.url).res
 		gui = MediaGui(parent, stream.title, stream, self.url)
 
 

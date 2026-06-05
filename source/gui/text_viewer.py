@@ -12,7 +12,7 @@ class Viewer(wx.Dialog):
 		sizer= wx.BoxSizer(wx.VERTICAL)
 		panel = wx.Panel(self)
 		textBox = wx.TextCtrl(panel,-1, value=content, style=wx.TE_READONLY|wx.TE_MULTILINE|wx.HSCROLL|wx.TE_CENTRE)
-		closeButton = wx.Button(panel,-1, _("إغلاق"))
+		closeButton = wx.Button(panel,-1, _("close"))
 		closeButton.Bind(wx.EVT_BUTTON, lambda event: self.Destroy())
 		sizer.Add(closeButton,0)
 		sizer.Add(textBox, 1, wx.EXPAND)

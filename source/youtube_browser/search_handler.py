@@ -1,10 +1,14 @@
 from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch, PlaylistsSearch, Playlist
 from utiles import time_formatting
+from app_logger import get_logger
 
+
+logger = get_logger()
 
 
 class PlaylistResult:
 	def __init__(self, url):
+		logger.info("Loading playlist. url=%s", url)
 		self.url = url
 		self.playlist = Playlist(url)
 		self.videos = []
@@ -28,6 +32,7 @@ class PlaylistResult:
 	def next(self):
 		if not self.playlist.hasMoreVideos:
 			return
+		logger.info("Loading more playlist videos. url=%s", self.url)
 		self.playlist.getNextVideos()
 		current = self.count
 		self.parse()
@@ -43,7 +48,7 @@ class PlaylistResult:
 	def get_display_titles(self):
 		titles = []
 		for vid in self.videos:
-			title = [vid['title'], _("المدة: {}").format(vid['duration']), f"{_('بواسطة')} {vid['channel']['name']}"]
+			title = [vid['title'], _("duration: {}").format(vid['duration']), f"{_("from")} {vid['channel']['name']}"]
 			titles.append(", ".join(title))
 		return titles
 	def get_url(self, n):
@@ -55,6 +60,7 @@ class PlaylistResult:
 
 class Search:
 	def __init__(self, query, filter=0):
+		logger.info("Creating search. query=%s filter=%s", query, filter)
 		self.query = query
 		self.filter = filter
 		self.results = {}
@@ -97,12 +103,12 @@ class Search:
 			title = [data['title']]
 			if data["type"] == "video":
 				title += [self.get_duration(data['duration']),
-					f"{_('بواسطة')} {data['channel']['name']}",
+					f"{_("from")} {data['channel']['name']}",
 					self.views_part(data['views'])]
 			elif data["type"] == "playlist":
-				title += [_("قائمة تشغيل"),
-			f"{_('بواسطة')} {data['channel']['name']}", 
-					_("تحتوي على {} من الفيديوهات").format(data["elements"])]
+				title += [_("playlist"),
+			f"{_("from")} {data['channel']['name']}", 
+					_("contains {} videos").format(data["elements"])]
 			titles.append(", ".join([element for element in title if element != ""]))
 		return titles
 
@@ -120,8 +126,10 @@ class Search:
 
 	def load_more(self):
 		try:
+			logger.info("Loading more search results. query=%s", self.query)
 			self.search.next()
-		except:
+		except Exception:
+			logger.exception("Could not load more search results. query=%s", self.query)
 			return
 		current = self.count
 		self.parse_results()
@@ -138,12 +146,12 @@ class Search:
 		return self.results[number+1]['views']
 	def views_part(self, data):
 		if data is not None:
-			return _("عدد المشاهدات {}").format(data)
+			return _("{} views").format(data)
 		else:
-			return _("بث مباشر")
+			return _("lives")
 
 	def get_duration(self, data): # get the duration of the video
 		if data is not None:
-			return _("المدة: {}").format(time_formatting(data))
+			return _("duration: {}").format(time_formatting(data))
 		else:
 			return ""

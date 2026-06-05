@@ -5,16 +5,16 @@ from utiles import youtube_regexp
 
 class LinkDlg(wx.Dialog):
 	def __init__(self, parent):
-		wx.Dialog.__init__(self, parent=parent, title=_("ادخل رابط الفيديو لتشغيله من خلال مشغل البرنامج"))
+		wx.Dialog.__init__(self, parent=parent, title=_("please input the link of the YouTube video to play"))
 		self.Centre()
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		lbl = wx.StaticText(panel, -1, _("رابط المقطع"))
+		lbl = wx.StaticText(panel, -1, _("link:"))
 		self.link = wx.TextCtrl(panel, -1, value="")
-		self.mode = wx.RadioBox(panel, -1, _("التشغيل ك: "), choices=[_("مقطع فيديو"), _("مقطع صوتي")])
-		self.okButton = wx.Button(panel, wx.ID_OK, _("تشغيل"))
+		self.mode = wx.RadioBox(panel, -1, _("play as:"), choices=[_("video"), _("audio")])
+		self.okButton = wx.Button(panel, wx.ID_OK, _("play"))
 		self.okButton.SetDefault()
-		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("إغلاق"))
+		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("close"))
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer1.Add(lbl, 1)
 		sizer1.Add(self.link, 1)

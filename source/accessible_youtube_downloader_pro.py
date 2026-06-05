@@ -6,6 +6,10 @@ os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import settings_handler
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
+from app_logger import get_logger, install_exception_logging
+install_exception_logging()
+logger = get_logger()
+logger.info("Starting application")
 import database
 import application
 import pyperclip
@@ -47,11 +51,11 @@ class HomeScreen(wx.Frame):
 		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
 		panel = wx.Panel(self)
-		self.instruction = CustomLabel(panel, -1, _("اضغط على مفتاح القوائم alt للوصول إلى خيارات البرنامج, أو تنقل بزر التاب للوصول سريعًا إلى أهم الخيارات المتاحة.")) # a breafe instruction message witch is shown by the custome StaticText to automaticly be focused when launching the app
-		youtubeBrowseButton = wx.Button(panel, -1, _("البحث في youtube\tctrl+f"), name="tab")
-		downloadFromLinkButton = wx.Button(panel, -1, _("التنزيل من خلال رابط\tctrl+d"), name="tab")
-		playYoutubeLinkButton = wx.Button(panel, -1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y"), name="tab")
-		favButton = wx.Button(panel, -1, _("الفيديوهات المفضلة	ctrl+shift+f"), name="tab")
+		self.instruction = CustomLabel(panel, -1, _("press the alt key to go through the available options, or use the tab key for quick access.")) # a breafe instruction message witch is shown by the custome StaticText to automaticly be focused when launching the app
+		youtubeBrowseButton = wx.Button(panel, -1, _("Search in youtube\tctrl+f"), name="tab")
+		downloadFromLinkButton = wx.Button(panel, -1, _("download YouTube link\tctrl+d"), name="tab")
+		playYoutubeLinkButton = wx.Button(panel, -1, _("play YouTube link\tctrl+y"), name="tab")
+		favButton = wx.Button(panel, -1, _("favorite videos\tctrl+shift+f"), name="tab")
 		# quick access buttons
 		sizer = wx.BoxSizer(wx.VERTICAL) # the main sizer
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL) # quick access buttons sizer
@@ -64,13 +68,13 @@ class HomeScreen(wx.Frame):
 		panel.SetSizer(sizer) # adding the sizer to the main panel
 		menuBar = wx.MenuBar() # seting up the menu bar
 		mainMenu = wx.Menu()
-		searchItem = mainMenu.Append(-1, _("البحث في youtube\tctrl+f")) # search in youtube item
-		downloadItem = mainMenu.Append(-1, _("التنزيل من خلال رابط\tctrl+d"))# download link item
-		playItem = mainMenu.Append(-1, _("تشغيل فيديو youtube من خلال الرابط\tctrl+y")) # play youtube link item
-		favoriteItem = mainMenu.Append(-1, _("الفيديوهات المفضلة	ctrl+shift+f"))
-		openDownloadingPathItem = mainMenu.Append(-1, _("فتح مجلد التنزيل\tctrl+p")) # open downloading folder item
-		settingsItem = mainMenu.Append(-1, _("الإعدادات...\talt+s")) # settings item
-		exitItem = mainMenu.Append(-1, _("خروج\tctrl+w")) # quit item
+		searchItem = mainMenu.Append(-1, _("Search in youtube\tctrl+f")) # search in youtube item
+		downloadItem = mainMenu.Append(-1, _("download YouTube link\tctrl+d"))# download link item
+		playItem = mainMenu.Append(-1, _("play YouTube link\tctrl+y")) # play youtube link item
+		favoriteItem = mainMenu.Append(-1, _("favorite videos\tctrl+shift+f"))
+		openDownloadingPathItem = mainMenu.Append(-1, _("open downloading folder\tctrl+p")) # open downloading folder item
+		settingsItem = mainMenu.Append(-1, _("settings...\talt+s")) # settings item
+		exitItem = mainMenu.Append(-1, _("exit\tctrl+w")) # quit item
 		hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_CTRL, ord("F"), searchItem.GetId()),
 			(wx.ACCEL_CTRL, ord("D"), downloadItem.GetId()),
@@ -82,16 +86,16 @@ class HomeScreen(wx.Frame):
 		])
 		# the accelerator table asociated with the menu items
 		self.SetAcceleratorTable(hotKeys) # adding the accelerator table to the frame
-		menuBar.Append(mainMenu, _("القائمة الرئيسية")) # append the main menu to the menu bar
+		menuBar.Append(mainMenu, _("main menu")) # append the main menu to the menu bar
 		aboutMenu = wx.Menu()
-		userGuideItem = aboutMenu.Append(-1, _("دليل المستخدم...\tf1")) # userguide
-		checkForUpdatesItem = aboutMenu.Append(-1, _("البحث عن التحديثات"))
-		aboutItem = aboutMenu.Append(-1, _("عن البرنامج...")) # about item
+		userGuideItem = aboutMenu.Append(-1, _("userguide\u2026\tf1")) # userguide
+		checkForUpdatesItem = aboutMenu.Append(-1, _("search for updates"))
+		aboutItem = aboutMenu.Append(-1, _("about the app...")) # about item
 		contactMenu = wx.Menu()
-		emailItem = contactMenu.Append(-1, _("البريد الالكتروني..."))
-		twitterItem = contactMenu.Append(-1, _("تويتر..."))
-		aboutMenu.AppendSubMenu(contactMenu, _("تواصل معي"))
-		menuBar.Append(aboutMenu, _("حول")) # append the about menu to the menu bar
+		emailItem = contactMenu.Append(-1, _("email..."))
+		twitterItem = contactMenu.Append(-1, _("twitter..."))
+		aboutMenu.AppendSubMenu(contactMenu, _("contact with me"))
+		menuBar.Append(aboutMenu, _("about")) # append the about menu to the menu bar
 		self.SetMenuBar(menuBar) # add the menu bar to the window
 		# event bindings
 		self.Bind(wx.EVT_MENU, self.onSearch, searchItem)
@@ -121,14 +125,17 @@ class HomeScreen(wx.Frame):
 		linkDlg = LinkDlg(self)
 		data = linkDlg.data # get the link and playing format from the dialog
 		url = data["link"]
-		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream if not data["audio"] else get_audio_stream, url).res
+		logger.info("Opening link in media player. audio=%s url=%s", data["audio"], url)
+		stream = LoadingDialog(self, _("playing"), get_video_stream if not data["audio"] else get_audio_stream, url).res
 		gui = MediaGui(self, stream.title, stream, data["link"]) # initiating the media gui
 		self.Hide()
 
 	def onDownload(self, event): # the event function for the link downloading item to show the appropriate dialog
+		logger.info("Opening download dialog")
 		dlg = DownloadDialog(self)
 		dlg.Show()
 	def onSearch(self, event): # showing the youtube browser window event function
+		logger.info("Opening YouTube browser")
 		browser = YoutubeBrowser(self)
 	def detectFromClipboard(self, config):
 		if not config:
@@ -138,10 +145,12 @@ class HomeScreen(wx.Frame):
 		if match is not None:
 			AutoDetectDialog(self, clip_content)
 	def onFavorite(self, event):
+		logger.info("Opening favorites")
 		Favorites(self)
 		self.Hide()
 	def onOpen(self, event):
 		path = settings_handler.config_get("path")
+		logger.info("Opening download path: %s", path)
 		if not os.path.exists(path):
 			os.mkdir(path)
 		explorer = os.path.join(os.getenv("SYSTEMDRIVE"), "\\windows\\explorer")
@@ -152,7 +161,7 @@ class HomeScreen(wx.Frame):
 			if content is None:
 				event.Skip()
 				return
-			Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content)
+			Viewer(self, _("accessible YouTube  downloader pro userguide"), content)
 		event.Skip()
 	def onShow(self, event):
 		self.instruction.SetFocus()
@@ -160,20 +169,22 @@ class HomeScreen(wx.Frame):
 		content = documentation_get()
 		if content is None:
 			return
-		Viewer(self, _("دليل استخدام برنامج accessible youtube downloader pro"), content).ShowModal()
+		Viewer(self, _("accessible YouTube  downloader pro userguide"), content).ShowModal()
 	def onCheckForUpdates(self, event):
 		from gui.activity_dialog import LoadingDialog
-		# speak(_("جاري البحث عن التحديثات. يرجى الانتظار"))
-		LoadingDialog(self, _("جاري البحث عن التحديثات. يرجى الانتظار"), check_for_updates)
+		# speak(_("checking for updates. please wait"))
+		logger.info("Manual update check requested")
+		LoadingDialog(self, _("Checking for updates. Please wait."), check_for_updates)
 		self.instruction.SetFocus()
 
 	def onAbout(self, event):
-		about = f"""{_('اسم البرنامج')}: {application.name}.
-{_('الإصدار')}: {application.version}.
-{_('طُوِر بواسطة')}: {application.author}.
-{_('الوصف: ')}{_(application.describtion)}."""
-		wx.MessageBox(about, _("حول"), parent=self)
+		about = f"""{_("app name")}: {application.name}.
+{_("version")}: {application.version}.
+{_("developed by")}: {application.author}.
+{_("description: ")}{_(application.describtion)}."""
+		wx.MessageBox(about, _("about"), parent=self)
 	def onClose(self, event):
+		logger.info("Closing application")
 		database.disconnect()
 		wx.Exit()
 

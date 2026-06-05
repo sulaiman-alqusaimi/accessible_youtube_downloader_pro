@@ -11,19 +11,24 @@ from threading import Thread
 import os
 from .activity_dialog import LoadingDialog
 import application
+from app_logger import get_logger
+
+
+logger = get_logger()
 
 class PlaylistDialog(wx.Dialog):
 	def __init__(self, parent, url):
+		logger.info("Opening playlist dialog. url=%s", url)
 		super().__init__(parent, title=application.name)
 		self.CenterOnParent()
 		self.url = url
 		self.Maximize(True)
 		p = wx.Panel(self)
-		l1 = wx.StaticText(p, -1, _("قائمة الفيديوهات: "))
+		l1 = wx.StaticText(p, -1, _("videos list"))
 		self.videosBox = wx.ListBox(p, -1)
-		self.playButton = wx.Button(p, -1, _("تشغيل"), name="control")
-		self.downloadButton = wx.Button(p, -1, _("تنزيل"), name="control")
-		backButton = wx.Button(p, -1, _("رجوع"), name="control")
+		self.playButton = wx.Button(p, -1, _("play"), name="control")
+		self.downloadButton = wx.Button(p, -1, _("download"), name="control")
+		backButton = wx.Button(p, -1, _("back"), name="control")
 		self.contextSetup()
 
 		hotkeys = wx.AcceleratorTable([
@@ -50,12 +55,13 @@ class PlaylistDialog(wx.Dialog):
 		self.Bind(wx.EVT_CHAR_HOOK, self.onHook)
 		self.Bind(wx.EVT_CLOSE, lambda e: wx.Exit())
 		try:
-			self.result = LoadingDialog(self.Parent, _("جاري عرض قائمة التشغيل"), PlaylistResult, self.url).res
+			self.result = LoadingDialog(self.Parent, _("loading playlist"), PlaylistResult, self.url).res
 			self.title = self.result.playlist.info['info']['title']
 			self.SetTitle(f"{application.name} - {self.title}")
 			self.videosBox.Set(self.result.get_display_titles())
-		except:
-			wx.MessageBox(_("حدث خطأ ما أثناء محاولة فتح قائمة التشغيل"), _("خطأ"), style=wx.ICON_ERROR, parent=self)
+		except Exception:
+			logger.exception("Could not open playlist. url=%s", self.url)
+			wx.MessageBox(_("an error occurred while trying to load the playlist"), _("error"), style=wx.ICON_ERROR, parent=self)
 			self.Destroy()
 			return
 		self.Parent.Hide()
@@ -63,24 +69,24 @@ class PlaylistDialog(wx.Dialog):
 		self.videosBox.Selection = 0
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()
-		videoPlayItem = self.contextMenu.Append(-1, _("تشغيل"))
+		videoPlayItem = self.contextMenu.Append(-1, _("play"))
 		self.videoPlayItemId = videoPlayItem.GetId()
-		audioPlayItem = self.contextMenu.Append(-1, _("التشغيل كمقطع صوتي"))
+		audioPlayItem = self.contextMenu.Append(-1, _("play as audio track"))
 		self.audioPlayItemId = audioPlayItem.GetId()
 		self.downloadMenu = wx.Menu()
-		videoItem = self.downloadMenu.Append(-1, _("فيديو"))
+		videoItem = self.downloadMenu.Append(-1, _("Video"))
 		audioMenu = wx.Menu()
 		m4aItem = audioMenu.Append(-1, "m4a")
 		mp3Item = audioMenu.Append(-1, "mp3")
-		self.downloadMenu.AppendSubMenu(audioMenu, _("صوت"))
-		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("تنزيل")).GetId()
-		directDownloadItem = self.contextMenu.Append(-1, _("التنزيل المباشر...\tctrl+d"))
+		self.downloadMenu.AppendSubMenu(audioMenu, _("audio"))
+		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("download")).GetId()
+		directDownloadItem = self.contextMenu.Append(-1, _("direct download...\tctrl+d"))
 		self.directDownloadId = directDownloadItem.GetId()
-		openChannelItem = self.contextMenu.Append(-1, _("الانتقال إلى القناة"))
-		downloadChannelItem = self.contextMenu.Append(-1, _("تنزيل القناة"))
-		copyItem = self.contextMenu.Append(-1, _("نسخ رابط المقطع"))
+		openChannelItem = self.contextMenu.Append(-1, _("navigate to the channel"))
+		downloadChannelItem = self.contextMenu.Append(-1, _("download channel"))
+		copyItem = self.contextMenu.Append(-1, _("copy video link"))
 		self.copyItemId = copyItem.GetId()
-		webbrowserItem = self.contextMenu.Append(-1, _("الفتح من خلال متصفح الإنترنت"))
+		webbrowserItem = self.contextMenu.Append(-1, _("open in browser"))
 		def popup():
 			if self.result.videos:
 				self.videosBox.PopupMenu(self.contextMenu)
@@ -104,7 +110,7 @@ class PlaylistDialog(wx.Dialog):
 	def onCopy(self, event):
 		n = self.videosBox.Selection
 		pyperclip.copy(self.result.get_url(n))
-		wx.MessageBox(_("تم نسخ رابط المقطع بنجاح"), _("اكتمال"), parent=self)
+		wx.MessageBox(_("video URL has been copyed successfully."), _("done"), parent=self)
 
 	def onOpenChannel(self, event):
 		n = self.videosBox.Selection
@@ -115,6 +121,7 @@ class PlaylistDialog(wx.Dialog):
 		title = self.result.videos[n]["channel"]['name']
 		url = self.result.videos[n]["channel"]['url']
 		download_type = "channel"
+		logger.info("Downloading playlist video channel. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 
@@ -124,7 +131,8 @@ class PlaylistDialog(wx.Dialog):
 
 		title = self.result.get_title(n)
 
-		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream, url).res
+		logger.info("Playing playlist video. title=%s url=%s", title, url)
+		stream = LoadingDialog(self, _("playing"), get_video_stream, url).res
 		gui = MediaGui(self, title, stream, url, True, self.result)
 		gui.path = os.path.join(gui.path, self.title)
 		self.Hide()
@@ -135,7 +143,8 @@ class PlaylistDialog(wx.Dialog):
 
 		title = self.result.get_title(n)
 
-		stream = LoadingDialog(self, _("جاري التشغيل"), get_audio_stream, url).res
+		logger.info("Playing playlist audio. title=%s url=%s", title, url)
+		stream = LoadingDialog(self, _("playing"), get_audio_stream, url).res
 
 		gui = MediaGui(self, title, stream, url, audio_mode=True, results=self.result)
 		gui.path = os.path.join(gui.path, self.title)
@@ -150,16 +159,18 @@ class PlaylistDialog(wx.Dialog):
 					if self.result.next():
 						titles = self.result.get_new_titles()
 						wx.CallAfter(self.videosBox.Append, titles)
-						speak(_("تم تحميل المزيد من الفيديوهات"))
+						speak(_("more videos loaded"))
 					else:
-						speak(_("ليس هناك فيديوهات أخرى"))
-				except Exception as e:
-					speak(_("لم يتم تحميل المزيد من الفيديوهات"))
+						speak(_("no more videos"))
+				except Exception:
+					logger.exception("Could not load more playlist videos. url=%s", self.url)
+					speak(_("could not load more videos"))
 			Thread(target=load).start()
 	def onVideoDownload(self, event):
 		n = self.videosBox.Selection
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
+		logger.info("Downloading playlist video as video. title=%s url=%s", title, url)
 		dlg = DownloadProgress(self.Parent, title)
 		direct_download(0, url, dlg, "video", os.path.join(config_get("path"), self.title))
 
@@ -167,6 +178,7 @@ class PlaylistDialog(wx.Dialog):
 		n = self.videosBox.Selection
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
+		logger.info("Direct download from playlist. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, "video", os.path.join(config_get("path"), self.title))
 
@@ -175,6 +187,7 @@ class PlaylistDialog(wx.Dialog):
 		n = self.videosBox.Selection
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
+		logger.info("Downloading playlist video as m4a. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(1, url, dlg, "video", os.path.join(config_get("path"), self.title))
 
@@ -182,16 +195,17 @@ class PlaylistDialog(wx.Dialog):
 		n = self.videosBox.Selection
 		url = self.result.get_url(n)
 		title = self.result.get_title(n)
+		logger.info("Downloading playlist video as mp3. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(2, url, dlg, "video", os.path.join(config_get("path"), self.title))
 
 	def onDownload(self, event):
 		downloadMenu = wx.Menu()
-		videoItem = downloadMenu.Append(-1, _("فيديو"))
+		videoItem = downloadMenu.Append(-1, _("Video"))
 		audioMenu = wx.Menu()
 		m4aItem = audioMenu.Append(-1, "m4a")
 		mp3Item = audioMenu.Append(-1, "mp3")
-		downloadMenu.Append(-1, _("صوت"), audioMenu)
+		downloadMenu.Append(-1, _("audio"), audioMenu)
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)

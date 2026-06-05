@@ -19,6 +19,10 @@ from settings_handler import config_get
 from youtube_browser.search_handler import Search
 from utiles import direct_download, get_audio_stream, get_video_stream
 from database import Favorite, Continue
+from app_logger import get_logger
+
+
+logger = get_logger()
 
 
 class YoutubeBrowser(wx.Frame):
@@ -28,16 +32,16 @@ class YoutubeBrowser(wx.Frame):
 		self.SetSize(wx.DisplaySize())
 		self.Maximize(True)
 		self.panel = wx.Panel(self)
-		lbl = wx.StaticText(self.panel, -1, _("نتائج البحث: "))
+		lbl = wx.StaticText(self.panel, -1, _("search results: "))
 		self.searchResults = wx.ListBox(self.panel, -1)
-		self.loadMoreButton = wx.Button(self.panel, -1, _("تحميل المزيد من النتائج"))
+		self.loadMoreButton = wx.Button(self.panel, -1, _("load more results"))
 		self.loadMoreButton.Enabled = False
 		self.loadMoreButton.Show(not config_get("autoload"))
-		self.playButton = wx.Button(self.panel, -1, _("تشغيل (enter)"), name="controls")
-		self.downloadButton = wx.Button(self.panel, -1, _("تنزيل"), name="controls")
-		self.favCheck = wx.CheckBox(self.panel, -1, _("تفضيل الفيديو"))
-		searchButton = wx.Button(self.panel, -1, _("بحث... (ctrl+f)"))
-		backButton = wx.Button(self.panel, -1, _("العودة إلى النافذة الرئيسية"))
+		self.playButton = wx.Button(self.panel, -1, _("play (enter)"), name="controls")
+		self.downloadButton = wx.Button(self.panel, -1, _("download"), name="controls")
+		self.favCheck = wx.CheckBox(self.panel, -1, _("favorite the video"))
+		searchButton = wx.Button(self.panel, -1, _("search... (ctrl+f)"))
+		backButton = wx.Button(self.panel, -1, _("return to the main window"))
 		sizer = wx.BoxSizer(wx.VERTICAL)
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer1.Add(backButton, 1, wx.ALL)
@@ -60,7 +64,7 @@ class YoutubeBrowser(wx.Frame):
 		self.searchResults.SetAcceleratorTable(results_shortcuts)
 		menuBar = wx.MenuBar()
 		optionsMenu = wx.Menu()
-		settingsItem = optionsMenu.Append(-1, _("الإعدادات...\talt+s"))
+		settingsItem = optionsMenu.Append(-1, _("settings...\talt+s"))
 		hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL, ord("F"), searchButton.GetId()),
@@ -69,7 +73,7 @@ class YoutubeBrowser(wx.Frame):
 		])
 		# hotkey table
 		self.SetAcceleratorTable(hotKeys)
-		menuBar.Append(optionsMenu, _("خيارات"))
+		menuBar.Append(optionsMenu, _("options"))
 		self.SetMenuBar(menuBar)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.loadMoreButton.Bind(wx.EVT_BUTTON, self.onLoadMore)
@@ -100,9 +104,11 @@ class YoutubeBrowser(wx.Frame):
 			self.togleControls()
 			return
 		try:
-			self.search = LoadingDialog(self, _("جاري البحث"), Search, query, filter).res
-		except:
-			wx.MessageBox(_("تعذر إجراء عملية البحث بسبب وجود خلل ما في الاتصال بالشبكة."), _("خطأ"), style=wx.ICON_ERROR)
+			logger.info("Searching YouTube. query=%s filter=%s", query, filter)
+			self.search = LoadingDialog(self, _("searching"), Search, query, filter).res
+		except Exception:
+			logger.exception("YouTube search failed. query=%s filter=%s", query, filter)
+			wx.MessageBox(_("unable to get search results due to a network connection."), _("error"), style=wx.ICON_ERROR)
 			self.searchAction(query)
 		titles = self.search.get_titles()
 		self.searchResults.Set(titles)
@@ -130,8 +136,8 @@ class YoutubeBrowser(wx.Frame):
 			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
-		print(url)
-		stream = LoadingDialog(self, _("جاري التشغيل"), get_video_stream, url).res
+		logger.info("Playing video from search results. title=%s url=%s", title, url)
+		stream = LoadingDialog(self, _("playing"), get_video_stream, url).res
 		gui = MediaGui(self, title, stream, url, True if self.search.get_views(number) is not None else False, results=self.search)
 		self.Hide()
 
@@ -141,7 +147,8 @@ class YoutubeBrowser(wx.Frame):
 			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
-		stream = LoadingDialog(self, _("جاري التشغيل"), get_audio_stream, url).res
+		logger.info("Playing audio from search results. title=%s url=%s", title, url)
+		stream = LoadingDialog(self, _("playing"), get_audio_stream, url).res
 		gui = MediaGui(self, title, stream, url, results=self.search, audio_mode=True)
 		self.Hide()
 
@@ -158,24 +165,24 @@ class YoutubeBrowser(wx.Frame):
 	def contextSetup(self):
 		self.contextMenu = wx.Menu()
 
-		videoPlayItem = self.contextMenu.Append(-1, _("تشغيل"))
+		videoPlayItem = self.contextMenu.Append(-1, _("play"))
 		self.videoPlayItemId = videoPlayItem.GetId()
-		audioPlayItem = self.contextMenu.Append(-1, _("التشغيل كمقطع صوتي"))
+		audioPlayItem = self.contextMenu.Append(-1, _("play as audio track"))
 		self.audioPlayItemId = audioPlayItem.GetId()
 		self.downloadMenu = wx.Menu()
-		videoItem = self.downloadMenu.Append(-1, _("فيديو"))
+		videoItem = self.downloadMenu.Append(-1, _("Video"))
 		audioMenu = wx.Menu()
 		m4aItem = audioMenu.Append(-1, "m4a")
 		mp3Item = audioMenu.Append(-1, "mp3")
-		self.downloadMenu.AppendSubMenu(audioMenu, _("صوت"))
-		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("تنزيل")).GetId()
-		directDownloadItem = self.contextMenu.Append(-1, _("التنزيل المباشر...\tctrl+d"))
+		self.downloadMenu.AppendSubMenu(audioMenu, _("audio"))
+		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("download")).GetId()
+		directDownloadItem = self.contextMenu.Append(-1, _("direct download...\tctrl+d"))
 		self.directDownloadId = directDownloadItem.GetId()
-		openChannelItem = self.contextMenu.Append(-1, _("الانتقال إلى القناة"))
-		downloadChannelItem = self.contextMenu.Append(-1, _("تنزيل القناة"))
-		copyItem = self.contextMenu.Append(-1, _("نسخ رابط المقطع"))
+		openChannelItem = self.contextMenu.Append(-1, _("navigate to the channel"))
+		downloadChannelItem = self.contextMenu.Append(-1, _("download channel"))
+		copyItem = self.contextMenu.Append(-1, _("copy video link"))
 		self.copyItemId = copyItem.GetId()
-		webbrowserItem = self.contextMenu.Append(-1, _("الفتح من خلال متصفح الإنترنت"))
+		webbrowserItem = self.contextMenu.Append(-1, _("open in browser"))
 		def popup():
 			if self.searchResults.Strings != []:
 				self.searchResults.PopupMenu(self.contextMenu)
@@ -200,6 +207,7 @@ class YoutubeBrowser(wx.Frame):
 		title = channel["name"]
 		url = channel["url"]
 		download_type = "channel"
+		logger.info("Downloading channel. title=%s url=%s", title, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 
@@ -209,11 +217,11 @@ class YoutubeBrowser(wx.Frame):
 		webbrowser.open(url)
 	def onDownload(self, event):
 		downloadMenu = wx.Menu()
-		videoItem = downloadMenu.Append(-1, _("فيديو"))
+		videoItem = downloadMenu.Append(-1, _("Video"))
 		audioMenu = wx.Menu()
 		m4aItem = audioMenu.Append(-1, "m4a")
 		mp3Item = audioMenu.Append(-1, "mp3")
-		downloadMenu.Append(-1, _("صوت"), audioMenu)
+		downloadMenu.Append(-1, _("audio"), audioMenu)
 		self.Bind(wx.EVT_MENU, self.onVideoDownload, videoItem)
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
@@ -223,6 +231,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
+		logger.info("Downloading search result as m4a. title=%s type=%s url=%s", title, download_type, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(1, url, dlg, download_type)
 
@@ -230,6 +239,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
+		logger.info("Downloading search result as mp3. title=%s type=%s url=%s", title, download_type, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(2, url, dlg, download_type)
 
@@ -237,6 +247,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
+		logger.info("Downloading search result as video. title=%s type=%s url=%s", title, download_type, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(0, url, dlg, download_type)
 
@@ -244,17 +255,18 @@ class YoutubeBrowser(wx.Frame):
 
 	def onCopy(self, event):
 		pyperclip.copy(self.search.get_url(self.searchResults.Selection))
-		wx.MessageBox(_("تم نسخ رابط المقطع بنجاح"), _("اكتمال"), parent=self)
+		wx.MessageBox(_("video URL has been copyed successfully."), _("done"), parent=self)
 	def loadMore(self):
 		if self.searchResults.Strings == []:
 			return
-		speak(_("جاري تحميل المزيد من النتائج"))
+		speak(_("loading more results..."))
 		if self.search.load_more() is None:
-			speak(_("لم يتمكن البرنامج من تحميل المزيد من النتائج"))
+			logger.warning("Could not load more search results")
+			speak(_("unable to load more results"))
 			return
 		# position = self.searchResults.Selection
 		wx.CallAfter(self.searchResults.Append, self.search.get_last_titles())
-		speak(_("تم تحميل المزيد من نتائج البحث"))
+		speak(_("more results loaded successfully"))
 		wx.CallAfter(self.searchResults.SetFocus)
 	def onListBox(self, event):
 		self.togleDownload()
@@ -298,7 +310,7 @@ class YoutubeBrowser(wx.Frame):
 		n = self.searchResults.Selection
 		contextMenuIds = (self.videoPlayItemId, self.audioPlayItemId)
 		if self.search.get_type(n) == "playlist":
-			self.playButton.Label = _("فتح")
+			self.playButton.Label = _("open")
 			for i in contextMenuIds:
 				self.contextMenu.Enable(i, False)
 			return
@@ -315,11 +327,13 @@ class YoutubeBrowser(wx.Frame):
 			channel_name = self.search.get_channel(n)['name']
 			live = 1 if not self.search.get_views(n) else 0
 			data = {"title": title, "display_title": display_title, "url": url, "live": live, "channel_url": channel_url, "channel_name": channel_name}
+			logger.info("Adding favorite. title=%s url=%s", title, url)
 			self.favorites.add_favorite(data)
-			speak(_("تمت إضافة الفيديو إلى قائمة المفضلة"))
+			speak(_("added to the favorites list successfully"))
 		else:
+			logger.info("Removing favorite. url=%s", url)
 			self.favorites.remove_favorite(url)
-			speak(_("تم حذف الفيديو من قائمة المفضلة"))
+			speak(_("deleted from favorite list"))
 
 	def togleFavorite(self):
 		n = self.searchResults.Selection
@@ -344,6 +358,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(self.searchResults.Selection)
 		title = self.search.get_title(self.searchResults.Selection)
 		download_type = self.search.get_type(self.searchResults.Selection)
+		logger.info("Direct download from search result. title=%s type=%s url=%s", title, download_type, url)
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), title)
 		direct_download(int(config_get('defaultformat')), url, dlg, download_type)
 	def onShow(self, event):

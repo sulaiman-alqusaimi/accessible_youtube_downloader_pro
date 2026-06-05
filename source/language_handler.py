@@ -7,11 +7,11 @@ import wx
 
 
 supported_languages = OrderedDict({
-	"العربية": "ar",
+	"Arabic": "ar",
 	"English": "en", 
-	"français": "fr",
-	"Türkçe": "tr",
-	"italiano": "it",
+	"French": "fr",
+	"Turkish": "tr",
+	"Italian": "it",
 })
 
 languages = list(supported_languages.values())

@@ -4,25 +4,25 @@ import wx
 
 class SearchDialog(wx.Dialog):
 	def __init__(self, parent, value=""):
-		wx.Dialog.__init__(self, parent=parent, title=_("بحث"))
+		wx.Dialog.__init__(self, parent=parent, title=_("Search"))
 		self.Centre()
 		panel = wx.Panel(self)
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		lbl = wx.StaticText(panel, -1, _("ابحث في youtube: "))
+		lbl = wx.StaticText(panel, -1, _("search on youtube"))
 		self.searchField = wx.TextCtrl(panel, -1, value=value)
-		lbl1 = wx.StaticText(panel, -1, _("فلتر: "))
+		lbl1 = wx.StaticText(panel, -1, _("filter: "))
 		self.filterBox = wx.Choice(panel, -1, choices=
-							 [_("بلا فلتر"), 
-		 _("بث مباشر"), 
-		 _("تاريخ الرفع"), 
-		 _("عدد المشاهدات"), 
-		#  _("قائمة تشغيل")
+							 [_("without filter"), 
+		 _("lives"), 
+		 _("upload date"), 
+		 _("{} views"), 
+		#  _("playlist")
 		 ])
 		self.filterBox.Selection = 0
-		searchButton = wx.Button(panel, wx.ID_OK, _("ابحث"))
+		searchButton = wx.Button(panel, wx.ID_OK, _("search"))
 		searchButton.SetDefault()
 		searchButton.Enabled = False if value == "" else True
-		closeButton = wx.Button(panel, wx.ID_CANCEL, _("إغلاق"))
+		closeButton = wx.Button(panel, wx.ID_CANCEL, _("close"))
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 		sizer1.Add(lbl, 1)
 		sizer1.Add(self.searchField, 1)

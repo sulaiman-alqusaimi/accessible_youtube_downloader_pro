@@ -44,7 +44,6 @@ msgstr "ouvrir le dossier de téléchargement\tctrl+p"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:69
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:63
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:82
-#, fuzzy
 msgid "settings...\talt+s"
 msgstr "paramètres...\talt+s"
 
@@ -258,6 +257,9 @@ msgstr "fermer"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\comments_dialog.py:51
 msgid "commented by {}"
 msgstr ""
+
+msgid "unknown"
+msgstr "inconnu"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\comments_dialog.py:66
 msgid "could not load more comments"
@@ -908,3 +910,85 @@ msgstr "Turkish"
 
 msgid "Italian"
 msgstr "Italian"
+
+msgid "view history\tctrl+h"
+msgstr "historique de lecture\tctrl+h"
+
+msgid "view history"
+msgstr "historique de lecture"
+
+msgid "delete from history"
+msgstr "supprimer de l'historique"
+
+msgid "deleted from history"
+msgstr "supprimé de l'historique"
+
+msgid "clear history"
+msgstr "effacer l'historique"
+
+msgid "history cleared"
+msgstr "historique effacé"
+
+msgid "just now"
+msgstr "à l'instant"
+
+msgid "uploaded {} ago"
+msgstr "mis en ligne il y a {}"
+
+msgid "uploaded just now"
+msgstr "mis en ligne à l'instant"
+
+msgid "played {} ago"
+msgstr "lu il y a {}"
+
+msgid "played just now"
+msgstr "lu à l'instant"
+
+msgid "1 day"
+msgstr "1 jour"
+
+msgid "{} days"
+msgstr "{} jours"
+
+msgid "1 week"
+msgstr "1 semaine"
+
+msgid "{} weeks"
+msgstr "{} semaines"
+
+msgid "1 month"
+msgstr "1 mois"
+
+msgid "{} months"
+msgstr "{} mois"
+
+msgid "1 year"
+msgstr "1 an"
+
+msgid "{} years"
+msgstr "{} ans"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:27
+msgid "audio output device"
+msgstr "périphérique de sortie audio"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:30
+msgid "default audio output device"
+msgstr "périphérique de sortie audio par défaut"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:32
+msgid "audio output device: "
+msgstr "périphérique de sortie audio : "
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:119
+msgid "audio output device...\tf12"
+msgstr "périphérique de sortie audio...\tf12"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:503
+msgid "audio output device changed to {}"
+msgstr "périphérique de sortie audio changé en {}"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:505
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:510
+msgid "selected audio output device is unavailable. using default audio output device"
+msgstr "le périphérique de sortie audio sélectionné est indisponible. utilisation du périphérique de sortie audio par défaut"

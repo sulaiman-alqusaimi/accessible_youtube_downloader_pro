@@ -138,7 +138,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(number)
 		logger.info("Playing video from search results. title=%s url=%s", title, url)
 		stream = LoadingDialog(self, _("playing"), get_video_stream, url).res
-		gui = MediaGui(self, title, stream, url, True if self.search.get_views(number) is not None else False, results=self.search)
+		gui = MediaGui(self, title, stream, url, True if self.search.get_views(number) is not None else False, results=self.search, history_data=self.search.get_history_data(number))
 		self.Hide()
 
 	def playAudio(self):
@@ -149,7 +149,7 @@ class YoutubeBrowser(wx.Frame):
 		url = self.search.get_url(number)
 		logger.info("Playing audio from search results. title=%s url=%s", title, url)
 		stream = LoadingDialog(self, _("playing"), get_audio_stream, url).res
-		gui = MediaGui(self, title, stream, url, results=self.search, audio_mode=True)
+		gui = MediaGui(self, title, stream, url, results=self.search, audio_mode=True, history_data=self.search.get_history_data(number))
 		self.Hide()
 
 

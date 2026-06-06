@@ -1,4 +1,5 @@
 import re
+from datetime import datetime, timezone
 from threading import Thread
 from settings_handler import config_get
 from download_handler.downloader import downloadAction, get_yt_dlp_options, is_browser_cookie_error
@@ -11,6 +12,137 @@ import yt_dlp as youtube_dl
 
 
 logger = get_logger()
+
+
+def format_count(value):
+	try:
+		if value is None or value == "":
+			return ""
+		if isinstance(value, str):
+			return value.strip()
+		return f"{int(value):,}"
+	except (TypeError, ValueError):
+		return str(value)
+
+
+def format_views(value):
+	value = format_count(value)
+	if value:
+		return _("{} views").format(value)
+	return ""
+
+
+def relative_time_part(value):
+	if value is None or value == "":
+		return ""
+	if isinstance(value, str):
+		text = value.strip()
+		if text == "":
+			return ""
+		lower_text = text.lower()
+		for prefix in ("streamed ", "premiered ", "uploaded "):
+			if lower_text.startswith(prefix):
+				text = text[len(prefix):].strip()
+				lower_text = text.lower()
+		if lower_text.endswith(" ago"):
+			text = text[:-4].strip()
+			lower_text = text.lower()
+		if lower_text in ("just now", "today"):
+			return _("just now")
+		date_value = parse_date_value(text)
+		if date_value is not None:
+			return relative_time_from_datetime(date_value)
+		match = re.search(r"(\d+)\s+([a-zA-Z]+)", text)
+		if match:
+			amount = int(match.group(1))
+			unit = match.group(2).lower()
+			return format_time_unit(amount, unit)
+		return text
+	if isinstance(value, (int, float)):
+		if value > 1000000000:
+			return relative_time_from_datetime(datetime.fromtimestamp(value, timezone.utc))
+	return str(value)
+
+
+def parse_date_value(value):
+	for date_format in ("%Y%m%d", "%Y-%m-%d", "%Y/%m/%d"):
+		try:
+			return datetime.strptime(value, date_format).replace(tzinfo=timezone.utc)
+		except ValueError:
+			pass
+	try:
+		return datetime.fromisoformat(value.replace("Z", "+00:00"))
+	except ValueError:
+		return None
+
+
+def relative_time_from_datetime(date_value):
+	if date_value.tzinfo is None:
+		date_value = date_value.replace(tzinfo=timezone.utc)
+	now = datetime.now(timezone.utc)
+	seconds = max(0, int((now-date_value).total_seconds()))
+	minutes = seconds//60
+	if minutes < 1:
+		return _("just now")
+	if minutes < 60:
+		return format_time_unit(minutes, "minute")
+	hours = minutes//60
+	if hours < 24:
+		return format_time_unit(hours, "hour")
+	days = hours//24
+	if days < 7:
+		return format_time_unit(days, "day")
+	if days < 30:
+		return format_time_unit(days//7, "week")
+	if days < 365:
+		return format_time_unit(days//30, "month")
+	return format_time_unit(days//365, "year")
+
+
+def format_time_unit(amount, unit):
+	unit = unit.rstrip("s")
+	labels = {
+		"minute": (_("1 minute"), _("{} minutes")),
+		"min": (_("1 minute"), _("{} minutes")),
+		"hour": (_("1 hour"), _("{} hours")),
+		"day": (_("1 day"), _("{} days")),
+		"week": (_("1 week"), _("{} weeks")),
+		"month": (_("1 month"), _("{} months")),
+		"year": (_("1 year"), _("{} years")),
+	}
+	singular, plural = labels.get(unit, (f"1 {unit}", f"{{}} {unit}s"))
+	if amount == 1:
+		return singular
+	return plural.format(amount)
+
+
+def friendly_upload_date(value):
+	time_part = relative_time_part(value)
+	if time_part:
+		return _("uploaded {} ago").format(time_part) if time_part != _("just now") else _("uploaded just now")
+	return ""
+
+
+def friendly_played_date(value):
+	time_part = relative_time_part(value)
+	if time_part:
+		return _("played {} ago").format(time_part) if time_part != _("just now") else _("played just now")
+	return ""
+
+
+def build_video_display_title(title, channel_name="", views="", upload_date="", played_at=""):
+	parts = [title]
+	if channel_name:
+		parts.append(f"{_('from')} {channel_name}")
+	views_text = format_views(views)
+	if views_text:
+		parts.append(views_text)
+	if upload_date:
+		parts.append(upload_date)
+	played_text = friendly_played_date(played_at)
+	if played_text:
+		parts.append(played_text)
+	return ", ".join(parts)
 
 
 target_video_height = 360
@@ -28,7 +160,8 @@ known_audio_bitrates = {
 
 
 class YtdlpStream:
-	def __init__(self, title, data):
+	def __init__(self, title, data, info=None):
+		info = info or {}
 		self.title = title
 		self.url = data["url"]
 		self.extension = data.get("ext", "")
@@ -36,6 +169,11 @@ class YtdlpStream:
 		self.format_id = data.get("format_id", "")
 		self.quality = get_format_quality(data)
 		self.debug_description = get_format_debug_description(data)
+		self.webpage_url = info.get("webpage_url") or info.get("original_url")
+		self.view_count = info.get("view_count")
+		self.upload_date = friendly_upload_date(info.get("upload_date") or info.get("timestamp"))
+		self.channel_name = info.get("channel") or info.get("uploader") or ""
+		self.channel_url = info.get("channel_url") or info.get("uploader_url") or ""
 
 	def get_resolution(self, data):
 		width = data.get("width")
@@ -43,6 +181,24 @@ class YtdlpStream:
 		if width and height:
 			return f"{width}x{height}"
 		return data.get("resolution", "")
+
+
+class YtdlpComments:
+	def __init__(self, comments):
+		self.comments = {"result": [self.normalize(comment) for comment in comments]}
+		self.hasMoreComments = False
+
+	def normalize(self, comment):
+		author = comment.get("author") or comment.get("author_id") or _("unknown")
+		if isinstance(author, dict):
+			author = author.get("name") or _("unknown")
+		return {
+			"content": comment.get("text") or comment.get("content") or "",
+			"author": {"name": author},
+		}
+
+	def getNextComments(self):
+		return None
 
 
 def extract_youtube_info(url):
@@ -68,6 +224,38 @@ def extract_youtube_info_with_options(url, use_cookies=True):
 	with youtube_dl.YoutubeDL(options) as ydl:
 		info = ydl.extract_info(url, download=False)
 	return get_first_video_info(info)
+
+
+def extract_youtube_comments(url):
+	try:
+		logger.info("Extracting YouTube comments with cookies. url=%s", url)
+		return extract_youtube_comments_with_options(url, use_cookies=True)
+	except youtube_dl.utils.DownloadError as e:
+		if not is_browser_cookie_error(e):
+			logger.exception("Failed to extract YouTube comments. url=%s", url)
+			raise
+		logger.warning("Cookie-based YouTube comments extraction failed; retrying without cookies. url=%s error=%s", url, e)
+		return extract_youtube_comments_with_options(url, use_cookies=False)
+
+
+def extract_youtube_comments_with_options(url, use_cookies=True):
+	options = {
+		"quiet": True,
+		"no_warnings": True,
+		"noplaylist": True,
+		"skip_download": True,
+		"getcomments": True,
+		"extractor_args": {"youtube": {"max_comments": ["30"]}},
+	}
+	options.update(get_yt_dlp_options(use_cookies=use_cookies))
+	with youtube_dl.YoutubeDL(options) as ydl:
+		info = ydl.extract_info(url, download=False)
+	info = get_first_video_info(info)
+	comments = info.get("comments") or []
+	if not comments:
+		raise youtube_dl.utils.DownloadError("No comments found")
+	logger.info("Loaded %s comments. url=%s", len(comments), url)
+	return YtdlpComments(comments)
 
 
 def get_first_video_info(info):
@@ -199,7 +387,7 @@ def audio_sort_key(format):
 
 
 def stream_from_format(info, format):
-	stream = YtdlpStream(info.get("title", ""), format)
+	stream = YtdlpStream(info.get("title", ""), format, info)
 	logger.info("Media player selected format. title=%s %s", stream.title, stream.debug_description)
 	return stream
 

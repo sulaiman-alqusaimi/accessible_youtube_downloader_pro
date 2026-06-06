@@ -48,12 +48,18 @@ class CommentsDialog(wx.Dialog):
             pass
     def displayComments(self):
         for comment in self.comments.comments['result'][self.count:]:
-            comment = [comment['content'], _("commented by {}").format(comment['author']['name'])]
+            content = comment.get('content') or comment.get('text') or ""
+            if not content:
+                continue
+            author = comment.get('author') or {}
+            author_name = author.get('name') if isinstance(author, dict) else author
+            comment = [content, _("commented by {}").format(author_name or _("unknown"))]
             self.commentsBox.Append(". ".join(comment))
         self.count = self.commentsBox.Count
 
     def getComment(self, n):
-        return self.comments.comments['result'][n]['content']
+        comment = self.comments.comments['result'][n]
+        return comment.get('content') or comment.get('text') or ""
     def loadMore(self):
         if self.comments.hasMoreComments and not self.isLoading:
             try:

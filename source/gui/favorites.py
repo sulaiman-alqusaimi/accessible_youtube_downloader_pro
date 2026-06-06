@@ -83,7 +83,7 @@ class Favorites(wx.Frame):
 		title = self.rows[n]["title"]
 		logger.info("Playing favorite video. title=%s url=%s", title, url)
 		stream = LoadingDialog(self, _("playing"), get_video_stream, url).res
-		gui = MediaGui(self, title, stream, url, True if not self.rows[n]["live"] else False, self.rows)
+		gui = MediaGui(self, title, stream, url, True if not self.rows[n]["live"] else False, self.rows, history_data=self.rows[n])
 		self.Hide()
 
 	def playAudio(self):
@@ -92,7 +92,7 @@ class Favorites(wx.Frame):
 		title = self.rows[n]["title"]
 		logger.info("Playing favorite audio. title=%s url=%s", title, url)
 		stream = LoadingDialog(self, _("playing"), get_audio_stream, url).res
-		gui = MediaGui(self, title, stream, url, audio_mode=True, results=self.rows)
+		gui = MediaGui(self, title, stream, url, audio_mode=True, results=self.rows, history_data=self.rows[n])
 		self.Hide()
 
 	def togleControls(self):

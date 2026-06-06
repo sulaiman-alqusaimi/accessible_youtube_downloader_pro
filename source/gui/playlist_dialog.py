@@ -133,7 +133,7 @@ class PlaylistDialog(wx.Dialog):
 
 		logger.info("Playing playlist video. title=%s url=%s", title, url)
 		stream = LoadingDialog(self, _("playing"), get_video_stream, url).res
-		gui = MediaGui(self, title, stream, url, True, self.result)
+		gui = MediaGui(self, title, stream, url, True, self.result, history_data=self.result.get_history_data(n))
 		gui.path = os.path.join(gui.path, self.title)
 		self.Hide()
 
@@ -146,7 +146,7 @@ class PlaylistDialog(wx.Dialog):
 		logger.info("Playing playlist audio. title=%s url=%s", title, url)
 		stream = LoadingDialog(self, _("playing"), get_audio_stream, url).res
 
-		gui = MediaGui(self, title, stream, url, audio_mode=True, results=self.result)
+		gui = MediaGui(self, title, stream, url, audio_mode=True, results=self.result, history_data=self.result.get_history_data(n))
 		gui.path = os.path.join(gui.path, self.title)
 		self.Hide()
 

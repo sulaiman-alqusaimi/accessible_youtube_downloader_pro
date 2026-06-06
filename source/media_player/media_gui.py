@@ -6,21 +6,54 @@ from download_handler.downloader import downloadAction
 from nvda_client.client import speak
 from settings_handler import config_get, config_set
 import application
-from utiles import direct_download, get_audio_stream, get_video_stream
+from utiles import direct_download, extract_youtube_comments, get_audio_stream, get_video_stream
 from vlc import State, Media
 from gui.settings_dialog import SettingsDialog
 from gui.description import DescriptionDialog
 from gui.custom_controls import CustomButton
 from gui.comments_dialog import CommentsDialog
-from youtubesearchpython import Video, Comments
+from youtubesearchpython import Video
 from threading import Thread
-from database import Continue
+from database import Continue, ViewHistory
 from media_player.player import Player
 from app_logger import get_logger
 
 
 logger = get_logger()
 
+
+class AudioOutputDeviceDialog(wx.Dialog):
+	def __init__(self, parent, devices, selected_device):
+		wx.Dialog.__init__(self, parent, title=_("audio output device"))
+		self.SetSize(450, 200)
+		self.Centre()
+		self.devices = [{"id": "", "description": _("default audio output device")}] + devices
+		panel = wx.Panel(self)
+		label = wx.StaticText(panel, -1, _("audio output device: "))
+		self.deviceBox = wx.Choice(panel, -1, choices=[device["description"] for device in self.devices])
+		self.deviceBox.Selection = self.get_selection_for_device(selected_device)
+		okButton = wx.Button(panel, wx.ID_OK, _("&ok"))
+		okButton.SetDefault()
+		cancelButton = wx.Button(panel, wx.ID_CANCEL, _("&cancel"))
+		deviceSizer = wx.BoxSizer(wx.HORIZONTAL)
+		buttonSizer = wx.BoxSizer(wx.HORIZONTAL)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		deviceSizer.Add(label, 1)
+		deviceSizer.Add(self.deviceBox, 2, wx.EXPAND)
+		buttonSizer.Add(okButton, 1)
+		buttonSizer.Add(cancelButton, 1)
+		sizer.Add(deviceSizer, 1, wx.EXPAND)
+		sizer.Add(buttonSizer, 1, wx.EXPAND)
+		panel.SetSizer(sizer)
+
+	def get_selection_for_device(self, selected_device):
+		for index, device in enumerate(self.devices):
+			if device["id"] == selected_device:
+				return index
+		return 0
+
+	def get_selected_device(self):
+		return self.devices[self.deviceBox.Selection]
 
 
 
@@ -33,7 +66,7 @@ def has_player(method):
 
 class MediaGui(wx.Frame):
 
-	def __init__(self, parent, title, stream, url, can_download=True, results=None, audio_mode=False):
+	def __init__(self, parent, title, stream, url, can_download=True, results=None, audio_mode=False, history_data=None):
 
 		logger.info("Opening media window. title=%s audio_mode=%s can_download=%s url=%s", title, audio_mode, can_download, url)
 		wx.Frame.__init__(self, parent, title=f'{title} - {application.name}')
@@ -83,12 +116,14 @@ class MediaGui(wx.Frame):
 		commentsItem.Enable(can_download)
 		copyItem = trackOptions.Append(-1, _("copy video link\tctrl+l"))
 		browserItem = trackOptions.Append(-1, _("open in browser\tctrl+b"))
+		audioOutputDeviceItem = trackOptions.Append(-1, _("audio output device...\tf12"))
 		settingsItem = trackOptions.Append(-1, _("settings...\talt+s"))
 		hotKeys = wx.AcceleratorTable([
 			(wx.ACCEL_CTRL, ord("D"), directDownloadItem.GetId()),
 			(wx.ACCEL_CTRL|wx.ACCEL_SHIFT, ord("D"), descriptionItem.GetId()),
 			(wx.ACCEL_CTRL, ord("L"), copyItem.GetId()),
 			(wx.ACCEL_CTRL, ord("B"), browserItem.GetId()),
+			(wx.ACCEL_NORMAL, wx.WXK_F12, audioOutputDeviceItem.GetId()),
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL + wx.ACCEL_SHIFT, ord("J"), commentsItem.GetId())
 ])
@@ -103,6 +138,7 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onComments, commentsItem)
 		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onBrowser, browserItem)
+		self.Bind(wx.EVT_MENU, self.onAudioOutputDevice, audioOutputDeviceItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
 		self.prev_id = 100
@@ -122,10 +158,42 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_CLOSE, lambda event: self.closeAction())
 		self.Show()
 		self.player = Player(stream.url, self.GetHandle(), self)
+		self.record_history(history_data or self.history_data_from_stream(stream, title, url))
 		if self.url in Continue.get_all() and config_get("continue"):
 			self.player.media.set_position(Continue.get_all()[url])
 		Thread(target=self.extract_description).start()
 		Thread(target=self.extract_comments).start()
+
+	def history_data_from_stream(self, stream, title, url):
+		return {
+			"title": getattr(stream, "title", None) or title,
+			"url": getattr(stream, "webpage_url", None) or url,
+			"views": getattr(stream, "view_count", None),
+			"upload_date": getattr(stream, "upload_date", ""),
+			"channel_name": getattr(stream, "channel_name", ""),
+			"channel_url": getattr(stream, "channel_url", ""),
+		}
+
+	def get_history_data_for_index(self, index, title, url):
+		if self.results is None:
+			return {"title": title, "url": url}
+		if hasattr(self.results, "get_history_data"):
+			return self.results.get_history_data(index)
+		if isinstance(self.results, list):
+			data = self.results[index].copy()
+			data.setdefault("title", title)
+			data.setdefault("url", url)
+			return data
+		return {"title": title, "url": url}
+
+	def record_history(self, data):
+		if not data or not data.get("url"):
+			return
+		try:
+			logger.info("Adding video to view history. title=%s url=%s", data.get("title"), data.get("url"))
+			ViewHistory().add(data)
+		except Exception:
+			logger.exception("Could not add video to view history. url=%s", data.get("url"))
 
 
 	def playAction(self):
@@ -206,6 +274,8 @@ class MediaGui(wx.Frame):
 			self.decrease_volume()
 		elif event.GetKeyCode() == wx.WXK_HOME:
 			self.beginingAction()
+		elif event.GetKeyCode() == wx.WXK_F12:
+			self.onAudioOutputDevice(event)
 		elif event.KeyCode in range(49, 58):
 			self.set_position(event.KeyCode)
 		elif event.controlDown and event.shiftDown and event.KeyCode == ord("L"):
@@ -331,7 +401,7 @@ class MediaGui(wx.Frame):
 	def get_current_result_index(self):
 		if self.results is None:
 			return None
-		for control_name in ("searchResults", "videosBox", "favList"):
+		for control_name in ("searchResults", "videosBox", "favList", "historyList"):
 			control = getattr(self.Parent, control_name, None)
 			if control is not None and control.Selection != wx.NOT_FOUND:
 				return control.Selection
@@ -386,9 +456,11 @@ class MediaGui(wx.Frame):
 		self.player.set_media(stream.url)
 		self.url = url
 		self.title = title
+		self.record_history(self.get_history_data_for_index(index, title, url))
 		wx.CallAfter(self.SetTitle, f"{title} - {application.name}")
 		self.player.media.play()
 		self.player.media.audio_set_volume(self.player.volume)
+		self.player.apply_saved_audio_output_device()
 		Thread(target=self.extract_description).start()
 		Thread(target=self.extract_comments).start()
 
@@ -417,6 +489,25 @@ class MediaGui(wx.Frame):
 	def onBrowser(self, event):
 		speak(_("opening"))
 		webbrowser.open(self.url)
+
+	@has_player
+	def onAudioOutputDevice(self, event):
+		devices = self.player.get_audio_output_devices()
+		selected_device = self.player.get_selected_audio_output_device()
+		dlg = AudioOutputDeviceDialog(self, devices, selected_device)
+		try:
+			if dlg.ShowModal() != wx.ID_OK:
+				return
+			device = dlg.get_selected_device()
+			if self.player.select_audio_output_device(device["id"]):
+				speak(_("audio output device changed to {}").format(device["description"]))
+			else:
+				speak(_("selected audio output device is unavailable. using default audio output device"))
+		finally:
+			dlg.Destroy()
+
+	def on_audio_output_fallback(self):
+		wx.CallAfter(speak, _("selected audio output device is unavailable. using default audio output device"))
 
 	def onM4aDownload(self, event):
 		dlg = DownloadProgress(wx.GetApp().GetTopWindow(), self.title)
@@ -461,7 +552,13 @@ class MediaGui(wx.Frame):
 	def extract_comments(self):
 		if not self.stream and not hasattr(self, "comments"):
 			logger.info("Loading comments. url=%s", self.url)
-			self.comments = Comments(self.url, 30)
+			try:
+				self.comments = extract_youtube_comments(self.url)
+			except Exception:
+				logger.exception("Could not fetch comments. url=%s", self.url)
+				return False
+		return hasattr(self, "comments")
+
 	def onComments(self, event):
 		if self.stream:
 			speak(_("cannot load comments for this video"))
@@ -470,10 +567,7 @@ class MediaGui(wx.Frame):
 		if not hasattr(self, "comments"):
 			speak(_("loading comments"))
 			def extract():
-				try:
-					self.extract_comments()
-				except Exception:
-					logger.exception("Could not fetch comments. url=%s", self.url)
+				if not self.extract_comments():
 					speak(_("unable to find comments"))
 					return
 				wx.CallAfter(CommentsDialog, self, self.comments)

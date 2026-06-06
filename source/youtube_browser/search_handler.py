@@ -1,5 +1,7 @@
+import re
+
 from youtubesearchpython import VideosSearch, CustomSearch, PlaylistsSearch, PlaylistsSearch, Playlist
-from utiles import time_formatting
+from utiles import format_views, friendly_upload_date, time_formatting
 from app_logger import get_logger
 
 
@@ -53,6 +55,14 @@ class PlaylistResult:
 		return titles
 	def get_url(self, n):
 		return self.videos[n]["url"]
+	def get_history_data(self, n):
+		video = self.videos[n]
+		return {
+			"title": video["title"],
+			"url": video["url"],
+			"channel_name": video["channel"]["name"],
+			"channel_url": video["channel"]["url"],
+		}
 
 
 
@@ -88,29 +98,39 @@ class Search:
 				"url": result["link"], 
 				"duration": result.get("duration"),
 				"elements": result.get("videoCount"),
+				"upload_date": friendly_upload_date(result.get("publishedTime")),
 				"channel": {
 					"name": result["channel"]["name"], 
 					"url": f"https://www.youtube.com/channel/{result['channel']['id']}"}
 			}
 			if result["type"] == "video":
-				self.results[self.count]["views"] = self.parse_views(result["viewCount"]["text"])
+				self.results[self.count]["views"] = self.parse_views(result.get("viewCount"))
 			else:
 				self.results[self.count]["views"] = None
 			self.count += 1
 	def get_titles(self):
 		titles = []
 		for result, data  in self.results.items():
-			title = [data['title']]
-			if data["type"] == "video":
-				title += [self.get_duration(data['duration']),
-					f"{_("from")} {data['channel']['name']}",
-					self.views_part(data['views'])]
-			elif data["type"] == "playlist":
-				title += [_("playlist"),
-			f"{_("from")} {data['channel']['name']}", 
-					_("contains {} videos").format(data["elements"])]
-			titles.append(", ".join([element for element in title if element != ""]))
+			titles.append(self.get_display_title(data))
 		return titles
+
+	def get_display_title(self, data):
+		if data["type"] == "video":
+			title = [
+				data["title"],
+				self.get_duration(data["duration"]),
+				f"{_('from')} {data['channel']['name']}",
+				self.views_part(data["views"]),
+				data["upload_date"],
+			]
+		else:
+			title = [
+				data["title"],
+				_("playlist"),
+				f"{_('from')} {data['channel']['name']}",
+				_("contains {} videos").format(data["elements"]),
+			]
+		return ", ".join([element for element in title if element != ""])
 
 	def get_last_titles(self):
 		titles = self.get_titles()
@@ -123,6 +143,17 @@ class Search:
 		return self.results[number+1]["type"]
 	def get_channel(self, number):
 		return self.results[number+1]["channel"]
+	def get_history_data(self, number):
+		data = self.results[number+1]
+		return {
+			"title": data["title"],
+			"display_title": self.get_display_title(data),
+			"url": data["url"],
+			"views": data["views"],
+			"upload_date": data["upload_date"],
+			"channel_name": data["channel"]["name"],
+			"channel_url": data["channel"]["url"],
+		}
 
 	def load_more(self):
 		try:
@@ -135,18 +166,29 @@ class Search:
 		self.parse_results()
 		self.new_videos = self.count-current
 		return True
-	def parse_views(self, string):
-		try:
-			string = string.replace(",", "")
-		except AttributeError:
+	def parse_views(self, data):
+		if isinstance(data, dict):
+			data = data.get("text") or data.get("short")
+		if data is None:
 			return
-		return string.replace("views", "")
+		if isinstance(data, (int, float)):
+			return int(data)
+		text = str(data)
+		match = re.search(r"([\d,.]+)\s*([kmbKMB]?)", text)
+		if match is None:
+			return
+		try:
+			number = float(match.group(1).replace(",", ""))
+			multiplier = {"k": 1000, "m": 1000000, "b": 1000000000}.get(match.group(2).lower(), 1)
+			return int(number*multiplier)
+		except ValueError:
+			return match.group(1)
 	def get_views(self, number):
 
 		return self.results[number+1]['views']
 	def views_part(self, data):
 		if data is not None:
-			return _("{} views").format(data)
+			return format_views(data)
 		else:
 			return _("lives")
 

@@ -19,6 +19,8 @@ defaults = {
 	"defaultformat": 0,
 	"volume": 100,
 	"continue": True,
+	"cookiesfrombrowser": "none",
+	"audiooutputdevice": "",
 }
 
 def config_initialization():

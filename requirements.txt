@@ -1,6 +1,6 @@
 bs4
 requests
-pafy
+SQLAlchemy
 pyperclip
 python-vlc
 yt-dlp

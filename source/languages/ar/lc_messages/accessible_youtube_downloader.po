@@ -44,7 +44,6 @@ msgstr "فتح مجلد التنزيل\tctrl+p"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:69
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:63
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:82
-#, fuzzy
 msgid "settings...\talt+s"
 msgstr "الإعدادات...\talt+s"
 
@@ -258,6 +257,9 @@ msgstr "إغلاق"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\comments_dialog.py:51
 msgid "commented by {}"
 msgstr "بواسطة {}"
+
+msgid "unknown"
+msgstr "غير معروف"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\comments_dialog.py:66
 msgid "could not load more comments"
@@ -476,7 +478,7 @@ msgstr "تاريخ الرفع"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:14
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\search_handler.py:141
 msgid "{} views"
-msgstr "عدد المشاهدات"
+msgstr "{} مشاهدة"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:14
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\search_handler.py:143
@@ -908,3 +910,85 @@ msgstr "التركية"
 
 msgid "Italian"
 msgstr "الإيطالية"
+
+msgid "view history\tctrl+h"
+msgstr "سجل المشاهدة\tctrl+h"
+
+msgid "view history"
+msgstr "سجل المشاهدة"
+
+msgid "delete from history"
+msgstr "حذف من سجل المشاهدة"
+
+msgid "deleted from history"
+msgstr "تم الحذف من سجل المشاهدة"
+
+msgid "clear history"
+msgstr "مسح سجل المشاهدة"
+
+msgid "history cleared"
+msgstr "تم مسح سجل المشاهدة"
+
+msgid "just now"
+msgstr "الآن"
+
+msgid "uploaded {} ago"
+msgstr "تم الرفع منذ {}"
+
+msgid "uploaded just now"
+msgstr "تم الرفع الآن"
+
+msgid "played {} ago"
+msgstr "تم التشغيل منذ {}"
+
+msgid "played just now"
+msgstr "تم التشغيل الآن"
+
+msgid "1 day"
+msgstr "يوم واحد"
+
+msgid "{} days"
+msgstr "{} أيام"
+
+msgid "1 week"
+msgstr "أسبوع واحد"
+
+msgid "{} weeks"
+msgstr "{} أسابيع"
+
+msgid "1 month"
+msgstr "شهر واحد"
+
+msgid "{} months"
+msgstr "{} أشهر"
+
+msgid "1 year"
+msgstr "سنة واحدة"
+
+msgid "{} years"
+msgstr "{} سنوات"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:27
+msgid "audio output device"
+msgstr "جهاز إخراج الصوت"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:30
+msgid "default audio output device"
+msgstr "جهاز إخراج الصوت الافتراضي"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:32
+msgid "audio output device: "
+msgstr "جهاز إخراج الصوت: "
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:119
+msgid "audio output device...\tf12"
+msgstr "جهاز إخراج الصوت...\tf12"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:503
+msgid "audio output device changed to {}"
+msgstr "تم تغيير جهاز إخراج الصوت إلى {}"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:505
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:510
+msgid "selected audio output device is unavailable. using default audio output device"
+msgstr "جهاز إخراج الصوت المحدد غير متاح. يتم استخدام جهاز إخراج الصوت الافتراضي"

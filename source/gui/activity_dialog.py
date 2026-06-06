@@ -1,5 +1,9 @@
 import wx
 from threading import Thread
+from app_logger import get_logger
+
+
+logger = get_logger()
 
 
 class LoadingDialog(wx.Dialog):
@@ -27,9 +31,11 @@ class LoadingDialog(wx.Dialog):
         self.ShowModal()
     def run(self):
         try:
+            logger.info("Running background task: %s", getattr(self.function, "__name__", self.function))
             self.res = self.function(*self.args, **self.kwargs)
             wx.CallAfter(self.Destroy)
         except Exception as e:
+            logger.exception("Background task failed: %s", getattr(self.function, "__name__", self.function))
             wx.CallAfter(self.Destroy)
             raise e
     def onHook(self, event):

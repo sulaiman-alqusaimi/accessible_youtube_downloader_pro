@@ -16,7 +16,8 @@ class SearchDialog(wx.Dialog):
 		 _("lives"), 
 		 _("upload date"), 
 		 _("{} views"), 
-		#  _("playlist")
+		 _("playlists"),
+		 _("channels")
 		 ])
 		self.filterBox.Selection = 0
 		searchButton = wx.Button(panel, wx.ID_OK, _("search"))

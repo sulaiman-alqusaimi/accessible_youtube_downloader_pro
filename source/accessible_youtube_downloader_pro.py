@@ -6,6 +6,8 @@ os.chdir	(os.path.abspath(os.path.dirname(__file__)))
 os.add_dll_directory(os.getcwd())
 import settings_handler
 settings_handler.config_initialization() # calling the config_initialization function which sets up the accessible_youtube_downloader_pro.ini file in the user appdata folder
+from ytdlp_component import activate_ytdlp_component
+activate_ytdlp_component()
 from app_logger import get_logger, install_exception_logging
 install_exception_logging()
 logger = get_logger()
@@ -18,6 +20,7 @@ import webbrowser
 
 import subprocess
 from utiles import youtube_regexp, check_for_updates, get_audio_stream, get_video_stream
+from ytdlp_component import install_ytdlp_component_update
 from nvda_client.client import speak
 
 from gui.activity_dialog import LoadingDialog
@@ -28,6 +31,7 @@ from gui.settings_dialog import SettingsDialog
 from gui.text_viewer import Viewer
 from gui.custom_controls import CustomLabel
 from gui.favorites import Favorites
+from gui.history import History
 from doc_handler import documentation_get
 from language_handler import init_translation, codes
 from media_player.media_gui import MediaGui
@@ -56,6 +60,7 @@ class HomeScreen(wx.Frame):
 		downloadFromLinkButton = wx.Button(panel, -1, _("download YouTube link\tctrl+d"), name="tab")
 		playYoutubeLinkButton = wx.Button(panel, -1, _("play YouTube link\tctrl+y"), name="tab")
 		favButton = wx.Button(panel, -1, _("favorite videos\tctrl+shift+f"), name="tab")
+		historyButton = wx.Button(panel, -1, _("view history\tctrl+h"), name="tab")
 		# quick access buttons
 		sizer = wx.BoxSizer(wx.VERTICAL) # the main sizer
 		sizer1 = wx.BoxSizer(wx.HORIZONTAL) # quick access buttons sizer
@@ -72,6 +77,7 @@ class HomeScreen(wx.Frame):
 		downloadItem = mainMenu.Append(-1, _("download YouTube link\tctrl+d"))# download link item
 		playItem = mainMenu.Append(-1, _("play YouTube link\tctrl+y")) # play youtube link item
 		favoriteItem = mainMenu.Append(-1, _("favorite videos\tctrl+shift+f"))
+		historyItem = mainMenu.Append(-1, _("view history\tctrl+h"))
 		openDownloadingPathItem = mainMenu.Append(-1, _("open downloading folder\tctrl+p")) # open downloading folder item
 		settingsItem = mainMenu.Append(-1, _("settings...\talt+s")) # settings item
 		exitItem = mainMenu.Append(-1, _("exit\tctrl+w")) # quit item
@@ -80,6 +86,7 @@ class HomeScreen(wx.Frame):
 			(wx.ACCEL_CTRL, ord("D"), downloadItem.GetId()),
 			(wx.ACCEL_CTRL, ord("Y"), playItem.GetId()),
 			(wx.ACCEL_CTRL+wx.ACCEL_SHIFT, ord("F"), favoriteItem.GetId()),
+			(wx.ACCEL_CTRL, ord("H"), historyItem.GetId()),
 			(wx.ACCEL_CTRL, ord("P"), openDownloadingPathItem.GetId()),
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
 			(wx.ACCEL_CTRL, ord("W"), exitItem.GetId())
@@ -90,6 +97,7 @@ class HomeScreen(wx.Frame):
 		aboutMenu = wx.Menu()
 		userGuideItem = aboutMenu.Append(-1, _("userguide\u2026\tf1")) # userguide
 		checkForUpdatesItem = aboutMenu.Append(-1, _("search for updates"))
+		checkYtdlpUpdatesItem = aboutMenu.Append(-1, _("check for yt-dlp component updates"))
 		aboutItem = aboutMenu.Append(-1, _("about the app...")) # about item
 		contactMenu = wx.Menu()
 		emailItem = contactMenu.Append(-1, _("email..."))
@@ -106,11 +114,14 @@ class HomeScreen(wx.Frame):
 		playYoutubeLinkButton.Bind(wx.EVT_BUTTON, self.onPlay)
 		self.Bind(wx.EVT_MENU, self.onFavorite, favoriteItem)
 		favButton.Bind(wx.EVT_BUTTON, self.onFavorite)
+		self.Bind(wx.EVT_MENU, self.onHistory, historyItem)
+		historyButton.Bind(wx.EVT_BUTTON, self.onHistory)
 		self.Bind(wx.EVT_MENU, self.onOpen, openDownloadingPathItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
 		self.Bind(wx.EVT_MENU, lambda event: wx.Exit(), exitItem)
 		self.Bind(wx.EVT_MENU, self.onGuide, userGuideItem)
 		self.Bind(wx.EVT_MENU, self.onCheckForUpdates, checkForUpdatesItem)
+		self.Bind(wx.EVT_MENU, self.onCheckForYtdlpUpdates, checkYtdlpUpdatesItem)
 		self.Bind(wx.EVT_MENU, self.onAbout, aboutItem)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("mailto:Suleiman.alqusaimi@gmail.com"), emailItem)
 		self.Bind(wx.EVT_MENU, lambda event: webbrowser.open("https://twitter.com/suleiman3ahmed"), twitterItem)
@@ -121,6 +132,7 @@ class HomeScreen(wx.Frame):
 		self.detectFromClipboard(settings_handler.config_get("autodetect"))
 		if settings_handler.config_get("checkupdates"):
 			Thread(target=check_for_updates, args=[True]).start()
+		Thread(target=install_ytdlp_component_update, daemon=True).start()
 	def onPlay(self, event): # the event function called when the play youtube link is clicked
 		linkDlg = LinkDlg(self)
 		data = linkDlg.data # get the link and playing format from the dialog
@@ -147,6 +159,10 @@ class HomeScreen(wx.Frame):
 	def onFavorite(self, event):
 		logger.info("Opening favorites")
 		Favorites(self)
+		self.Hide()
+	def onHistory(self, event):
+		logger.info("Opening view history")
+		History(self)
 		self.Hide()
 	def onOpen(self, event):
 		path = settings_handler.config_get("path")
@@ -175,6 +191,20 @@ class HomeScreen(wx.Frame):
 		# speak(_("checking for updates. please wait"))
 		logger.info("Manual update check requested")
 		LoadingDialog(self, _("Checking for updates. Please wait."), check_for_updates)
+		self.instruction.SetFocus()
+
+	def onCheckForYtdlpUpdates(self, event):
+		logger.info("Manual yt-dlp component update check requested")
+		result = LoadingDialog(self, _("Checking for yt-dlp component updates. Please wait."), install_ytdlp_component_update).res
+		if result.get("error"):
+			wx.MessageBox(_("Unable to check for yt-dlp component updates right now."), _("error"), style=wx.ICON_ERROR, parent=self)
+		elif result.get("updated"):
+			message = _("yt-dlp component has been updated. Restart the app to apply the update now?")
+			answer = wx.MessageBox(message, _("success"), style=wx.YES_NO, parent=self)
+			if answer == wx.YES:
+				logger.info("Restarting application to apply yt-dlp component update")
+				database.disconnect()
+				os.execl(sys.executable, sys.executable, *sys.argv)
 		self.instruction.SetFocus()
 
 	def onAbout(self, event):

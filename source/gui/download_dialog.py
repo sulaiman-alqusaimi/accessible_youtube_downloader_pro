@@ -2,10 +2,12 @@ import wx
 import pyperclip
 import os
 import yt_dlp as youtube_dl
-from download_handler.downloader import Downloader
+from download_handler.downloader import Downloader, DownloadCancelled
 from settings_handler import config_get, config_set
 from app_logger import get_logger
+from .download_complete_dialog import show_download_complete
 from .download_progress import DownloadProgress
+from .collection_download_manager import detect_collection_type, is_collection_url, start_collection_download
 from threading import Thread
 from utiles import youtube_regexp
 
@@ -82,9 +84,12 @@ class DownloadDialog(wx.Frame):
 		if match is not None and youtube_regexp(self.videoLink.Value) is None:
 			self.videoLink.SetValue(match.group()) # set the url box content to the detected youtube link if the box was not impty
 
+	def is_valid_download_url(self, url):
+		return youtube_regexp(url) is not None or (is_collection_url(url) and ("youtube.com" in url or "youtu.be" in url))
+
 	def downloadingAction(self):
 		url = self.videoLink.GetValue()
-		if url == "" or youtube_regexp(url) is None:
+		if url == "" or not self.is_valid_download_url(url):
 			logger.warning("Invalid download URL entered: %s", url)
 			wx.MessageBox(_("please input a valid YouTube url."), _("error"), style=wx.ICON_ERROR, parent=self)
 			wx.CallAfter(self.videoLink.SetFocus)
@@ -103,12 +108,19 @@ class DownloadDialog(wx.Frame):
 		else:
 			convert = False
 		downloader = Downloader(url, self.path, format, self.downloadFrame.gaugeProgress, self.downloadFrame.textProgress, convert=convert, folder=folder)
+		wx.CallAfter(self.downloadFrame.set_downloader, downloader)
 		try:
 			logger.info("Starting dialog download. format=%s convert=%s folder=%s path=%s url=%s", format, convert, folder, self.path, url)
 			wx.CallAfter(self.Hide)
 			self.downloading = True
 			wx.CallAfter(self.downloadFrame.Show)
 			downloader.download_with_cookie_fallback()
+		except DownloadCancelled:
+			logger.info("Dialog download cancelled. url=%s", url)
+			wx.CallAfter(self.downloadFrame.set_cancelled)
+			wx.CallAfter(self.Show)
+			wx.CallAfter(self.videoLink.SetFocus)
+			return
 		except youtube_dl.utils.DownloadError:
 			logger.exception("Dialog download failed. url=%s", url)
 			wx.MessageBox(_("either an internet connection occured or you have enterd an invalid YouTube url. please check that out and try again."), _("error"), style=wx.ICON_ERROR, parent=self)
@@ -118,14 +130,33 @@ class DownloadDialog(wx.Frame):
 			wx.CallAfter(self.downloadFrame.Destroy)
 			return
 		logger.info("Dialog download finished. url=%s", url)
-		wx.MessageBox(_("download has been completed successfully."), _("success"), parent=self.downloadFrame)
-		wx.CallAfter(self.downloadFrame.Destroy)
-		wx.CallAfter(self.Show)
-		wx.CallAfter(self.videoLink.SetFocus)
-		wx.CallAfter(self.videoLink.SetValue, "")
+		wx.CallAfter(self.onDownloadComplete, downloader.last_file)
+
+	def onDownloadComplete(self, file_path):
+		if hasattr(self, "downloadFrame") and self.downloadFrame:
+			self.downloadFrame.Destroy()
+		show_download_complete(self, file_path=file_path, folder_path=self.path)
+		self.Show()
+		self.videoLink.SetFocus()
+		self.videoLink.SetValue("")
 
 	def onDownload(self, event):
 		config_set("defaultaudio", str(self.convertingFormat.Selection))
+		url = self.videoLink.GetValue()
+		if url == "" or not self.is_valid_download_url(url):
+			logger.warning("Invalid download URL entered: %s", url)
+			wx.MessageBox(_("please input a valid YouTube url."), _("error"), style=wx.ICON_ERROR, parent=self)
+			self.videoLink.SetFocus()
+			return
+		if is_collection_url(url):
+			if self.downloadingFormat.Selection == 1:
+				option = 0
+			elif self.convertingFormat.Selection == 1:
+				option = 2
+			else:
+				option = 1
+			start_collection_download(self, url, detect_collection_type(url), option, self.path)
+			return
 		self.downloadFrame = DownloadProgress(wx.GetApp().GetTopWindow())
 		t = Thread(target=self.downloadingAction)
 		t.daemon = True

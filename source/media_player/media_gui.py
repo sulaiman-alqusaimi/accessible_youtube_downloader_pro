@@ -83,6 +83,10 @@ class MediaGui(wx.Frame):
 		self.player = None
 		self.url = url
 		self.current_index = self.get_current_result_index()
+		self.previous_command_id_ref = wx.NewIdRef()
+		self.previous_command_id = int(self.previous_command_id_ref)
+		self.next_command_id_ref = wx.NewIdRef()
+		self.next_command_id = int(self.next_command_id_ref)
 		previousButton = CustomButton(self, -1, _("previous"), name="controls")
 		previousButton.Show() if self.results is not None else previousButton.Hide()
 		beginingButton = CustomButton(self, -1, _("restart from beginning"), name="controls")
@@ -125,7 +129,9 @@ class MediaGui(wx.Frame):
 			(wx.ACCEL_CTRL, ord("B"), browserItem.GetId()),
 			(wx.ACCEL_NORMAL, wx.WXK_F12, audioOutputDeviceItem.GetId()),
 			(wx.ACCEL_ALT, ord("S"), settingsItem.GetId()),
-			(wx.ACCEL_CTRL + wx.ACCEL_SHIFT, ord("J"), commentsItem.GetId())
+			(wx.ACCEL_CTRL + wx.ACCEL_SHIFT, ord("J"), commentsItem.GetId()),
+			(wx.ACCEL_CTRL, wx.WXK_LEFT, self.previous_command_id),
+			(wx.ACCEL_CTRL, wx.WXK_RIGHT, self.next_command_id),
 ])
 		self.SetAcceleratorTable(hotKeys)
 		menuBar.Append(trackOptions, _("video options"))
@@ -140,10 +146,15 @@ class MediaGui(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onBrowser, browserItem)
 		self.Bind(wx.EVT_MENU, self.onAudioOutputDevice, audioOutputDeviceItem)
 		self.Bind(wx.EVT_MENU, lambda event: SettingsDialog(self), settingsItem)
+		self.Bind(wx.EVT_MENU, lambda event: self.previous(), id=self.previous_command_id)
+		self.Bind(wx.EVT_MENU, lambda event: self.next(), id=self.next_command_id)
 		self.Bind(wx.EVT_KEY_DOWN, self.onKeyDown)
-		self.prev_id = 100
-		self.play_pause_id = 150
-		self.next_id = 200
+		self.prev_id_ref = wx.NewIdRef()
+		self.prev_id = int(self.prev_id_ref)
+		self.play_pause_id_ref = wx.NewIdRef()
+		self.play_pause_id = int(self.play_pause_id_ref)
+		self.next_id_ref = wx.NewIdRef()
+		self.next_id = int(self.next_id_ref)
 		self.registerHotKey()
 		for hot_id in [self.prev_id, self.play_pause_id, self.next_id]:
 			self.Bind(wx.EVT_HOTKEY, self.onHot, id=hot_id)
@@ -187,7 +198,7 @@ class MediaGui(wx.Frame):
 		return {"title": title, "url": url}
 
 	def record_history(self, data):
-		if not data or not data.get("url"):
+		if not config_get("savehistory") or not data or not data.get("url"):
 			return
 		try:
 			logger.info("Adding video to view history. title=%s url=%s", data.get("title"), data.get("url"))
@@ -236,9 +247,25 @@ class MediaGui(wx.Frame):
 			else:
 				Continue.new_continue(self.url, self.player.media.get_position())
 			self.player.media.stop()
-		self.GetParent().Show()
+		for hot_id in (self.prev_id, self.play_pause_id, self.next_id):
+			self.UnregisterHotKey(hot_id)
+		parent = self.GetParent()
+		parent.Show()
+		self.sync_parent_selection()
 
 		self.Destroy()
+
+	def sync_parent_selection(self):
+		if self.current_index is None:
+			return
+		for control_name in ("searchResults", "videosBox", "favList", "historyList"):
+			control = getattr(self.Parent, control_name, None)
+			if control is None:
+				continue
+			if 0 <= self.current_index < control.GetCount():
+				control.SetSelection(self.current_index)
+				control.SetFocus()
+			return
 	def registerHotKey(self):
 		self.RegisterHotKey(
 			self.prev_id,
@@ -574,3 +601,15 @@ class MediaGui(wx.Frame):
 			Thread(target=extract).start()
 		else:
 			CommentsDialog(self, self.comments)
+
+
+def get_active_media_window():
+	window = wx.Window.FindFocus() or wx.GetActiveWindow()
+	while window is not None:
+		if isinstance(window, MediaGui):
+			return window
+		window = window.GetParent()
+	active_window = wx.GetActiveWindow()
+	if isinstance(active_window, MediaGui):
+		return active_window
+	return None

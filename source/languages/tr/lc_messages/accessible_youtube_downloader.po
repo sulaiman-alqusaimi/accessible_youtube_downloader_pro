@@ -67,6 +67,10 @@ msgstr "kullanım kılavuzu…\tf1"
 msgid "search for updates"
 msgstr "güncellemeleri ara"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:97
+msgid "check for yt-dlp component updates"
+msgstr "yt-dlp bileşeni güncellemelerini denetle"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:86
 msgid "about the app..."
 msgstr "uygulama hakkında..."
@@ -107,6 +111,18 @@ msgstr "accessible YouTube  downloader pro userguide"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:164
 msgid "Checking for updates. Please wait."
 msgstr "Güncellemeler kontrol ediliyor. Lütfen bekleyin."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:193
+msgid "Checking for yt-dlp component updates. Please wait."
+msgstr "yt-dlp bileşeni güncellemeleri denetleniyor. Lütfen bekleyin."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:195
+msgid "Unable to check for yt-dlp component updates right now."
+msgstr "yt-dlp bileşeni güncellemeleri şu anda denetlenemiyor."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:197
+msgid "yt-dlp component has been updated. Restart the app to apply the update now?"
+msgstr "yt-dlp bileşeni güncellendi. Güncellemeyi şimdi uygulamak için uygulama yeniden başlatılsın mı?"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:25
 msgid "bytes"
@@ -188,6 +204,14 @@ msgstr "başarılı"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\search_handler.py:103
 msgid "playlist"
 msgstr "çalma listesi"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:18
+msgid "playlists"
+msgstr "çalma listeleri"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:20
+msgid "channels"
+msgstr "kanallar"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\auto_detect_dialog.py:16
 msgid "channel"
@@ -379,6 +403,12 @@ msgstr "doğrudan indir...\tctrl+d"
 msgid "navigate to the channel"
 msgstr "kanala git"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\favorites.py:120
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:94
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:182
+msgid "open in app"
+msgstr "uygulamada aç"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\favorites.py:111
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:80
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:174
@@ -439,9 +469,17 @@ msgstr ""
 msgid "loading playlist"
 msgstr ""
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:59
+msgid "loading channel"
+msgstr "kanal yükleniyor"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:58
 msgid "an error occurred while trying to load the playlist"
 msgstr ""
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:66
+msgid "an error occurred while trying to load the channel"
+msgstr "kanal yüklenirken bir hata oluştu"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:153
 msgid "more videos loaded"
@@ -560,6 +598,10 @@ msgstr "oynatıcı seçenekleri"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:43
 msgid "continue where you left the video when open it again"
 msgstr ""
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:55
+msgid "save played videos to history"
+msgstr "oynatılan videoları geçmişe kaydet"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:45
 msgid "automaticly replay tracks while its end is reatched"
@@ -992,3 +1034,99 @@ msgstr "ses çıkış aygıtı {} olarak değiştirildi"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:510
 msgid "selected audio output device is unavailable. using default audio output device"
 msgstr "seçili ses çıkış aygıtı kullanılamıyor. varsayılan ses çıkış aygıtı kullanılıyor"
+
+msgid "download manager"
+msgstr "indirme yöneticisi"
+
+msgid "download selection"
+msgstr "indirme seçimi"
+
+msgid "download the whole playlist or channel"
+msgstr "tüm oynatma listesini veya kanalı indir"
+
+msgid "choose videos to download"
+msgstr "indirilecek videoları seç"
+
+msgid "select all"
+msgstr "tümünü seç"
+
+msgid "clear selection"
+msgstr "seçimi temizle"
+
+msgid "{}: {}. {} videos."
+msgstr "{}: {}. {} video."
+
+msgid "please select at least one video to download."
+msgstr "lütfen indirmek için en az bir video seçin."
+
+msgid "downloading {} - {}"
+msgstr "{} - {} indiriliyor"
+
+msgid "{}: {}"
+msgstr "{}: {}"
+
+msgid "current video: {}"
+msgstr "geçerli video: {}"
+
+msgid "waiting"
+msgstr "bekleniyor"
+
+msgid "completed videos: {} of {}"
+msgstr "tamamlanan videolar: {} / {}"
+
+msgid "completed videos"
+msgstr "tamamlanan videolar"
+
+msgid "stop download"
+msgstr "indirmeyi durdur"
+
+msgid "current video: {} of {} - {}"
+msgstr "geçerli video: {} / {} - {}"
+
+msgid "completed: {}"
+msgstr "tamamlandı: {}"
+
+msgid "failed: {}"
+msgstr "başarısız: {}"
+
+msgid "current video: download stopped"
+msgstr "geçerli video: indirme durduruldu"
+
+msgid "download stopped."
+msgstr "indirme durduruldu."
+
+msgid "current video: finished"
+msgstr "geçerli video: bitti"
+
+msgid "play downloaded file"
+msgstr "indirilen dosyayı oynat"
+
+msgid "show downloaded file in file explorer"
+msgstr "indirilen dosyayı Dosya Gezgini'nde göster"
+
+msgid "download stopped"
+msgstr "indirme durduruldu"
+
+msgid "downloaded videos"
+msgstr "indirilen videolar"
+
+msgid "checked"
+msgstr "işaretli"
+
+msgid "not checked"
+msgstr "işaretli değil"
+
+msgid "check or uncheck selected video"
+msgstr "seçili videoyu işaretle veya işaretini kaldır"
+
+msgid "all videos selected"
+msgstr "tüm videolar seçildi"
+
+msgid "selection cleared"
+msgstr "seçim temizlendi"
+
+msgid "download complete"
+msgstr "indirme tamamlandı"
+
+msgid "open download folder"
+msgstr "indirme klasörünü aç"

@@ -2,10 +2,11 @@ import wx
 import application
 from database import Favorite
 from utiles import direct_download, get_audio_stream, get_video_stream
-from media_player.media_gui import MediaGui
+from media_player.media_gui import MediaGui, get_active_media_window
 from nvda_client.client import speak
 import pyperclip
 from gui.download_progress import DownloadProgress
+from gui.playlist_dialog import PlaylistDialog
 from .activity_dialog import LoadingDialog
 from settings_handler import config_get
 import webbrowser
@@ -115,7 +116,10 @@ class Favorites(wx.Frame):
 		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("download")).GetId()
 		directDownloadItem = self.contextMenu.Append(-1, _("direct download...\tctrl+d"))
 		self.directDownloadId = directDownloadItem.GetId()
-		openChannelItem = self.contextMenu.Append(-1, _("navigate to the channel"))
+		openChannelMenu = wx.Menu()
+		openChannelInAppItem = openChannelMenu.Append(-1, _("open in app"))
+		openChannelInBrowserItem = openChannelMenu.Append(-1, _("open in browser"))
+		self.contextMenu.AppendSubMenu(openChannelMenu, _("navigate to the channel"))
 		downloadChannelItem = self.contextMenu.Append(-1, _("download channel"))
 		copyItem = self.contextMenu.Append(-1, _("copy video link"))
 		self.copyItemId = copyItem.GetId()
@@ -132,7 +136,8 @@ class Favorites(wx.Frame):
 
 		self.Bind(wx.EVT_MENU, self.onM4aDownload, m4aItem)
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
-		self.favList.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelItem)
+		self.favList.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelInAppItem)
+		self.favList.Bind(wx.EVT_MENU, self.onOpenChannelInBrowser, openChannelInBrowserItem)
 		self.favList.Bind(wx.EVT_MENU, self.onDownloadChannel, downloadChannelItem)
 		self.Bind(wx.EVT_MENU, self.onOpenInBrowser, webbrowserItem)
 	def onOpenInBrowser(self, event):
@@ -141,6 +146,11 @@ class Favorites(wx.Frame):
 
 
 	def onOpenChannel(self, event):
+		n = self.favList.Selection
+		PlaylistDialog(self, self.rows[n]["channel_url"], "channel", self.rows[n]["channel_name"])
+
+
+	def onOpenChannelInBrowser(self, event):
 		n = self.favList.Selection
 		webbrowser.open(self.rows[n]["channel_url"])
 
@@ -208,11 +218,18 @@ class Favorites(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onMp3Download, mp3Item)
 		self.PopupMenu(downloadMenu)
 	def onHook(self, event):
-		event.Skip()
+		if not self.IsShown():
+			event.Skip()
+			return
 		if event.KeyCode in (wx.WXK_DELETE, wx.WXK_NUMPAD_DELETE) and self.FindFocus() == self.favList:
 			self.onDelete(None)
-		elif event.KeyCode == wx.WXK_BACK:
+		elif event.KeyCode in (wx.WXK_ESCAPE, wx.WXK_BACK):
+			if get_active_media_window() is not None:
+				event.Skip()
+				return
 			self.onBack(None)
+		else:
+			event.Skip()
 
 	def onBack(self, event):
 		self.Parent.Show()

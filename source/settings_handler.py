@@ -19,6 +19,7 @@ defaults = {
 	"defaultformat": 0,
 	"volume": 100,
 	"continue": True,
+	"savehistory": True,
 	"cookiesfrombrowser": "none",
 	"audiooutputdevice": "",
 }

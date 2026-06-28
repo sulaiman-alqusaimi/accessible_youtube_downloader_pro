@@ -12,7 +12,7 @@ from gui.playlist_dialog import PlaylistDialog
 from gui.activity_dialog import LoadingDialog
 
 from download_handler.downloader import downloadAction
-from media_player.media_gui import MediaGui
+from media_player.media_gui import MediaGui, get_active_media_window
 from media_player.player import Player
 from nvda_client.client import speak
 from settings_handler import config_get
@@ -56,9 +56,11 @@ class YoutubeBrowser(wx.Frame):
 		sizer.Add(self.loadMoreButton, 1)
 		sizer.Add(sizer2, 1)
 		self.panel.SetSizer(sizer)
+		self.primaryActionIdRef = wx.NewIdRef()
+		self.primaryActionId = int(self.primaryActionIdRef)
 		self.contextSetup()
 		results_shortcuts = wx.AcceleratorTable([
-			(0, wx.WXK_RETURN, self.audioPlayItemId),
+			(0, wx.WXK_RETURN, self.primaryActionId),
 			(wx.ACCEL_CTRL, wx.WXK_RETURN, self.videoPlayItemId)
 		])
 		self.searchResults.SetAcceleratorTable(results_shortcuts)
@@ -120,6 +122,7 @@ class YoutubeBrowser(wx.Frame):
 		self.searchResults.SetFocus()
 		self.togleDownload()
 		self.toglePlay()
+		self.togleChannelActions()
 		return True
 
 	def onSearch(self, event):
@@ -128,11 +131,17 @@ class YoutubeBrowser(wx.Frame):
 		else:
 			self.searchAction()
 
+	def onPrimaryAction(self, event):
+		if self.search.get_type(self.searchResults.Selection) in ("playlist", "channel"):
+			self.playVideo()
+		else:
+			self.playAudio()
+
 	def playVideo(self):
 		number = self.searchResults.Selection
-		if self.search.get_type(number) == "playlist":
-
-			PlaylistDialog(self, self.search.get_url(number))
+		result_type = self.search.get_type(number)
+		if result_type in ("playlist", "channel"):
+			PlaylistDialog(self, self.search.get_url(number), result_type, self.search.get_title(number))
 			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
@@ -143,7 +152,8 @@ class YoutubeBrowser(wx.Frame):
 
 	def playAudio(self):
 		number = self.searchResults.Selection
-		if self.search.get_type(number) == "playlist":
+		if self.search.get_type(number) in ("playlist", "channel"):
+			self.playVideo()
 			return
 		title = self.search.get_title(number)
 		url = self.search.get_url(number)
@@ -155,10 +165,16 @@ class YoutubeBrowser(wx.Frame):
 
 	def onHook(self, event):
 
+		if not self.IsShown():
+			event.Skip()
+			return
 		if event.KeyCode == wx.WXK_SPACE and self.search.get_type(self.searchResults.Selection) == "video" and self.FindFocus() == self.searchResults:
 			self.favCheck.Value = not self.favCheck.Value
 			self.onFavorite(None)
-		elif event.KeyCode == wx.WXK_BACK and not type(self.FindFocus()) == MediaGui:
+		elif event.KeyCode in (wx.WXK_ESCAPE, wx.WXK_BACK):
+			if get_active_media_window() is not None:
+				event.Skip()
+				return
 			self.backAction()
 		else:
 			event.Skip()
@@ -178,8 +194,14 @@ class YoutubeBrowser(wx.Frame):
 		self.downloadId = self.contextMenu.AppendSubMenu(self.downloadMenu, _("download")).GetId()
 		directDownloadItem = self.contextMenu.Append(-1, _("direct download...\tctrl+d"))
 		self.directDownloadId = directDownloadItem.GetId()
-		openChannelItem = self.contextMenu.Append(-1, _("navigate to the channel"))
+		openChannelMenu = wx.Menu()
+		openChannelInAppItem = openChannelMenu.Append(-1, _("open in app"))
+		self.openChannelInAppItemId = openChannelInAppItem.GetId()
+		openChannelInBrowserItem = openChannelMenu.Append(-1, _("open in browser"))
+		self.openChannelInBrowserItemId = openChannelInBrowserItem.GetId()
+		self.contextMenu.AppendSubMenu(openChannelMenu, _("navigate to the channel"))
 		downloadChannelItem = self.contextMenu.Append(-1, _("download channel"))
+		self.downloadChannelItemId = downloadChannelItem.GetId()
 		copyItem = self.contextMenu.Append(-1, _("copy video link"))
 		self.copyItemId = copyItem.GetId()
 		webbrowserItem = self.contextMenu.Append(-1, _("open in browser"))
@@ -187,8 +209,10 @@ class YoutubeBrowser(wx.Frame):
 			if self.searchResults.Strings != []:
 				self.searchResults.PopupMenu(self.contextMenu)
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playVideo(), id=self.videoPlayItemId)
+		self.searchResults.Bind(wx.EVT_MENU, self.onPrimaryAction, id=self.primaryActionId)
 		self.searchResults.Bind(wx.EVT_MENU, lambda event: self.playAudio(), id=self.audioPlayItemId)
-		self.searchResults.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelItem)
+		self.searchResults.Bind(wx.EVT_MENU, self.onOpenChannel, openChannelInAppItem)
+		self.searchResults.Bind(wx.EVT_MENU, self.onOpenChannelInBrowser, openChannelInBrowserItem)
 		self.searchResults.Bind(wx.EVT_MENU, self.onDownloadChannel, downloadChannelItem)
 		self.Bind(wx.EVT_MENU, self.onCopy, copyItem)
 		self.Bind(wx.EVT_MENU, self.onOpenInBrowser, webbrowserItem)
@@ -199,6 +223,10 @@ class YoutubeBrowser(wx.Frame):
 		self.Bind(wx.EVT_MENU, lambda event: self.directDownload(), directDownloadItem)
 
 	def onOpenChannel(self, event):
+		n = self.searchResults.Selection
+		channel = self.search.get_channel(n)
+		PlaylistDialog(self, channel["url"], "channel", channel["name"])
+	def onOpenChannelInBrowser(self, event):
 		n = self.searchResults.Selection
 		webbrowser.open(self.search.get_channel(n)["url"])
 	def onDownloadChannel(self, event):
@@ -271,6 +299,7 @@ class YoutubeBrowser(wx.Frame):
 	def onListBox(self, event):
 		self.togleDownload()
 		self.toglePlay()
+		self.togleChannelActions()
 		self.togleFavorite()
 		if self.searchResults.Selection == len(self.searchResults.Strings)-1:
 			if not config_get("autoload"):
@@ -306,17 +335,26 @@ class YoutubeBrowser(wx.Frame):
 		self.contextMenu.Enable(self.directDownloadId, True)
 		self.downloadButton.Enabled = True
 
+	def togleChannelActions(self):
+		n = self.searchResults.Selection
+		channel_url = self.search.get_channel(n).get("url")
+		enabled = bool(channel_url)
+		self.contextMenu.Enable(self.openChannelInAppItemId, enabled)
+		self.contextMenu.Enable(self.openChannelInBrowserItemId, enabled)
+		self.contextMenu.Enable(self.downloadChannelItemId, enabled)
+
 	def toglePlay(self):
 		n = self.searchResults.Selection
 		contextMenuIds = (self.videoPlayItemId, self.audioPlayItemId)
-		if self.search.get_type(n) == "playlist":
+		if self.search.get_type(n) in ("playlist", "channel"):
 			self.playButton.Label = _("open")
 			for i in contextMenuIds:
 				self.contextMenu.Enable(i, False)
 			return
-			self.playButton.Enabled = True
-			for i in contextMenuIds:
-				self.contextMenu.Enable(i, True)
+		self.playButton.Label = _("play (enter)")
+		self.playButton.Enabled = True
+		for i in contextMenuIds:
+			self.contextMenu.Enable(i, True)
 	def onFavorite(self, event):
 		n = self.searchResults.Selection
 		url = self.search.get_url(n)

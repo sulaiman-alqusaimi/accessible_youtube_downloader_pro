@@ -67,6 +67,10 @@ msgstr "Guida utente…\tf1"
 msgid "search for updates"
 msgstr "Cerca aggiornamenti"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:97
+msgid "check for yt-dlp component updates"
+msgstr "Cerca aggiornamenti del componente yt-dlp"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:86
 msgid "about the app..."
 msgstr "Informazioni applicazione..."
@@ -107,6 +111,18 @@ msgstr "Guida utente di Accessible YouTube  downloader pro"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:164
 msgid "Checking for updates. Please wait."
 msgstr "Verifica degli aggiornamenti. Attendere prego."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:193
+msgid "Checking for yt-dlp component updates. Please wait."
+msgstr "Verifica degli aggiornamenti del componente yt-dlp. Attendere prego."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:195
+msgid "Unable to check for yt-dlp component updates right now."
+msgstr "Impossibile controllare ora gli aggiornamenti del componente yt-dlp."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:197
+msgid "yt-dlp component has been updated. Restart the app to apply the update now?"
+msgstr "Il componente yt-dlp è stato aggiornato. Riavviare l'app per applicare subito l'aggiornamento?"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:25
 msgid "bytes"
@@ -188,6 +204,14 @@ msgstr "Operazione completata con successo"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\search_handler.py:103
 msgid "playlist"
 msgstr "Playlist"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:18
+msgid "playlists"
+msgstr "Playlist"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:20
+msgid "channels"
+msgstr "canali"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\auto_detect_dialog.py:16
 msgid "channel"
@@ -379,6 +403,12 @@ msgstr "Download diretto...\tctrl+d"
 msgid "navigate to the channel"
 msgstr "Esplora il canale"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\favorites.py:120
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:94
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:182
+msgid "open in app"
+msgstr "Apri nell'app"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\favorites.py:111
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:80
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:174
@@ -439,9 +469,17 @@ msgstr "Indietro"
 msgid "loading playlist"
 msgstr "Caricamento playlist"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:59
+msgid "loading channel"
+msgstr "Caricamento canale"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:58
 msgid "an error occurred while trying to load the playlist"
 msgstr "Si è verificato un errore durante il caricamento della playlist"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:66
+msgid "an error occurred while trying to load the channel"
+msgstr "Si è verificato un errore durante il caricamento del canale"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:153
 msgid "more videos loaded"
@@ -560,6 +598,10 @@ msgstr "Impostazioni riproduttore"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:43
 msgid "continue where you left the video when open it again"
 msgstr "Riprendi da dove hai lasciato il video quando apri di nuovo il programma"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:55
+msgid "save played videos to history"
+msgstr "salva i video riprodotti nella cronologia"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:45
 msgid "automaticly replay tracks while its end is reatched"
@@ -994,3 +1036,99 @@ msgstr "dispositivo di uscita audio cambiato in {}"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:510
 msgid "selected audio output device is unavailable. using default audio output device"
 msgstr "il dispositivo di uscita audio selezionato non è disponibile. uso del dispositivo di uscita audio predefinito"
+
+msgid "download manager"
+msgstr "gestore dei download"
+
+msgid "download selection"
+msgstr "selezione del download"
+
+msgid "download the whole playlist or channel"
+msgstr "scarica tutta la playlist o il canale"
+
+msgid "choose videos to download"
+msgstr "scegli i video da scaricare"
+
+msgid "select all"
+msgstr "seleziona tutto"
+
+msgid "clear selection"
+msgstr "cancella selezione"
+
+msgid "{}: {}. {} videos."
+msgstr "{}: {}. {} video."
+
+msgid "please select at least one video to download."
+msgstr "seleziona almeno un video da scaricare."
+
+msgid "downloading {} - {}"
+msgstr "download di {} - {}"
+
+msgid "{}: {}"
+msgstr "{}: {}"
+
+msgid "current video: {}"
+msgstr "video corrente: {}"
+
+msgid "waiting"
+msgstr "in attesa"
+
+msgid "completed videos: {} of {}"
+msgstr "video completati: {} di {}"
+
+msgid "completed videos"
+msgstr "video completati"
+
+msgid "stop download"
+msgstr "interrompi download"
+
+msgid "current video: {} of {} - {}"
+msgstr "video corrente: {} di {} - {}"
+
+msgid "completed: {}"
+msgstr "completato: {}"
+
+msgid "failed: {}"
+msgstr "non riuscito: {}"
+
+msgid "current video: download stopped"
+msgstr "video corrente: download interrotto"
+
+msgid "download stopped."
+msgstr "download interrotto."
+
+msgid "current video: finished"
+msgstr "video corrente: terminato"
+
+msgid "play downloaded file"
+msgstr "riproduci il file scaricato"
+
+msgid "show downloaded file in file explorer"
+msgstr "mostra il file scaricato in Esplora file"
+
+msgid "download stopped"
+msgstr "download interrotto"
+
+msgid "downloaded videos"
+msgstr "video scaricati"
+
+msgid "checked"
+msgstr "selezionato"
+
+msgid "not checked"
+msgstr "non selezionato"
+
+msgid "check or uncheck selected video"
+msgstr "seleziona o deseleziona il video scelto"
+
+msgid "all videos selected"
+msgstr "tutti i video selezionati"
+
+msgid "selection cleared"
+msgstr "selezione cancellata"
+
+msgid "download complete"
+msgstr "download completato"
+
+msgid "open download folder"
+msgstr "apri cartella download"

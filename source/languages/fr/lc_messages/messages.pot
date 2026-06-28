@@ -44,6 +44,9 @@ msgstr ""
 msgid "search for updates"
 msgstr ""
 
+msgid "check for yt-dlp component updates"
+msgstr ""
+
 msgid "about the app..."
 msgstr ""
 
@@ -66,6 +69,15 @@ msgid "accessible YouTube  downloader pro userguide"
 msgstr ""
 
 msgid "Checking for updates. Please wait."
+msgstr ""
+
+msgid "Checking for yt-dlp component updates. Please wait."
+msgstr ""
+
+msgid "Unable to check for yt-dlp component updates right now."
+msgstr ""
+
+msgid "yt-dlp component has been updated. Restart the app to apply the update now?"
 msgstr ""
 
 msgid "bytes"
@@ -111,6 +123,12 @@ msgid "success"
 msgstr ""
 
 msgid "playlist"
+msgstr ""
+
+msgid "playlists"
+msgstr ""
+
+msgid "channels"
 msgstr ""
 
 msgid "channel"
@@ -221,6 +239,9 @@ msgstr ""
 msgid "navigate to the channel"
 msgstr ""
 
+msgid "open in app"
+msgstr ""
+
 msgid "download channel"
 msgstr ""
 
@@ -257,7 +278,13 @@ msgstr ""
 msgid "loading playlist"
 msgstr ""
 
+msgid "loading channel"
+msgstr ""
+
 msgid "an error occurred while trying to load the playlist"
+msgstr ""
+
+msgid "an error occurred while trying to load the channel"
 msgstr ""
 
 msgid "more videos loaded"
@@ -345,6 +372,9 @@ msgid "player options"
 msgstr ""
 
 msgid "continue where you left the video when open it again"
+msgstr ""
+
+msgid "save played videos to history"
 msgstr ""
 
 msgid "automaticly replay tracks while its end is reatched"
@@ -694,4 +724,100 @@ msgstr ""
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:505
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:510
 msgid "selected audio output device is unavailable. using default audio output device"
+msgstr ""
+
+msgid "download manager"
+msgstr ""
+
+msgid "download selection"
+msgstr ""
+
+msgid "download the whole playlist or channel"
+msgstr ""
+
+msgid "choose videos to download"
+msgstr ""
+
+msgid "select all"
+msgstr ""
+
+msgid "clear selection"
+msgstr ""
+
+msgid "{}: {}. {} videos."
+msgstr ""
+
+msgid "please select at least one video to download."
+msgstr ""
+
+msgid "downloading {} - {}"
+msgstr ""
+
+msgid "{}: {}"
+msgstr ""
+
+msgid "current video: {}"
+msgstr ""
+
+msgid "waiting"
+msgstr ""
+
+msgid "completed videos: {} of {}"
+msgstr ""
+
+msgid "completed videos"
+msgstr ""
+
+msgid "stop download"
+msgstr ""
+
+msgid "current video: {} of {} - {}"
+msgstr ""
+
+msgid "completed: {}"
+msgstr ""
+
+msgid "failed: {}"
+msgstr ""
+
+msgid "current video: download stopped"
+msgstr ""
+
+msgid "download stopped."
+msgstr ""
+
+msgid "current video: finished"
+msgstr ""
+
+msgid "play downloaded file"
+msgstr ""
+
+msgid "show downloaded file in file explorer"
+msgstr ""
+
+msgid "download stopped"
+msgstr ""
+
+msgid "downloaded videos"
+msgstr ""
+
+msgid "checked"
+msgstr ""
+
+msgid "not checked"
+msgstr ""
+
+msgid "check or uncheck selected video"
+msgstr ""
+
+msgid "all videos selected"
+msgstr ""
+
+msgid "selection cleared"
+msgstr ""
+
+msgid "download complete"
+msgstr ""
+
+msgid "open download folder"
 msgstr ""

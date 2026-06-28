@@ -67,6 +67,10 @@ msgstr "دليل المستخدم...\tf1"
 msgid "search for updates"
 msgstr "البحث عن التحديثات"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:97
+msgid "check for yt-dlp component updates"
+msgstr "البحث عن تحديثات مكون yt-dlp"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:86
 msgid "about the app..."
 msgstr "عن البرنامج..."
@@ -107,6 +111,18 @@ msgstr "دليل استخدام برنامج accessible youtube downloader pro"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:164
 msgid "Checking for updates. Please wait."
 msgstr "جاري البحث عن التحديثات. يرجى الانتظار"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:193
+msgid "Checking for yt-dlp component updates. Please wait."
+msgstr "جاري البحث عن تحديثات مكون yt-dlp. يرجى الانتظار"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:195
+msgid "Unable to check for yt-dlp component updates right now."
+msgstr "تعذر البحث عن تحديثات مكون yt-dlp الآن."
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\accessible_youtube_downloader_pro.py:197
+msgid "yt-dlp component has been updated. Restart the app to apply the update now?"
+msgstr "تم تحديث مكون yt-dlp. هل تريد إعادة تشغيل التطبيق لتطبيق التحديث الآن؟"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\download_handler\downloader.py:25
 msgid "bytes"
@@ -188,6 +204,14 @@ msgstr "نجاح"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\search_handler.py:103
 msgid "playlist"
 msgstr "قائمة تشغيل"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:18
+msgid "playlists"
+msgstr "قوائم التشغيل"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\search_dialog.py:20
+msgid "channels"
+msgstr "القنوات"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\auto_detect_dialog.py:16
 msgid "channel"
@@ -379,6 +403,12 @@ msgstr "التنزيل المباشر...\tctrl+d"
 msgid "navigate to the channel"
 msgstr "الانتقال إلى القناة"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\favorites.py:120
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:94
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:182
+msgid "open in app"
+msgstr "فتح داخل التطبيق"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\favorites.py:111
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:80
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\youtube_browser\browser.py:174
@@ -439,9 +469,17 @@ msgstr "رجوع"
 msgid "loading playlist"
 msgstr "جاري عرض قائمة التشغيل"
 
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:59
+msgid "loading channel"
+msgstr "جاري عرض القناة"
+
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:58
 msgid "an error occurred while trying to load the playlist"
 msgstr "حدث خطأ ما أثناء محاولة فتح قائمة التشغيل"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:66
+msgid "an error occurred while trying to load the channel"
+msgstr "حدث خطأ ما أثناء محاولة فتح القناة"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\playlist_dialog.py:153
 msgid "more videos loaded"
@@ -560,6 +598,10 @@ msgstr "إعدادات المشغل"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:43
 msgid "continue where you left the video when open it again"
 msgstr "متابعة المشاهدة بعد إغلاق الفيديو وتشغيله من جديد"
+
+#: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:55
+msgid "save played videos to history"
+msgstr "حفظ مقاطع الفيديو التي تم تشغيلها في السجل"
 
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\gui\settings_dialog.py:45
 msgid "automaticly replay tracks while its end is reatched"
@@ -992,3 +1034,99 @@ msgstr "تم تغيير جهاز إخراج الصوت إلى {}"
 #: C:\Users\suleiman\projects\accessible_youtube_downloader_pro\source\media_player\media_gui.py:510
 msgid "selected audio output device is unavailable. using default audio output device"
 msgstr "جهاز إخراج الصوت المحدد غير متاح. يتم استخدام جهاز إخراج الصوت الافتراضي"
+
+msgid "download manager"
+msgstr "مدير التنزيل"
+
+msgid "download selection"
+msgstr "اختيار التنزيل"
+
+msgid "download the whole playlist or channel"
+msgstr "تنزيل قائمة التشغيل أو القناة كاملة"
+
+msgid "choose videos to download"
+msgstr "اختر الفيديوهات التي تريد تنزيلها"
+
+msgid "select all"
+msgstr "تحديد الكل"
+
+msgid "clear selection"
+msgstr "مسح التحديد"
+
+msgid "{}: {}. {} videos."
+msgstr "{}: {}. {} فيديو."
+
+msgid "please select at least one video to download."
+msgstr "يرجى تحديد فيديو واحد على الأقل لتنزيله."
+
+msgid "downloading {} - {}"
+msgstr "جارٍ تنزيل {} - {}"
+
+msgid "{}: {}"
+msgstr "{}: {}"
+
+msgid "current video: {}"
+msgstr "الفيديو الحالي: {}"
+
+msgid "waiting"
+msgstr "في الانتظار"
+
+msgid "completed videos: {} of {}"
+msgstr "الفيديوهات المكتملة: {} من {}"
+
+msgid "completed videos"
+msgstr "الفيديوهات المكتملة"
+
+msgid "stop download"
+msgstr "إيقاف التنزيل"
+
+msgid "current video: {} of {} - {}"
+msgstr "الفيديو الحالي: {} من {} - {}"
+
+msgid "completed: {}"
+msgstr "مكتمل: {}"
+
+msgid "failed: {}"
+msgstr "فشل: {}"
+
+msgid "current video: download stopped"
+msgstr "الفيديو الحالي: تم إيقاف التنزيل"
+
+msgid "download stopped."
+msgstr "تم إيقاف التنزيل."
+
+msgid "current video: finished"
+msgstr "الفيديو الحالي: انتهى"
+
+msgid "play downloaded file"
+msgstr "تشغيل الملف الذي تم تنزيله"
+
+msgid "show downloaded file in file explorer"
+msgstr "إظهار الملف الذي تم تنزيله في مستكشف الملفات"
+
+msgid "download stopped"
+msgstr "تم إيقاف التنزيل"
+
+msgid "downloaded videos"
+msgstr "الفيديوهات المنزلة"
+
+msgid "checked"
+msgstr "محدد"
+
+msgid "not checked"
+msgstr "غير محدد"
+
+msgid "check or uncheck selected video"
+msgstr "تحديد أو إلغاء تحديد الفيديو المحدد"
+
+msgid "all videos selected"
+msgstr "تم تحديد كل الفيديوهات"
+
+msgid "selection cleared"
+msgstr "تم مسح التحديد"
+
+msgid "download complete"
+msgstr "اكتمل التنزيل"
+
+msgid "open download folder"
+msgstr "فتح مجلد التنزيل"

@@ -146,7 +146,7 @@ def build_video_display_title(title, channel_name="", views="", upload_date="", 
 
 
 target_video_height = 360
-target_audio_bitrate = 70
+target_audio_bitrate = 96
 min_audio_bitrate = 48
 max_audio_bitrate = 96
 heavy_audio_bitrate = 128
@@ -465,6 +465,13 @@ def youtube_regexp(string):
 
 def direct_download(option, url, dlg, download_type="video", path=config_get("path")):
 	logger.info("Direct download requested. option=%s type=%s path=%s url=%s", option, download_type, path, url)
+	if download_type in ("playlist", "channel"):
+		from gui.collection_download_manager import start_collection_download
+		parent = dlg.GetParent() if dlg is not None else wx.GetApp().GetTopWindow()
+		if dlg is not None:
+			wx.CallAfter(dlg.Destroy)
+		start_collection_download(parent, url, download_type, option, path)
+		return
 	if option == 0:
 		format = "bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4"
 	else:

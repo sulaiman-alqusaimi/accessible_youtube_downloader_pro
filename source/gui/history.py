@@ -5,7 +5,7 @@ import pyperclip
 import wx
 from database import ViewHistory
 from gui.download_progress import DownloadProgress
-from media_player.media_gui import MediaGui
+from media_player.media_gui import MediaGui, get_active_media_window
 from nvda_client.client import speak
 from settings_handler import config_get
 from utiles import direct_download, get_audio_stream, get_video_stream
@@ -208,9 +208,15 @@ class History(wx.Frame):
 		self.PopupMenu(downloadMenu)
 
 	def onHook(self, event):
+		if not self.IsShown():
+			event.Skip()
+			return
 		if event.KeyCode in (wx.WXK_DELETE, wx.WXK_NUMPAD_DELETE) and self.FindFocus() == self.historyList:
 			self.onDelete(None)
-		elif event.KeyCode == wx.WXK_BACK:
+		elif event.KeyCode in (wx.WXK_ESCAPE, wx.WXK_BACK):
+			if get_active_media_window() is not None:
+				event.Skip()
+				return
 			self.onBack(None)
 		else:
 			event.Skip()
